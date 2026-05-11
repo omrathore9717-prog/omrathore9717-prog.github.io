@@ -6,14 +6,14 @@
 }
 
 body{
-  font-family:Arial, sans-serif;
+  font-family:Arial,sans-serif;
   background:#081120;
   color:white;
   overflow-x:hidden;
   transition:0.4s;
 }
 
-/* DARK MODE */
+/* LIGHT MODE */
 
 body.light-mode{
   background:#f5f5f5;
@@ -75,15 +75,13 @@ header{
 nav a{
   color:white;
   text-decoration:none;
-  margin-left:25px;
+  margin-left:20px;
   transition:0.3s;
 }
 
 nav a:hover{
   color:#00d4ff;
 }
-
-/* DARK BUTTON */
 
 #themeToggle{
   background:#00d4ff;
@@ -92,6 +90,33 @@ nav a:hover{
   border-radius:50px;
   cursor:pointer;
   font-size:18px;
+}
+
+/* MARKET */
+
+.market{
+  width:100%;
+  overflow:hidden;
+  background:#00d4ff;
+  color:black;
+  padding:12px 0;
+  margin-top:90px;
+}
+
+.market-track{
+  display:flex;
+  gap:60px;
+  width:max-content;
+  animation:ticker 20s linear infinite;
+  font-weight:bold;
+}
+
+@keyframes ticker{
+
+  100%{
+    transform:translateX(-50%);
+  }
+
 }
 
 /* HERO */
@@ -112,7 +137,6 @@ nav a:hover{
   justify-content:center;
   align-items:center;
   text-align:center;
-
   padding:20px;
 }
 
@@ -193,12 +217,13 @@ nav a:hover{
   color:#00d4ff;
 }
 
-/* SERVICES */
+/* COMMON SECTION */
 
 .services,
 .calculator,
 .reviews,
-.contact{
+.contact,
+.faq{
   padding:100px 8%;
   text-align:center;
 }
@@ -206,10 +231,13 @@ nav a:hover{
 .services h2,
 .calculator h2,
 .reviews h2,
-.contact h2{
+.contact h2,
+.faq h2{
   font-size:48px;
   margin-bottom:50px;
 }
+
+/* CARDS */
 
 .service-container,
 .review-container{
@@ -240,7 +268,7 @@ nav a:hover{
   margin-bottom:20px;
 }
 
-/* CALCULATOR */
+/* CALCULATORS */
 
 .calculator{
   background:#0c1b30;
@@ -277,6 +305,27 @@ form button{
   color:#00d4ff;
 }
 
+/* FAQ */
+
+.faq-box{
+  max-width:800px;
+  margin:auto;
+  text-align:left;
+}
+
+details{
+  background:#101d33;
+  margin-bottom:20px;
+  padding:20px;
+  border-radius:10px;
+}
+
+summary{
+  cursor:pointer;
+  font-size:20px;
+  font-weight:bold;
+}
+
 /* CONTACT */
 
 .contact-box p{
@@ -291,6 +340,32 @@ form{
 
 form textarea{
   height:160px;
+}
+
+/* SOCIAL BAR */
+
+.social-bar{
+  position:fixed;
+  left:15px;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  z-index:1000;
+}
+
+.social-bar a{
+  width:50px;
+  height:50px;
+  background:#00d4ff;
+  color:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-radius:50%;
+  text-decoration:none;
+  font-size:22px;
 }
 
 /* WHATSAPP */
@@ -372,6 +447,10 @@ footer{
 
   .hero p{
     font-size:18px;
+  }
+
+  .social-bar{
+    display:none;
   }
 
 }

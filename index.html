@@ -12,6 +12,8 @@
     OM Financial Service
   </title>
 
+  <!-- CSS -->
+
   <link rel="stylesheet"
   href="style.css">
 
@@ -51,6 +53,10 @@
       Services
     </a>
 
+    <a href="#market">
+      Market
+    </a>
+
     <a href="#calculator">
       Calculator
     </a>
@@ -65,7 +71,7 @@
 
   </nav>
 
-  <!-- DARK MODE BUTTON -->
+  <!-- DARK MODE -->
 
   <button id="themeToggle">
 
@@ -74,6 +80,37 @@
   </button>
 
 </header>
+
+<!-- MARKET TRACKER -->
+
+<section class="market"
+id="market">
+
+  <div class="market-track">
+
+    <span>
+      📈 NIFTY 50 : 24,850 ▲ +125
+    </span>
+
+    <span>
+      💰 SENSEX : 81,450 ▲ +410
+    </span>
+
+    <span>
+      🥇 GOLD : ₹96,200 /10g
+    </span>
+
+    <span>
+      💵 USD/INR : ₹83.45
+    </span>
+
+    <span>
+      🪙 BITCOIN : $104,000
+    </span>
+
+  </div>
+
+</section>
 
 <!-- HERO -->
 
@@ -286,6 +323,43 @@ id="calculator">
 
 </section>
 
+<!-- EMI CALCULATOR -->
+
+<section class="calculator">
+
+  <h2>
+
+    EMI Calculator
+
+  </h2>
+
+  <div class="calculator-box">
+
+    <input type="number"
+    id="loanAmount"
+    placeholder="Loan Amount">
+
+    <input type="number"
+    id="loanYears"
+    placeholder="Years">
+
+    <input type="number"
+    id="loanRate"
+    placeholder="Interest Rate %">
+
+    <button onclick="calculateEMI()">
+
+      Calculate EMI
+
+    </button>
+
+    <div class="result"
+    id="emiResult"></div>
+
+  </div>
+
+</section>
+
 <!-- REVIEWS -->
 
 <section class="reviews"
@@ -332,6 +406,78 @@ id="reviews">
       </h4>
 
     </div>
+
+    <div class="review-card">
+
+      <p>
+
+        “Best investment experience
+        with expert advice.”
+
+      </p>
+
+      <h4>
+
+        - Aman Verma
+
+      </h4>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- FAQ -->
+
+<section class="faq">
+
+  <h2>
+
+    Frequently Asked Questions
+
+  </h2>
+
+  <div class="faq-box">
+
+    <details>
+
+      <summary>
+        What is SIP?
+      </summary>
+
+      <p>
+        SIP is a smart way to invest
+        monthly in mutual funds.
+      </p>
+
+    </details>
+
+    <details>
+
+      <summary>
+        Is mutual fund safe?
+      </summary>
+
+      <p>
+        Mutual funds are market linked
+        but ideal for long-term growth.
+      </p>
+
+    </details>
+
+    <details>
+
+      <summary>
+        Can I start with ₹500?
+      </summary>
+
+      <p>
+        Yes, many SIP plans start
+        from ₹500/month.
+      </p>
+
+    </details>
 
   </div>
 
@@ -389,6 +535,24 @@ id="contact">
 
 </section>
 
+<!-- SOCIAL FLOAT -->
+
+<div class="social-bar">
+
+  <a href="#">
+    <i class="fa-brands fa-instagram"></i>
+  </a>
+
+  <a href="#">
+    <i class="fa-brands fa-linkedin"></i>
+  </a>
+
+  <a href="#">
+    <i class="fa-brands fa-youtube"></i>
+  </a>
+
+</div>
+
 <!-- WHATSAPP -->
 
 <a href="https://wa.me/919717857755"
@@ -420,6 +584,8 @@ target="_blank">
   </p>
 
 </footer>
+
+<!-- JS -->
 
 <script src="script.js"></script>
 

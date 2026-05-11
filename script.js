@@ -88,6 +88,52 @@ function calculateSIP(){
 
 }
 
+// EMI CALCULATOR
+
+function calculateEMI(){
+
+  const loan =
+  document.getElementById(
+  "loanAmount").value;
+
+  const years =
+  document.getElementById(
+  "loanYears").value;
+
+  const rate =
+  document.getElementById(
+  "loanRate").value;
+
+  const monthlyRate =
+  rate / 12 / 100;
+
+  const months =
+  years * 12;
+
+  const emi =
+
+  (loan * monthlyRate *
+
+  Math.pow(
+  1 + monthlyRate,
+  months))
+
+  /
+
+  (Math.pow(
+  1 + monthlyRate,
+  months) - 1);
+
+  document.getElementById(
+  "emiResult").innerHTML =
+
+  "Monthly EMI : ₹" +
+
+  Math.round(
+  emi).toLocaleString();
+
+}
+
 // BACK TO TOP
 
 const topBtn =
@@ -148,3 +194,38 @@ themeToggle.onclick = function(){
   }
 
 };
+
+// SAVE THEME
+
+if(localStorage.getItem("theme")
+=== "light"){
+
+  document.body.classList
+  .add("light-mode");
+
+  themeToggle.innerHTML =
+  "☀️";
+
+}
+
+themeToggle.addEventListener(
+"click",
+
+function(){
+
+  if(document.body.classList
+  .contains("light-mode")){
+
+    localStorage.setItem(
+    "theme",
+    "light");
+
+  }else{
+
+    localStorage.setItem(
+    "theme",
+    "dark");
+
+  }
+
+});

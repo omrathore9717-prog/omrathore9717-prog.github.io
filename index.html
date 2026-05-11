@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"
+  content="width=device-width, initial-scale=1.0">
 
   <title>OM Financial Service</title>
 
-  <meta name="description"
-  content="OM Financial Service offers Mutual Funds, SIPs, Insurance, Loans and Financial Planning services in India.">
-
   <link rel="stylesheet" href="style.css">
-
-  <!-- FONT AWESOME -->
 
   <link rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
@@ -22,284 +17,294 @@
 
 <body>
 
-  <!-- NAVBAR -->
+<!-- LOADER -->
 
-  <header>
+<div id="loader">
+  <div class="spinner"></div>
+</div>
 
-    <div class="logo">
-      OM Financial Service
-    </div>
+<!-- HEADER -->
 
-    <nav>
+<header>
 
-      <a href="#">Home</a>
-      <a href="#services">Services</a>
-      <a href="#about">About</a>
-      <a href="#testimonials">Clients</a>
-      <a href="#contact">Contact</a>
+  <div class="logo">
+    OM Financial Service
+  </div>
 
-    </nav>
+  <nav>
 
-  </header>
+    <a href="#">Home</a>
+    <a href="#services">Services</a>
+    <a href="#calculator">Calculator</a>
+    <a href="#testimonials">Reviews</a>
+    <a href="#contact">Contact</a>
 
-  <!-- HERO SECTION -->
+  </nav>
 
-  <section class="hero">
+</header>
 
-    <div class="hero-content">
+<!-- HERO -->
 
-      <h1>
-        Secure Your Financial Future
-      </h1>
+<section class="hero">
 
-      <p>
-        Mutual Funds, SIPs, Insurance &
-        Smart Wealth Planning Solutions
-      </p>
+  <div class="hero-content">
 
-      <div class="hero-buttons">
-
-        <a href="#contact" class="btn">
-          Get Started
-        </a>
-
-        <a href="https://wa.me/919717857755"
-        target="_blank"
-        class="btn secondary-btn">
-
-          WhatsApp Us
-
-        </a>
-
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- STATS -->
-
-  <section class="stats">
-
-    <div class="stat-box">
-      <h2>500+</h2>
-      <p>Happy Clients</p>
-    </div>
-
-    <div class="stat-box">
-      <h2>10+</h2>
-      <p>Years Experience</p>
-    </div>
-
-    <div class="stat-box">
-      <h2>50+</h2>
-      <p>Investment Plans</p>
-    </div>
-
-  </section>
-
-  <!-- SERVICES -->
-
-  <section class="services" id="services">
-
-    <h2>Our Services</h2>
-
-    <div class="service-container">
-
-      <div class="card">
-
-        <i class="fa-solid fa-chart-line"></i>
-
-        <h3>Mutual Funds</h3>
-
-        <p>
-          Smart long-term wealth creation
-          through diversified investments.
-        </p>
-
-      </div>
-
-      <div class="card">
-
-        <i class="fa-solid fa-piggy-bank"></i>
-
-        <h3>SIP Investment</h3>
-
-        <p>
-          Monthly SIP plans for secure
-          and disciplined investing.
-        </p>
-
-      </div>
-
-      <div class="card">
-
-        <i class="fa-solid fa-shield-halved"></i>
-
-        <h3>Insurance</h3>
-
-        <p>
-          Health & life insurance solutions
-          for complete protection.
-        </p>
-
-      </div>
-
-      <div class="card">
-
-        <i class="fa-solid fa-money-bill-wave"></i>
-
-        <h3>Loans</h3>
-
-        <p>
-          Personal and business loan
-          assistance with quick support.
-        </p>
-
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- ABOUT -->
-
-  <section class="about" id="about">
-
-    <div class="about-content">
-
-      <h2>Why Choose OM Financial Service?</h2>
-
-      <p>
-        We provide trusted financial solutions
-        with personalized investment guidance,
-        SIP planning, insurance services and
-        long-term wealth management support.
-      </p>
-
-    </div>
-
-  </section>
-
-  <!-- TESTIMONIALS -->
-
-  <section class="testimonials" id="testimonials">
-
-    <h2>What Clients Say</h2>
-
-    <div class="testimonial-container">
-
-      <div class="testimonial-card">
-
-        <p>
-          “Very professional investment advice.
-          Highly recommended.”
-        </p>
-
-        <h4>- Rahul Sharma</h4>
-
-      </div>
-
-      <div class="testimonial-card">
-
-        <p>
-          “Best SIP guidance and financial planning
-          experience.”
-        </p>
-
-        <h4>- Amit Verma</h4>
-
-      </div>
-
-      <div class="testimonial-card">
-
-        <p>
-          “Excellent support for insurance and
-          mutual fund investments.”
-        </p>
-
-        <h4>- Priya Gupta</h4>
-
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- CONTACT -->
-
-  <section class="contact" id="contact">
-
-    <h2>Contact Us</h2>
-
-    <div class="contact-box">
-
-      <p>
-        <i class="fa-solid fa-envelope"></i>
-        satish.p.capital@gmail.com
-      </p>
-
-      <p>
-        <i class="fa-solid fa-phone"></i>
-        +91 9717857755
-      </p>
-
-      <p>
-        <i class="fa-solid fa-location-dot"></i>
-        Delhi, India
-      </p>
-
-    </div>
-
-    <form
-    action="https://formsubmit.co/satish.p.capital@gmail.com"
-    method="POST">
-
-      <input type="text"
-      name="name"
-      placeholder="Your Name"
-      required>
-
-      <input type="email"
-      name="email"
-      placeholder="Your Email"
-      required>
-
-      <textarea
-      name="message"
-      placeholder="Your Message"
-      required></textarea>
-
-      <button type="submit">
-        Send Message
-      </button>
-
-    </form>
-
-  </section>
-
-  <!-- WHATSAPP -->
-
-  <a href="https://wa.me/919717857755"
-  class="whatsapp"
-  target="_blank">
-
-    <i class="fa-brands fa-whatsapp"></i>
-
-  </a>
-
-  <!-- FOOTER -->
-
-  <footer>
+    <h1>
+      Smart Wealth Creation
+      For Your Future
+    </h1>
 
     <p>
-      © 2026 OM Financial Service | All Rights Reserved
+      Mutual Funds, SIPs, Insurance &
+      Financial Planning Solutions
     </p>
 
-  </footer>
+    <div class="hero-buttons">
 
-  <script src="script.js"></script>
+      <a href="#contact" class="btn primary-btn">
+        Start Investing
+      </a>
+
+      <a href="https://wa.me/919717857755"
+      class="btn secondary-btn"
+      target="_blank">
+
+        WhatsApp Us
+
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- STATS -->
+
+<section class="stats">
+
+  <div class="stat-box">
+    <h2 class="counter" data-target="500">
+      0
+    </h2>
+    <p>Happy Clients</p>
+  </div>
+
+  <div class="stat-box">
+    <h2 class="counter" data-target="10">
+      0
+    </h2>
+    <p>Years Experience</p>
+  </div>
+
+  <div class="stat-box">
+    <h2 class="counter" data-target="50">
+      0
+    </h2>
+    <p>Investment Plans</p>
+  </div>
+
+</section>
+
+<!-- SERVICES -->
+
+<section class="services" id="services">
+
+  <h2>Our Services</h2>
+
+  <div class="service-container">
+
+    <div class="card">
+
+      <i class="fa-solid fa-chart-line"></i>
+
+      <h3>Mutual Funds</h3>
+
+      <p>
+        Smart investment plans for
+        long-term wealth growth.
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <i class="fa-solid fa-piggy-bank"></i>
+
+      <h3>SIP Investment</h3>
+
+      <p>
+        Monthly SIP investments for
+        secure financial future.
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <i class="fa-solid fa-shield-halved"></i>
+
+      <h3>Insurance</h3>
+
+      <p>
+        Health and life insurance
+        protection plans.
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <i class="fa-solid fa-money-bill"></i>
+
+      <h3>Loans</h3>
+
+      <p>
+        Personal and business
+        loan support.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- SIP CALCULATOR -->
+
+<section class="calculator" id="calculator">
+
+  <h2>SIP Calculator</h2>
+
+  <div class="calculator-box">
+
+    <input type="number"
+    id="monthlyInvestment"
+    placeholder="Monthly Investment">
+
+    <input type="number"
+    id="years"
+    placeholder="Years">
+
+    <input type="number"
+    id="returnRate"
+    placeholder="Expected Return %">
+
+    <button onclick="calculateSIP()">
+      Calculate Returns
+    </button>
+
+    <div class="result" id="sipResult"></div>
+
+  </div>
+
+</section>
+
+<!-- TESTIMONIALS -->
+
+<section class="testimonials"
+id="testimonials">
+
+  <h2>Client Reviews</h2>
+
+  <div class="testimonial-container">
+
+    <div class="testimonial-card">
+
+      <p>
+        “Excellent financial planning
+        support and SIP guidance.”
+      </p>
+
+      <h4>
+        - Rahul Sharma
+      </h4>
+
+    </div>
+
+    <div class="testimonial-card">
+
+      <p>
+        “Highly professional service
+        and investment advice.”
+      </p>
+
+      <h4>
+        - Neha Gupta
+      </h4>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- CONTACT -->
+
+<section class="contact" id="contact">
+
+  <h2>Contact Us</h2>
+
+  <div class="contact-box">
+
+    <p>
+      <i class="fa-solid fa-envelope"></i>
+      satish.p.capital@gmail.com
+    </p>
+
+    <p>
+      <i class="fa-solid fa-phone"></i>
+      +91 9717857755
+    </p>
+
+  </div>
+
+  <form>
+
+    <input type="text"
+    placeholder="Your Name">
+
+    <input type="email"
+    placeholder="Your Email">
+
+    <textarea
+    placeholder="Your Message"></textarea>
+
+    <button type="submit">
+      Send Message
+    </button>
+
+  </form>
+
+</section>
+
+<!-- WHATSAPP -->
+
+<a href="https://wa.me/919717857755"
+class="whatsapp"
+target="_blank">
+
+  <i class="fa-brands fa-whatsapp"></i>
+
+</a>
+
+<!-- TOP BUTTON -->
+
+<button id="topBtn">
+  ↑
+</button>
+
+<!-- FOOTER -->
+
+<footer>
+
+  <p>
+    © 2026 OM Financial Service
+  </p>
+
+</footer>
+
+<script src="script.js"></script>
 
 </body>
-
 </html>

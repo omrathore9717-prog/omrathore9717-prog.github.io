@@ -1,65 +1,42 @@
-/* SCROLL ANIMATION */
+// LOADER
 
-const revealElements = document.querySelectorAll(
-'.card, .testimonial-card, .stat-box'
-);
+window.addEventListener("load", function(){
 
-window.addEventListener('scroll', reveal);
+  document.getElementById("loader")
+  .style.display = "none";
 
-function reveal(){
+});
 
-  revealElements.forEach(element => {
-
-    const windowHeight = window.innerHeight;
-
-    const revealTop =
-    element.getBoundingClientRect().top;
-
-    const revealPoint = 100;
-
-    if(revealTop < windowHeight - revealPoint){
-
-      element.classList.add('active');
-
-    }
-
-  });
-
-}
-
-reveal();
-
-/* COUNTER ANIMATION */
+// COUNTER ANIMATION
 
 const counters =
-document.querySelectorAll('.stat-box h2');
+document.querySelectorAll('.counter');
 
 counters.forEach(counter => {
+
+  counter.innerText = '0';
 
   const updateCounter = () => {
 
     const target =
-    +counter.innerText.replace('+','');
+    +counter.getAttribute('data-target');
 
-    const current =
-    +counter.getAttribute('data-count') || 0;
+    const c =
+    +counter.innerText;
 
     const increment = target / 100;
 
-    if(current < target){
+    if(c < target){
 
-      const value =
-      Math.ceil(current + increment);
+      counter.innerText =
+      `${Math.ceil(c + increment)}`;
 
-      counter.innerText = value + "+";
-
-      counter.setAttribute('data-count', value);
-
-      setTimeout(updateCounter, 30);
+      setTimeout(updateCounter, 20);
 
     }else{
 
-      counter.innerText = target + "+";
+      counter.innerText =
+      target + '+';
 
     }
 
@@ -69,16 +46,79 @@ counters.forEach(counter => {
 
 });
 
-/* NAVBAR SHADOW */
+// SIP CALCULATOR
 
-window.addEventListener('scroll', () => {
+function calculateSIP(){
 
-  const header =
-  document.querySelector('header');
+  const monthlyInvestment =
+  document.getElementById(
+  "monthlyInvestment").value;
 
-  header.classList.toggle(
-    'sticky',
-    window.scrollY > 50
-  );
+  const years =
+  document.getElementById(
+  "years").value;
 
-});
+  const returnRate =
+  document.getElementById(
+  "returnRate").value;
+
+  const monthlyRate =
+  returnRate / 12 / 100;
+
+  const months = years * 12;
+
+  const futureValue =
+  monthlyInvestment *
+
+  (((Math.pow(
+  1 + monthlyRate,
+  months)) - 1)
+
+  / monthlyRate)
+
+  * (1 + monthlyRate);
+
+  document.getElementById(
+  "sipResult").innerHTML =
+
+  "Estimated Value: ₹" +
+
+  Math.round(
+  futureValue).toLocaleString();
+
+}
+
+// BACK TO TOP
+
+const topBtn =
+document.getElementById("topBtn");
+
+window.onscroll = function(){
+
+  if(document.body.scrollTop > 300 ||
+
+  document.documentElement
+  .scrollTop > 300){
+
+    topBtn.style.display =
+    "block";
+
+  }else{
+
+    topBtn.style.display =
+    "none";
+
+  }
+
+};
+
+topBtn.onclick = function(){
+
+  window.scrollTo({
+
+    top:0,
+    behavior:"smooth"
+
+  });
+
+};

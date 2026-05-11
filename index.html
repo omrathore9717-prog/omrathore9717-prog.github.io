@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
   <meta charset="UTF-8">
@@ -7,9 +8,13 @@
 
   <title>OM Financial Service</title>
 
+  <meta name="description"
+  content="OM Financial Service offers Mutual Funds, SIPs, Insurance, Loans and Financial Planning services in India.">
+
   <link rel="stylesheet" href="style.css">
 
   <!-- FONT AWESOME -->
+
   <link rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
@@ -29,31 +34,44 @@
 
       <a href="#">Home</a>
       <a href="#services">Services</a>
-      <a href="#schemes">Schemes</a>
+      <a href="#about">About</a>
+      <a href="#testimonials">Clients</a>
       <a href="#contact">Contact</a>
 
     </nav>
 
   </header>
 
-  <!-- HERO -->
+  <!-- HERO SECTION -->
 
   <section class="hero">
 
     <div class="hero-content">
 
       <h1>
-        Smart Investment Solutions
+        Secure Your Financial Future
       </h1>
 
       <p>
         Mutual Funds, SIPs, Insurance &
-        Financial Planning for Your Future
+        Smart Wealth Planning Solutions
       </p>
 
-      <a href="#contact" class="btn">
-        Start Investing
-      </a>
+      <div class="hero-buttons">
+
+        <a href="#contact" class="btn">
+          Get Started
+        </a>
+
+        <a href="https://wa.me/919717857755"
+        target="_blank"
+        class="btn secondary-btn">
+
+          WhatsApp Us
+
+        </a>
+
+      </div>
 
     </div>
 
@@ -75,7 +93,7 @@
 
     <div class="stat-box">
       <h2>50+</h2>
-      <p>Investment Schemes</p>
+      <p>Investment Plans</p>
     </div>
 
   </section>
@@ -89,59 +107,119 @@
     <div class="service-container">
 
       <div class="card">
+
         <i class="fa-solid fa-chart-line"></i>
+
         <h3>Mutual Funds</h3>
-        <p>Best SIP & long-term wealth plans.</p>
+
+        <p>
+          Smart long-term wealth creation
+          through diversified investments.
+        </p>
+
       </div>
 
       <div class="card">
+
         <i class="fa-solid fa-piggy-bank"></i>
+
         <h3>SIP Investment</h3>
-        <p>Monthly SIP plans for secure future.</p>
+
+        <p>
+          Monthly SIP plans for secure
+          and disciplined investing.
+        </p>
+
       </div>
 
       <div class="card">
+
         <i class="fa-solid fa-shield-halved"></i>
+
         <h3>Insurance</h3>
-        <p>Life & health insurance solutions.</p>
+
+        <p>
+          Health & life insurance solutions
+          for complete protection.
+        </p>
+
       </div>
 
       <div class="card">
-        <i class="fa-solid fa-money-bill"></i>
+
+        <i class="fa-solid fa-money-bill-wave"></i>
+
         <h3>Loans</h3>
-        <p>Personal & business loan services.</p>
+
+        <p>
+          Personal and business loan
+          assistance with quick support.
+        </p>
+
       </div>
 
     </div>
 
   </section>
 
-  <!-- SCHEMES -->
+  <!-- ABOUT -->
 
-  <section class="schemes" id="schemes">
+  <section class="about" id="about">
 
-    <h2>Popular Mutual Fund Schemes</h2>
+    <div class="about-content">
 
-    <div class="scheme-container">
+      <h2>Why Choose OM Financial Service?</h2>
 
-      <div class="scheme-card">
-        <h3>HDFC Flexi Cap Fund</h3>
-        <p>Long-term equity growth fund.</p>
+      <p>
+        We provide trusted financial solutions
+        with personalized investment guidance,
+        SIP planning, insurance services and
+        long-term wealth management support.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- TESTIMONIALS -->
+
+  <section class="testimonials" id="testimonials">
+
+    <h2>What Clients Say</h2>
+
+    <div class="testimonial-container">
+
+      <div class="testimonial-card">
+
+        <p>
+          “Very professional investment advice.
+          Highly recommended.”
+        </p>
+
+        <h4>- Rahul Sharma</h4>
+
       </div>
 
-      <div class="scheme-card">
-        <h3>SBI Small Cap Fund</h3>
-        <p>High growth small-cap opportunities.</p>
+      <div class="testimonial-card">
+
+        <p>
+          “Best SIP guidance and financial planning
+          experience.”
+        </p>
+
+        <h4>- Amit Verma</h4>
+
       </div>
 
-      <div class="scheme-card">
-        <h3>Parag Parikh Flexi Cap</h3>
-        <p>Popular diversified equity scheme.</p>
-      </div>
+      <div class="testimonial-card">
 
-      <div class="scheme-card">
-        <h3>Nippon India Small Cap</h3>
-        <p>Strong small-cap performance.</p>
+        <p>
+          “Excellent support for insurance and
+          mutual fund investments.”
+        </p>
+
+        <h4>- Priya Gupta</h4>
+
       </div>
 
     </div>
@@ -166,15 +244,31 @@
         +91 9717857755
       </p>
 
+      <p>
+        <i class="fa-solid fa-location-dot"></i>
+        Delhi, India
+      </p>
+
     </div>
 
-    <form>
+    <form
+    action="https://formsubmit.co/satish.p.capital@gmail.com"
+    method="POST">
 
-      <input type="text" placeholder="Your Name">
+      <input type="text"
+      name="name"
+      placeholder="Your Name"
+      required>
 
-      <input type="email" placeholder="Your Email">
+      <input type="email"
+      name="email"
+      placeholder="Your Email"
+      required>
 
-      <textarea placeholder="Your Message"></textarea>
+      <textarea
+      name="message"
+      placeholder="Your Message"
+      required></textarea>
 
       <button type="submit">
         Send Message
@@ -199,10 +293,13 @@
   <footer>
 
     <p>
-      © 2026 OM Financial Service
+      © 2026 OM Financial Service | All Rights Reserved
     </p>
 
   </footer>
 
+  <script src="script.js"></script>
+
 </body>
+
 </html>

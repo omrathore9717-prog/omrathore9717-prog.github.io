@@ -53,20 +53,6 @@ setInterval(loadMarketData, 10000);
 
 // CONTACT FORM
 
-const form = document.getElementById("contactForm");
-
-form.addEventListener("submit", function (e) {
-
-  e.preventDefault();
-
-  alert(
-    "Thank You! We will contact you soon."
-  );
-
-  form.reset();
-
-});
-
 
 
 // SCROLL ANIMATION

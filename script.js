@@ -10,33 +10,38 @@ window.addEventListener("load", function(){
 // COUNTER ANIMATION
 
 const counters =
-document.querySelectorAll('.counter');
+document.querySelectorAll(".counter");
 
 counters.forEach(counter => {
 
-  counter.innerText = '0';
+  counter.innerText = "0";
 
   const updateCounter = () => {
 
     const target =
-    +counter.getAttribute('data-target');
+    +counter.getAttribute(
+    "data-target");
 
     const c =
     +counter.innerText;
 
-    const increment = target / 100;
+    const increment =
+    target / 100;
 
     if(c < target){
 
       counter.innerText =
-      `${Math.ceil(c + increment)}`;
+      `${Math.ceil(
+      c + increment)}`;
 
-      setTimeout(updateCounter, 20);
+      setTimeout(
+      updateCounter,
+      20);
 
     }else{
 
       counter.innerText =
-      target + '+';
+      target + "+";
 
     }
 
@@ -51,23 +56,29 @@ counters.forEach(counter => {
 function calculateSIP(){
 
   const monthlyInvestment =
+
   document.getElementById(
   "monthlyInvestment").value;
 
   const years =
+
   document.getElementById(
   "years").value;
 
   const returnRate =
+
   document.getElementById(
   "returnRate").value;
 
   const monthlyRate =
+
   returnRate / 12 / 100;
 
-  const months = years * 12;
+  const months =
+  years * 12;
 
   const futureValue =
+
   monthlyInvestment *
 
   (((Math.pow(
@@ -81,7 +92,7 @@ function calculateSIP(){
   document.getElementById(
   "sipResult").innerHTML =
 
-  "Estimated Value: ₹" +
+  "Estimated Value : ₹" +
 
   Math.round(
   futureValue).toLocaleString();
@@ -93,18 +104,22 @@ function calculateSIP(){
 function calculateEMI(){
 
   const loan =
+
   document.getElementById(
   "loanAmount").value;
 
   const years =
+
   document.getElementById(
   "loanYears").value;
 
   const rate =
+
   document.getElementById(
   "loanRate").value;
 
   const monthlyRate =
+
   rate / 12 / 100;
 
   const months =
@@ -137,9 +152,11 @@ function calculateEMI(){
 // BACK TO TOP
 
 const topBtn =
-document.getElementById("topBtn");
+document.getElementById(
+"topBtn");
 
-window.onscroll = function(){
+window.onscroll =
+function(){
 
   if(document.body.scrollTop > 300 ||
 
@@ -158,7 +175,8 @@ window.onscroll = function(){
 
 };
 
-topBtn.onclick = function(){
+topBtn.onclick =
+function(){
 
   window.scrollTo({
 
@@ -172,10 +190,12 @@ topBtn.onclick = function(){
 // DARK MODE
 
 const themeToggle =
+
 document.getElementById(
 "themeToggle");
 
-themeToggle.onclick = function(){
+themeToggle.onclick =
+function(){
 
   document.body.classList
   .toggle("light-mode");
@@ -197,8 +217,8 @@ themeToggle.onclick = function(){
 
 // SAVE THEME
 
-if(localStorage.getItem("theme")
-=== "light"){
+if(localStorage.getItem(
+"theme") === "light"){
 
   document.body.classList
   .add("light-mode");
@@ -229,3 +249,35 @@ function(){
   }
 
 });
+
+// AUTO REVIEW SLIDER
+
+let reviewIndex = 0;
+
+const reviews =
+document.querySelectorAll(
+".review-card");
+
+setInterval(() => {
+
+  reviews.forEach(review => {
+
+    review.style.display =
+    "none";
+
+  });
+
+  reviewIndex++;
+
+  if(reviewIndex >
+  reviews.length){
+
+    reviewIndex = 1;
+
+  }
+
+  reviews[
+  reviewIndex - 1]
+  .style.display = "block";
+
+}, 3000);

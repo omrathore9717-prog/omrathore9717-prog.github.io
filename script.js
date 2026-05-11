@@ -122,3 +122,29 @@ topBtn.onclick = function(){
   });
 
 };
+
+// DARK MODE
+
+const themeToggle =
+document.getElementById(
+"themeToggle");
+
+themeToggle.onclick = function(){
+
+  document.body.classList
+  .toggle("light-mode");
+
+  if(document.body.classList
+  .contains("light-mode")){
+
+    themeToggle.innerHTML =
+    "☀️";
+
+  }else{
+
+    themeToggle.innerHTML =
+    "🌙";
+
+  }
+
+};

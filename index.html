@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
   <meta charset="UTF-8">
+
   <meta name="viewport"
   content="width=device-width, initial-scale=1.0">
 
-  <title>OM Financial Service</title>
-
-  <link rel="stylesheet" href="style.css">
+  <title>
+    OM Financial Service
+  </title>
 
   <link rel="stylesheet"
+  href="style.css">
+
+  <!-- FONT AWESOME -->
+
+  <link rel="stylesheet"
+
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 </head>
@@ -20,7 +28,9 @@
 <!-- LOADER -->
 
 <div id="loader">
+
   <div class="spinner"></div>
+
 </div>
 
 <!-- HEADER -->
@@ -28,18 +38,40 @@
 <header>
 
   <div class="logo">
+
     OM Financial Service
+
   </div>
 
   <nav>
 
     <a href="#">Home</a>
-    <a href="#services">Services</a>
-    <a href="#calculator">Calculator</a>
-    <a href="#testimonials">Reviews</a>
-    <a href="#contact">Contact</a>
+
+    <a href="#services">
+      Services
+    </a>
+
+    <a href="#calculator">
+      Calculator
+    </a>
+
+    <a href="#reviews">
+      Reviews
+    </a>
+
+    <a href="#contact">
+      Contact
+    </a>
 
   </nav>
+
+  <!-- DARK MODE BUTTON -->
+
+  <button id="themeToggle">
+
+    🌙
+
+  </button>
 
 </header>
 
@@ -50,23 +82,32 @@
   <div class="hero-content">
 
     <h1>
+
       Smart Wealth Creation
       For Your Future
+
     </h1>
 
     <p>
-      Mutual Funds, SIPs, Insurance &
-      Financial Planning Solutions
+
+      Mutual Funds, SIPs,
+      Insurance & Financial Planning
+
     </p>
 
     <div class="hero-buttons">
 
-      <a href="#contact" class="btn primary-btn">
+      <a href="#contact"
+      class="btn primary-btn">
+
         Start Investing
+
       </a>
 
       <a href="https://wa.me/919717857755"
+
       class="btn secondary-btn"
+
       target="_blank">
 
         WhatsApp Us
@@ -84,33 +125,56 @@
 <section class="stats">
 
   <div class="stat-box">
-    <h2 class="counter" data-target="500">
+
+    <h2 class="counter"
+    data-target="500">
+
       0
+
     </h2>
+
     <p>Happy Clients</p>
+
   </div>
 
   <div class="stat-box">
-    <h2 class="counter" data-target="10">
+
+    <h2 class="counter"
+    data-target="10">
+
       0
+
     </h2>
+
     <p>Years Experience</p>
+
   </div>
 
   <div class="stat-box">
-    <h2 class="counter" data-target="50">
+
+    <h2 class="counter"
+    data-target="50">
+
       0
+
     </h2>
+
     <p>Investment Plans</p>
+
   </div>
 
 </section>
 
 <!-- SERVICES -->
 
-<section class="services" id="services">
+<section class="services"
+id="services">
 
-  <h2>Our Services</h2>
+  <h2>
+
+    Our Services
+
+  </h2>
 
   <div class="service-container">
 
@@ -121,8 +185,10 @@
       <h3>Mutual Funds</h3>
 
       <p>
-        Smart investment plans for
-        long-term wealth growth.
+
+        Long-term wealth growth
+        investment plans.
+
       </p>
 
     </div>
@@ -134,8 +200,10 @@
       <h3>SIP Investment</h3>
 
       <p>
-        Monthly SIP investments for
-        secure financial future.
+
+        Monthly SIP planning
+        for secure future.
+
       </p>
 
     </div>
@@ -147,8 +215,10 @@
       <h3>Insurance</h3>
 
       <p>
-        Health and life insurance
-        protection plans.
+
+        Health and life
+        insurance protection.
+
       </p>
 
     </div>
@@ -160,8 +230,10 @@
       <h3>Loans</h3>
 
       <p>
+
         Personal and business
-        loan support.
+        loan services.
+
       </p>
 
     </div>
@@ -172,65 +244,91 @@
 
 <!-- SIP CALCULATOR -->
 
-<section class="calculator" id="calculator">
+<section class="calculator"
+id="calculator">
 
-  <h2>SIP Calculator</h2>
+  <h2>
+
+    SIP Calculator
+
+  </h2>
 
   <div class="calculator-box">
 
     <input type="number"
+
     id="monthlyInvestment"
+
     placeholder="Monthly Investment">
 
     <input type="number"
+
     id="years"
+
     placeholder="Years">
 
     <input type="number"
+
     id="returnRate"
+
     placeholder="Expected Return %">
 
     <button onclick="calculateSIP()">
+
       Calculate Returns
+
     </button>
 
-    <div class="result" id="sipResult"></div>
+    <div class="result"
+    id="sipResult"></div>
 
   </div>
 
 </section>
 
-<!-- TESTIMONIALS -->
+<!-- REVIEWS -->
 
-<section class="testimonials"
-id="testimonials">
+<section class="reviews"
+id="reviews">
 
-  <h2>Client Reviews</h2>
+  <h2>
 
-  <div class="testimonial-container">
+    Client Reviews
 
-    <div class="testimonial-card">
+  </h2>
+
+  <div class="review-container">
+
+    <div class="review-card">
 
       <p>
-        “Excellent financial planning
-        support and SIP guidance.”
+
+        “Excellent financial guidance
+        and SIP support.”
+
       </p>
 
       <h4>
+
         - Rahul Sharma
+
       </h4>
 
     </div>
 
-    <div class="testimonial-card">
+    <div class="review-card">
 
       <p>
-        “Highly professional service
-        and investment advice.”
+
+        “Professional investment
+        planning services.”
+
       </p>
 
       <h4>
+
         - Neha Gupta
+
       </h4>
 
     </div>
@@ -241,20 +339,31 @@ id="testimonials">
 
 <!-- CONTACT -->
 
-<section class="contact" id="contact">
+<section class="contact"
+id="contact">
 
-  <h2>Contact Us</h2>
+  <h2>
+
+    Contact Us
+
+  </h2>
 
   <div class="contact-box">
 
     <p>
+
       <i class="fa-solid fa-envelope"></i>
+
       satish.p.capital@gmail.com
+
     </p>
 
     <p>
+
       <i class="fa-solid fa-phone"></i>
+
       +91 9717857755
+
     </p>
 
   </div>
@@ -271,7 +380,9 @@ id="testimonials">
     placeholder="Your Message"></textarea>
 
     <button type="submit">
+
       Send Message
+
     </button>
 
   </form>
@@ -281,7 +392,9 @@ id="testimonials">
 <!-- WHATSAPP -->
 
 <a href="https://wa.me/919717857755"
+
 class="whatsapp"
+
 target="_blank">
 
   <i class="fa-brands fa-whatsapp"></i>
@@ -291,7 +404,9 @@ target="_blank">
 <!-- TOP BUTTON -->
 
 <button id="topBtn">
+
   ↑
+
 </button>
 
 <!-- FOOTER -->
@@ -299,7 +414,9 @@ target="_blank">
 <footer>
 
   <p>
+
     © 2026 OM Financial Service
+
   </p>
 
 </footer>

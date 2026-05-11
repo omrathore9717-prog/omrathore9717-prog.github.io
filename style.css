@@ -10,6 +10,14 @@ body{
   background:#081120;
   color:white;
   overflow-x:hidden;
+  transition:0.4s;
+}
+
+/* DARK MODE */
+
+body.light-mode{
+  background:#f5f5f5;
+  color:black;
 }
 
 /* LOADER */
@@ -73,6 +81,17 @@ nav a{
 
 nav a:hover{
   color:#00d4ff;
+}
+
+/* DARK BUTTON */
+
+#themeToggle{
+  background:#00d4ff;
+  border:none;
+  padding:10px 15px;
+  border-radius:50px;
+  cursor:pointer;
+  font-size:18px;
 }
 
 /* HERO */
@@ -176,21 +195,24 @@ nav a:hover{
 
 /* SERVICES */
 
-.services{
+.services,
+.calculator,
+.reviews,
+.contact{
   padding:100px 8%;
   text-align:center;
 }
 
 .services h2,
 .calculator h2,
-.testimonials h2,
+.reviews h2,
 .contact h2{
   font-size:48px;
   margin-bottom:50px;
 }
 
 .service-container,
-.testimonial-container{
+.review-container{
   display:flex;
   justify-content:center;
   flex-wrap:wrap;
@@ -198,7 +220,7 @@ nav a:hover{
 }
 
 .card,
-.testimonial-card{
+.review-card{
   background:#101d33;
   width:280px;
   padding:35px;
@@ -207,7 +229,7 @@ nav a:hover{
 }
 
 .card:hover,
-.testimonial-card:hover{
+.review-card:hover{
   transform:translateY(-10px);
   box-shadow:0 0 20px #00d4ff;
 }
@@ -221,9 +243,7 @@ nav a:hover{
 /* CALCULATOR */
 
 .calculator{
-  padding:100px 8%;
   background:#0c1b30;
-  text-align:center;
 }
 
 .calculator-box{
@@ -257,20 +277,7 @@ form button{
   color:#00d4ff;
 }
 
-/* TESTIMONIALS */
-
-.testimonials{
-  padding:100px 8%;
-  text-align:center;
-}
-
 /* CONTACT */
-
-.contact{
-  padding:100px 8%;
-  background:#0c1b30;
-  text-align:center;
-}
 
 .contact-box p{
   margin:15px 0;

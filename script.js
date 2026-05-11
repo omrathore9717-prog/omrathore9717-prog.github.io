@@ -1,283 +1,91 @@
-// LOADER
+const themeToggle = document.getElementById("themeToggle");
 
-window.addEventListener("load", function(){
+themeToggle.addEventListener("click", () => {
+  document.body.classList.toggle("light-mode");
 
-  document.getElementById("loader")
-  .style.display = "none";
+  if (document.body.classList.contains("light-mode")) {
+    themeToggle.innerHTML = "☀️";
+  } else {
+    themeToggle.innerHTML = "🌙";
+  }
+});
+
+
+// LIVE MARKET DATA
+
+async function loadMarketData() {
+
+  // NIFTY
+
+  document.getElementById("nifty").innerHTML =
+    "📈 NIFTY 50 : 24,850 ▲ +125";
+
+  // SENSEX
+
+  document.getElementById("sensex").innerHTML =
+    "💰 SENSEX : 81,450 ▲ +410";
+
+  // GOLD
+
+  document.getElementById("gold").innerHTML =
+    "🥇 GOLD : ₹96,200";
+
+  // USD INR
+
+  document.getElementById("usd").innerHTML =
+    "💵 USD/INR : ₹83.45";
+
+  // BITCOIN
+
+  document.getElementById("bitcoin").innerHTML =
+    "🪙 BITCOIN : $104,000";
+
+}
+
+loadMarketData();
+
+
+// AUTO REFRESH EVERY 10 SECONDS
+
+setInterval(loadMarketData, 10000);
+
+
+
+// CONTACT FORM
+
+const form = document.getElementById("contactForm");
+
+form.addEventListener("submit", function (e) {
+
+  e.preventDefault();
+
+  alert(
+    "Thank You! We will contact you soon."
+  );
+
+  form.reset();
 
 });
 
-// COUNTER ANIMATION
 
-const counters =
-document.querySelectorAll(".counter");
 
-counters.forEach(counter => {
+// SCROLL ANIMATION
 
-  counter.innerText = "0";
+const sections = document.querySelectorAll("section");
 
-  const updateCounter = () => {
+window.addEventListener("scroll", () => {
 
-    const target =
-    +counter.getAttribute(
-    "data-target");
+  sections.forEach((section) => {
 
-    const c =
-    +counter.innerText;
+    const sectionTop =
+      section.getBoundingClientRect().top;
 
-    const increment =
-    target / 100;
+    if (sectionTop < window.innerHeight - 100) {
 
-    if(c < target){
-
-      counter.innerText =
-      `${Math.ceil(
-      c + increment)}`;
-
-      setTimeout(
-      updateCounter,
-      20);
-
-    }else{
-
-      counter.innerText =
-      target + "+";
+      section.classList.add("show");
 
     }
 
-  };
-
-  updateCounter();
-
-});
-
-// SIP CALCULATOR
-
-function calculateSIP(){
-
-  const monthlyInvestment =
-
-  document.getElementById(
-  "monthlyInvestment").value;
-
-  const years =
-
-  document.getElementById(
-  "years").value;
-
-  const returnRate =
-
-  document.getElementById(
-  "returnRate").value;
-
-  const monthlyRate =
-
-  returnRate / 12 / 100;
-
-  const months =
-  years * 12;
-
-  const futureValue =
-
-  monthlyInvestment *
-
-  (((Math.pow(
-  1 + monthlyRate,
-  months)) - 1)
-
-  / monthlyRate)
-
-  * (1 + monthlyRate);
-
-  document.getElementById(
-  "sipResult").innerHTML =
-
-  "Estimated Value : ₹" +
-
-  Math.round(
-  futureValue).toLocaleString();
-
-}
-
-// EMI CALCULATOR
-
-function calculateEMI(){
-
-  const loan =
-
-  document.getElementById(
-  "loanAmount").value;
-
-  const years =
-
-  document.getElementById(
-  "loanYears").value;
-
-  const rate =
-
-  document.getElementById(
-  "loanRate").value;
-
-  const monthlyRate =
-
-  rate / 12 / 100;
-
-  const months =
-  years * 12;
-
-  const emi =
-
-  (loan * monthlyRate *
-
-  Math.pow(
-  1 + monthlyRate,
-  months))
-
-  /
-
-  (Math.pow(
-  1 + monthlyRate,
-  months) - 1);
-
-  document.getElementById(
-  "emiResult").innerHTML =
-
-  "Monthly EMI : ₹" +
-
-  Math.round(
-  emi).toLocaleString();
-
-}
-
-// BACK TO TOP
-
-const topBtn =
-document.getElementById(
-"topBtn");
-
-window.onscroll =
-function(){
-
-  if(document.body.scrollTop > 300 ||
-
-  document.documentElement
-  .scrollTop > 300){
-
-    topBtn.style.display =
-    "block";
-
-  }else{
-
-    topBtn.style.display =
-    "none";
-
-  }
-
-};
-
-topBtn.onclick =
-function(){
-
-  window.scrollTo({
-
-    top:0,
-    behavior:"smooth"
-
   });
 
-};
-
-// DARK MODE
-
-const themeToggle =
-
-document.getElementById(
-"themeToggle");
-
-themeToggle.onclick =
-function(){
-
-  document.body.classList
-  .toggle("light-mode");
-
-  if(document.body.classList
-  .contains("light-mode")){
-
-    themeToggle.innerHTML =
-    "☀️";
-
-  }else{
-
-    themeToggle.innerHTML =
-    "🌙";
-
-  }
-
-};
-
-// SAVE THEME
-
-if(localStorage.getItem(
-"theme") === "light"){
-
-  document.body.classList
-  .add("light-mode");
-
-  themeToggle.innerHTML =
-  "☀️";
-
-}
-
-themeToggle.addEventListener(
-"click",
-
-function(){
-
-  if(document.body.classList
-  .contains("light-mode")){
-
-    localStorage.setItem(
-    "theme",
-    "light");
-
-  }else{
-
-    localStorage.setItem(
-    "theme",
-    "dark");
-
-  }
-
 });
-
-// AUTO REVIEW SLIDER
-
-let reviewIndex = 0;
-
-const reviews =
-document.querySelectorAll(
-".review-card");
-
-setInterval(() => {
-
-  reviews.forEach(review => {
-
-    review.style.display =
-    "none";
-
-  });
-
-  reviewIndex++;
-
-  if(reviewIndex >
-  reviews.length){
-
-    reviewIndex = 1;
-
-  }
-
-  reviews[
-  reviewIndex - 1]
-  .style.display = "block";
-
-}, 3000);

@@ -60,11 +60,16 @@ nav a:hover{
   padding:12px 25px;
   border-radius:30px;
   font-weight:bold;
+  transition:0.3s;
+}
+
+.header-btn:hover{
+  box-shadow:0 0 20px #00d4ff;
 }
 
 
 
-/* MARKET BAR */
+/* LIVE MARKET */
 
 .market-bar{
   margin-top:90px;
@@ -72,6 +77,7 @@ nav a:hover{
   color:black;
   padding:14px 0;
   overflow:hidden;
+  font-weight:bold;
 }
 
 .market-track{
@@ -79,7 +85,6 @@ nav a:hover{
   gap:60px;
   white-space:nowrap;
   animation:ticker 20s linear infinite;
-  font-weight:bold;
 }
 
 @keyframes ticker{
@@ -97,22 +102,36 @@ nav a:hover{
   display:grid;
   grid-template-columns:1fr 1fr;
   align-items:center;
-  padding:100px 8%;
   gap:60px;
+  padding:100px 8%;
 }
 
 .badge{
   display:inline-block;
-  background:#12233f;
+  background:#102038;
   padding:12px 22px;
   border-radius:30px;
   margin-bottom:25px;
 }
 
 .hero h1{
+
   font-size:70px;
+
   line-height:1.1;
+
   margin-bottom:25px;
+
+  background:linear-gradient(
+  to right,
+  #00d4ff,
+  #ffffff
+  );
+
+  -webkit-background-clip:text;
+
+  -webkit-text-fill-color:transparent;
+
 }
 
 .hero p{
@@ -149,6 +168,7 @@ nav a:hover{
 .primary-btn:hover,
 .secondary-btn:hover{
   transform:translateY(-5px);
+  box-shadow:0 0 20px #00d4ff;
 }
 
 .hero-stats{
@@ -162,7 +182,9 @@ nav a:hover{
 }
 
 .dashboard-card{
-  background:#101d33;
+  background:rgba(16,29,51,0.8);
+  backdrop-filter:blur(15px);
+  border:1px solid rgba(255,255,255,0.1);
   padding:40px;
   border-radius:30px;
   box-shadow:0 0 30px rgba(0,212,255,0.3);
@@ -197,10 +219,13 @@ nav a:hover{
 
 .service-card{
   width:280px;
-  background:#101d33;
+  background:rgba(16,29,51,0.8);
+  backdrop-filter:blur(15px);
+  border:1px solid rgba(255,255,255,0.1);
   padding:40px 30px;
   border-radius:25px;
   transition:0.4s;
+  animation:fadeUp 1s ease;
 }
 
 .service-card:hover{
@@ -232,7 +257,7 @@ nav a:hover{
   margin-bottom:60px;
 }
 
-.fund-grid{
+#fundContainer{
   display:flex;
   justify-content:center;
   flex-wrap:wrap;
@@ -241,10 +266,13 @@ nav a:hover{
 
 .fund-card{
   width:320px;
-  background:#101d33;
+  background:rgba(16,29,51,0.8);
+  backdrop-filter:blur(15px);
+  border:1px solid rgba(255,255,255,0.1);
   padding:40px;
   border-radius:30px;
   transition:0.4s;
+  animation:fadeUp 1s ease;
 }
 
 .fund-card:hover{
@@ -252,9 +280,8 @@ nav a:hover{
   box-shadow:0 0 25px #00d4ff;
 }
 
-.fund-card h1{
-  color:#00d4ff;
-  margin:20px 0;
+.fund-card h2{
+  margin-bottom:20px;
 }
 
 .fund-card button{
@@ -264,6 +291,7 @@ nav a:hover{
   border-radius:30px;
   font-weight:bold;
   cursor:pointer;
+  margin-top:20px;
 }
 
 
@@ -283,7 +311,9 @@ nav a:hover{
 .calc-box{
   max-width:500px;
   margin:auto;
-  background:#101d33;
+  background:rgba(16,29,51,0.8);
+  backdrop-filter:blur(15px);
+  border:1px solid rgba(255,255,255,0.1);
   padding:40px;
   border-radius:30px;
 }
@@ -331,9 +361,53 @@ nav a:hover{
 .chart-box{
   max-width:900px;
   margin:auto;
-  background:#101d33;
+  background:rgba(16,29,51,0.8);
+  backdrop-filter:blur(15px);
+  border:1px solid rgba(255,255,255,0.1);
   padding:30px;
   border-radius:30px;
+}
+
+
+
+/* TRUST */
+
+.trust-section{
+  padding:100px 8%;
+  text-align:center;
+}
+
+.trust-section h1{
+  font-size:55px;
+  margin-bottom:60px;
+}
+
+.trust-grid{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:30px;
+}
+
+.trust-card{
+  width:250px;
+  background:rgba(16,29,51,0.8);
+  backdrop-filter:blur(15px);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:40px;
+  border-radius:25px;
+  transition:0.4s;
+}
+
+.trust-card:hover{
+  transform:translateY(-10px);
+  box-shadow:0 0 20px #00d4ff;
+}
+
+.trust-card h2{
+  color:#00d4ff;
+  font-size:40px;
+  margin-bottom:15px;
 }
 
 
@@ -397,6 +471,7 @@ form button{
   align-items:center;
   text-decoration:none;
   font-size:35px;
+  z-index:999;
 }
 
 
@@ -407,6 +482,30 @@ footer{
   background:black;
   text-align:center;
   padding:25px;
+}
+
+
+
+/* ANIMATION */
+
+@keyframes fadeUp{
+
+  from{
+
+    opacity:0;
+
+    transform:translateY(30px);
+
+  }
+
+  to{
+
+    opacity:1;
+
+    transform:translateY(0);
+
+  }
+
 }
 
 

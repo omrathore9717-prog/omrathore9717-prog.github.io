@@ -18,6 +18,8 @@
   <meta name="keywords"
   content="Mutual Fund, SIP, LIC, Loans">
 
+  <!-- STYLE -->
+
   <link rel="stylesheet"
   href="style.css">
 
@@ -180,7 +182,7 @@ id="home">
         </h2>
 
         <p>
-          Assets Managed
+          Managed Assets
         </p>
 
       </div>
@@ -272,7 +274,7 @@ id="home">
 <section class="services">
 
   <h1>
-    Our Services
+    Our Financial Services
   </h1>
 
   <div class="service-grid">
@@ -332,7 +334,7 @@ id="home">
       <i class="fa-solid fa-building-columns"></i>
 
       <h2>
-        Loans
+        Loan Services
       </h2>
 
       <p>
@@ -347,82 +349,18 @@ id="home">
 
 
 
-<!-- TOP FUNDS -->
+<!-- LIVE MUTUAL FUNDS -->
 
 <section class="funds"
 id="funds">
 
   <h1>
-    Trending Mutual Funds
+    Live Mutual Fund Schemes
   </h1>
 
-  <div class="fund-grid">
+  <div id="fundContainer">
 
-
-
-    <div class="fund-card">
-
-      <h2>
-        HDFC Flexi Cap
-      </h2>
-
-      <p>
-        3Y Returns
-      </p>
-
-      <h1>
-        18.4%
-      </h1>
-
-      <button>
-        Invest Now
-      </button>
-
-    </div>
-
-
-
-    <div class="fund-card">
-
-      <h2>
-        SBI Small Cap
-      </h2>
-
-      <p>
-        3Y Returns
-      </p>
-
-      <h1>
-        24.2%
-      </h1>
-
-      <button>
-        Invest Now
-      </button>
-
-    </div>
-
-
-
-    <div class="fund-card">
-
-      <h2>
-        Parag Parikh Flexi Cap
-      </h2>
-
-      <p>
-        3Y Returns
-      </p>
-
-      <h1>
-        19.8%
-      </h1>
-
-      <button>
-        Invest Now
-      </button>
-
-    </div>
+    Loading Mutual Funds...
 
   </div>
 
@@ -481,6 +419,78 @@ id="calculator">
 
 
 
+<!-- TRUST -->
+
+<section class="trust-section">
+
+  <h1>
+    Why Investors Trust Us
+  </h1>
+
+  <div class="trust-grid">
+
+
+
+    <div class="trust-card">
+
+      <h2>
+        500+
+      </h2>
+
+      <p>
+        Happy Investors
+      </p>
+
+    </div>
+
+
+
+    <div class="trust-card">
+
+      <h2>
+        ₹10Cr+
+      </h2>
+
+      <p>
+        Managed Assets
+      </p>
+
+    </div>
+
+
+
+    <div class="trust-card">
+
+      <h2>
+        AMFI
+      </h2>
+
+      <p>
+        Registered Partner
+      </p>
+
+    </div>
+
+
+
+    <div class="trust-card">
+
+      <h2>
+        LIC
+      </h2>
+
+      <p>
+        Certified Advisor
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
 <!-- CONTACT -->
 
 <section class="contact"
@@ -490,13 +500,26 @@ id="contact">
     Contact Us
   </h1>
 
-  <form>
+  <form action="https://formsubmit.co/YOUR_EMAIL@gmail.com"
+  method="POST">
+
+    <input type="hidden"
+    name="_captcha"
+    value="false">
+
+    <input type="hidden"
+    name="_next"
+    value="https://omfinancialservice.com">
+
+
 
     <input type="text"
-    placeholder="Your Name">
+    placeholder="Your Name"
+    required>
 
     <input type="email"
-    placeholder="Your Email">
+    placeholder="Your Email"
+    required>
 
     <textarea
     placeholder="Your Message"></textarea>
@@ -534,6 +557,8 @@ class="whatsapp">
 </footer>
 
 
+
+<!-- SCRIPT -->
 
 <script src="script.js"></script>
 

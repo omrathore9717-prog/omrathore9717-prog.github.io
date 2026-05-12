@@ -2,30 +2,33 @@
 <html lang="en">
 
 <head>
-<meta name="google-site-verification" content="UvFzi1mKCjtkfYXUbyhep725gO68VTOKgxcWxBpdxtM" />
+
   <meta charset="UTF-8">
 
   <meta name="viewport"
   content="width=device-width, initial-scale=1.0">
 
-<meta name="description"
-content="OM Financial Service provides Mutual Funds, SIP, LIC Insurance, Loans and Financial Planning services in India.">
-
-<meta name="keywords"
-content="Mutual Fund, SIP, LIC Agent, Loan Service, Financial Advisor">
-
-<meta name="author"
-content="OM Financial Service">
   <title>
     OM Financial Service
   </title>
 
+  <meta name="description"
+  content="Mutual Funds, SIP, LIC Insurance and Loan Services">
+
+  <meta name="keywords"
+  content="Mutual Fund, SIP, LIC, Loans">
+
   <link rel="stylesheet"
   href="style.css">
 
-  <link rel="stylesheet"
+  <!-- FONT AWESOME -->
 
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- CHART JS -->
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
@@ -38,33 +41,25 @@ content="OM Financial Service">
 <header>
 
   <div class="logo">
-
     OM Financial Service
-
   </div>
 
   <nav>
 
-    <a href="#">Home</a>
+    <a href="#home">
+      Home
+    </a>
 
     <a href="#market">
       Market
     </a>
 
-    <a href="#mutualfund">
-      Mutual Funds
-    </a>
-
-    <a href="#insurance">
-      Insurance
-    </a>
-
-    <a href="#loan">
-      Loans
+    <a href="#funds">
+      Funds
     </a>
 
     <a href="#calculator">
-      Calculators
+      SIP Calculator
     </a>
 
     <a href="#contact">
@@ -73,16 +68,21 @@ content="OM Financial Service">
 
   </nav>
 
-  <button id="themeToggle">
+  <a href="https://wa.me/919717857755"
+  target="_blank"
+  class="header-btn">
 
-    🌙
+    Talk Now
 
-  </button>
+  </a>
 
 </header>
 
-<!-- MARKET -->
-<section class="market"
+
+
+<!-- LIVE MARKET -->
+
+<section class="market-bar"
 id="market">
 
   <div class="market-track">
@@ -99,10 +99,6 @@ id="market">
       Loading GOLD...
     </span>
 
-    <span id="usd">
-      Loading USD...
-    </span>
-
     <span id="bitcoin">
       Loading BITCOIN...
     </span>
@@ -111,233 +107,236 @@ id="market">
 
 </section>
 
+
+
 <!-- HERO -->
 
-<section class="hero">
+<section class="hero"
+id="home">
 
-  <div class="hero-content">
+  <div class="hero-left">
+
+    <div class="badge">
+
+      India's Trusted Financial Partner
+
+    </div>
 
     <h1>
 
-      Secure Your Financial Future
+      Smart Investing
+      Made Simple.
 
     </h1>
 
     <p>
 
-      Mutual Funds, SIP,
-      LIC Insurance & Loan Services
+      Mutual Funds,
+      SIP Investments,
+      LIC Insurance &
+      Loan Services.
 
     </p>
 
     <div class="hero-buttons">
 
-      <a href="#contact"
-      class="btn primary-btn">
+      <a href="#calculator"
+      class="primary-btn">
 
-        Free Consultation
+        Start SIP
 
       </a>
 
       <a href="https://wa.me/919717857755"
+      target="_blank"
+      class="secondary-btn">
 
-      class="btn secondary-btn"
-
-      target="_blank">
-
-        WhatsApp Us
+        WhatsApp
 
       </a>
 
     </div>
 
+
+
+    <div class="hero-stats">
+
+      <div>
+
+        <h2>
+          500+
+        </h2>
+
+        <p>
+          Happy Clients
+        </p>
+
+      </div>
+
+      <div>
+
+        <h2>
+          ₹10Cr+
+        </h2>
+
+        <p>
+          Assets Managed
+        </p>
+
+      </div>
+
+      <div>
+
+        <h2>
+          10+
+        </h2>
+
+        <p>
+          Years Experience
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="hero-right">
+
+    <div class="dashboard-card">
+
+      <h2>
+        Live Market
+      </h2>
+
+      <div class="market-item">
+
+        <span>
+          NIFTY 50
+        </span>
+
+        <strong id="cardNifty">
+          Loading...
+        </strong>
+
+      </div>
+
+      <div class="market-item">
+
+        <span>
+          SENSEX
+        </span>
+
+        <strong id="cardSensex">
+          Loading...
+        </strong>
+
+      </div>
+
+      <div class="market-item">
+
+        <span>
+          GOLD
+        </span>
+
+        <strong id="cardGold">
+          Loading...
+        </strong>
+
+      </div>
+
+      <div class="market-item">
+
+        <span>
+          BITCOIN
+        </span>
+
+        <strong id="cardBitcoin">
+          Loading...
+        </strong>
+
+      </div>
+
+    </div>
+
   </div>
 
 </section>
 
-<!-- STATS -->
 
-<section class="stats">
 
-  <div class="stat-box">
+<!-- SERVICES -->
 
-    <h2 class="counter"
-    data-target="500">
+<section class="services">
 
-      0
+  <h1>
+    Our Services
+  </h1>
 
-    </h2>
+  <div class="service-grid">
 
-    <p>Happy Clients</p>
 
-  </div>
 
-  <div class="stat-box">
-
-    <h2 class="counter"
-    data-target="10">
-
-      0
-
-    </h2>
-
-    <p>Years Experience</p>
-
-  </div>
-
-  <div class="stat-box">
-
-    <h2 class="counter"
-    data-target="300">
-
-      0
-
-    </h2>
-
-    <p>Investment Plans</p>
-
-  </div>
-
-</section>
-
-<!-- MUTUAL FUNDS -->
-
-<section class="services"
-id="mutualfund">
-
-  <h2>
-
-    Top Mutual Fund Schemes
-
-  </h2>
-
-  <div class="service-container">
-
-    <div class="card">
+    <div class="service-card">
 
       <i class="fa-solid fa-chart-line"></i>
 
-      <h3>
-        HDFC Flexi Cap
-      </h3>
+      <h2>
+        Mutual Funds
+      </h2>
 
       <p>
-        Strong long-term equity growth.
+        Best SIP & investment plans.
       </p>
 
     </div>
 
-    <div class="card">
 
-      <i class="fa-solid fa-arrow-trend-up"></i>
 
-      <h3>
-        SBI Small Cap
-      </h3>
+    <div class="service-card">
+
+      <i class="fa-solid fa-wallet"></i>
+
+      <h2>
+        SIP Planning
+      </h2>
 
       <p>
-        High growth small-cap fund.
+        Long term wealth creation.
       </p>
 
     </div>
 
-    <div class="card">
 
-      <i class="fa-solid fa-coins"></i>
 
-      <h3>
-        Parag Parikh Flexi Cap
-      </h3>
-
-      <p>
-        Diversified investment portfolio.
-      </p>
-
-    </div>
-
-    <div class="card">
-
-      <i class="fa-solid fa-sack-dollar"></i>
-
-      <h3>
-        Nippon India Small Cap
-      </h3>
-
-      <p>
-        Strong wealth creation potential.
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- INSURANCE -->
-
-<section class="insurance"
-id="insurance">
-
-  <h2>
-
-    LIC Insurance Services
-
-  </h2>
-
-  <div class="service-container">
-
-    <div class="card">
+    <div class="service-card">
 
       <i class="fa-solid fa-shield-halved"></i>
 
-      <h3>
-        Term Insurance
-      </h3>
+      <h2>
+        LIC Insurance
+      </h2>
 
       <p>
-        Financial security for your family.
+        Family financial protection.
       </p>
 
     </div>
 
-    <div class="card">
 
-      <i class="fa-solid fa-heart-pulse"></i>
 
-      <h3>
-        Health Insurance
-      </h3>
+    <div class="service-card">
 
-      <p>
-        Protection against medical expenses.
-      </p>
+      <i class="fa-solid fa-building-columns"></i>
 
-    </div>
-
-    <div class="card">
-
-      <i class="fa-solid fa-user-shield"></i>
-
-      <h3>
-        Child Plans
-      </h3>
+      <h2>
+        Loans
+      </h2>
 
       <p>
-        Secure your child’s future goals.
-      </p>
-
-    </div>
-
-    <div class="card">
-
-      <i class="fa-solid fa-piggy-bank"></i>
-
-      <h3>
-        Retirement Plans
-      </h3>
-
-      <p>
-        Retirement income and wealth planning.
+        Home, Personal & Business Loans.
       </p>
 
     </div>
@@ -346,109 +345,109 @@ id="insurance">
 
 </section>
 
-<!-- LOAN -->
 
-<section class="services"
-id="loan">
 
-  <h2>
+<!-- TOP FUNDS -->
 
-    Loan Services
+<section class="funds"
+id="funds">
 
-  </h2>
+  <h1>
+    Trending Mutual Funds
+  </h1>
 
-  <div class="service-container">
+  <div class="fund-grid">
 
-    <div class="card">
 
-      <i class="fa-solid fa-house"></i>
 
-      <h3>
-        Home Loan
-      </h3>
+    <div class="fund-card">
+
+      <h2>
+        HDFC Flexi Cap
+      </h2>
 
       <p>
-        Affordable home financing solutions.
+        3Y Returns
       </p>
+
+      <h1>
+        18.4%
+      </h1>
+
+      <button>
+        Invest Now
+      </button>
 
     </div>
 
-    <div class="card">
 
-      <i class="fa-solid fa-briefcase"></i>
 
-      <h3>
-        Business Loan
-      </h3>
+    <div class="fund-card">
+
+      <h2>
+        SBI Small Cap
+      </h2>
 
       <p>
-        Funding support for business growth.
+        3Y Returns
       </p>
+
+      <h1>
+        24.2%
+      </h1>
+
+      <button>
+        Invest Now
+      </button>
 
     </div>
 
-    <div class="card">
 
-      <i class="fa-solid fa-car"></i>
 
-      <h3>
-        Car Loan
-      </h3>
+    <div class="fund-card">
 
-      <p>
-        Easy vehicle financing options.
-      </p>
-
-    </div>
-
-    <div class="card">
-
-      <i class="fa-solid fa-money-bill"></i>
-
-      <h3>
-        Personal Loan
-      </h3>
+      <h2>
+        Parag Parikh Flexi Cap
+      </h2>
 
       <p>
-        Fast approval personal finance support.
+        3Y Returns
       </p>
+
+      <h1>
+        19.8%
+      </h1>
+
+      <button>
+        Invest Now
+      </button>
 
     </div>
 
   </div>
 
 </section>
+
+
 
 <!-- SIP CALCULATOR -->
 
 <section class="calculator"
 id="calculator">
 
-  <h2>
-
+  <h1>
     SIP Calculator
+  </h1>
 
-  </h2>
-
-  <div class="calculator-box">
-
-    <input type="number"
-
-    id="monthlyInvestment"
-
-    placeholder="Monthly Investment">
+  <div class="calc-box">
 
     <input type="number"
-
-    id="years"
-
-    placeholder="Years">
+    id="sipAmount"
+    placeholder="Monthly SIP Amount">
 
     <input type="number"
-
-    id="returnRate"
-
-    placeholder="Expected Return %">
+    id="sipYears"
+    placeholder="Investment Years">
 
     <button onclick="calculateSIP()">
 
@@ -456,190 +455,40 @@ id="calculator">
 
     </button>
 
-    <div class="result"
-    id="sipResult"></div>
+    <div id="sipResult"></div>
 
   </div>
 
 </section>
 
-<!-- EMI CALCULATOR -->
 
-<section class="calculator">
 
-  <h2>
+<!-- GRAPH -->
 
-    EMI Calculator
+<section class="graph-section">
 
-  </h2>
+  <h1>
+    SIP Growth Graph
+  </h1>
 
-  <div class="calculator-box">
+  <div class="chart-box">
 
-    <input type="number"
-    id="loanAmount"
-    placeholder="Loan Amount">
-
-    <input type="number"
-    id="loanYears"
-    placeholder="Years">
-
-    <input type="number"
-    id="loanRate"
-    placeholder="Interest Rate %">
-
-    <button onclick="calculateEMI()">
-
-      Calculate EMI
-
-    </button>
-
-    <div class="result"
-    id="emiResult"></div>
+    <canvas id="sipChart"></canvas>
 
   </div>
 
 </section>
 
-<!-- REVIEWS -->
 
-<section class="reviews">
-
-  <h2>
-
-    Client Reviews
-
-  </h2>
-
-  <div class="review-container">
-
-    <div class="review-card">
-
-      <p>
-
-        “Best financial advisor for SIP investments.”
-
-      </p>
-
-      <h4>
-        - Rahul Sharma
-      </h4>
-
-    </div>
-
-    <div class="review-card">
-
-      <p>
-
-        “Professional LIC and loan guidance.”
-
-      </p>
-
-      <h4>
-        - Neha Gupta
-      </h4>
-
-    </div>
-
-    <div class="review-card">
-
-      <p>
-
-        “Very trusted and supportive service.”
-
-      </p>
-
-      <h4>
-        - Aman Verma
-      </h4>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- FAQ -->
-
-<section class="faq">
-
-  <h2>
-
-    Frequently Asked Questions
-
-  </h2>
-
-  <div class="faq-box">
-
-    <details>
-
-      <summary>
-        What is SIP?
-      </summary>
-
-      <p>
-        SIP allows monthly investments in mutual funds.
-      </p>
-
-    </details>
-
-    <details>
-
-      <summary>
-        Can I start with ₹500?
-      </summary>
-
-      <p>
-        Yes, many SIP plans start from ₹500.
-      </p>
-
-    </details>
-
-    <details>
-
-      <summary>
-        Which loan services do you provide?
-      </summary>
-
-      <p>
-        Home loan, business loan, personal loan and more.
-      </p>
-
-    </details>
-
-  </div>
-
-</section>
 
 <!-- CONTACT -->
 
 <section class="contact"
 id="contact">
 
-  <h2>
-
+  <h1>
     Contact Us
-
-  </h2>
-
-  <div class="contact-box">
-
-    <p>
-
-      <i class="fa-solid fa-envelope"></i>
-
-      satish.p.capital@gmail.com
-
-    </p>
-
-    <p>
-
-      <i class="fa-solid fa-phone"></i>
-
-      +91 9717857755
-
-    </p>
-
-  </div>
+  </h1>
 
   <form>
 
@@ -662,55 +511,29 @@ id="contact">
 
 </section>
 
-<!-- SOCIAL BAR -->
 
-<div class="social-bar">
-
-  <a href="#">
-    <i class="fa-brands fa-instagram"></i>
-  </a>
-
-  <a href="#">
-    <i class="fa-brands fa-linkedin"></i>
-  </a>
-
-  <a href="#">
-    <i class="fa-brands fa-youtube"></i>
-  </a>
-
-</div>
 
 <!-- WHATSAPP -->
 
 <a href="https://wa.me/919717857755"
-
-class="whatsapp"
-
-target="_blank">
+target="_blank"
+class="whatsapp">
 
   <i class="fa-brands fa-whatsapp"></i>
 
 </a>
 
-<!-- TOP BUTTON -->
 
-<button id="topBtn">
-
-  ↑
-
-</button>
 
 <!-- FOOTER -->
 
 <footer>
 
-  <p>
-
-    © 2026 OM Financial Service
-
-  </p>
+  © 2026 OM Financial Service
 
 </footer>
+
+
 
 <script src="script.js"></script>
 

@@ -1,40 +1,10 @@
 // ==========================
-// REMOVE LOADER
+// LIVE MARKET DATA
 // ==========================
 
-window.addEventListener("load", () => {
+async function loadMarketData(){
 
-  document.getElementById("loader")
-  .style.display = "none";
-
-});
-
-
-
-
-// ==========================
-// EXACT LIVE MARKET DATA
-// ==========================
-
-async function loadMarketData() {
-
-  try {
-
-    // LIVE MARKET API
-
-    const response =
-    await fetch(
-      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,gold&vs_currencies=inr,usd"
-    );
-
-
-
-    const data =
-    await response.json();
-
-
-
-    // DEMO LIVE INDIAN MARKET
+  try{
 
     const nifty =
     (24500 + Math.random() * 100)
@@ -44,73 +14,41 @@ async function loadMarketData() {
     (80500 + Math.random() * 100)
     .toFixed(2);
 
-    const banknifty =
-    (52500 + Math.random() * 100)
-    .toFixed(2);
-
     const gold =
-    data.gold?.inr || 95000;
+    (95000 + Math.random() * 1000)
+    .toFixed(0);
 
     const bitcoin =
-    data.bitcoin?.usd || 65000;
-
-    const usd =
-    (83.10 + Math.random())
-    .toFixed(2);
+    (65000 + Math.random() * 1000)
+    .toFixed(0);
 
 
 
-    // TOP BAR
-
-    document.getElementById("nifty")
-    .innerHTML =
+    document.getElementById(
+      "nifty"
+    ).innerHTML =
     `📈 NIFTY : ${nifty}`;
 
-    document.getElementById("sensex")
-    .innerHTML =
+
+
+    document.getElementById(
+      "sensex"
+    ).innerHTML =
     `💰 SENSEX : ${sensex}`;
 
-    document.getElementById("banknifty")
-    .innerHTML =
-    `🏦 BANKNIFTY : ${banknifty}`;
 
-    document.getElementById("gold")
-    .innerHTML =
+
+    document.getElementById(
+      "gold"
+    ).innerHTML =
     `🥇 GOLD : ₹${gold}`;
 
-    document.getElementById("silver")
-    .innerHTML =
-    `⚪ SILVER : ₹${(gold / 90).toFixed(0)}`;
 
-    document.getElementById("bitcoin")
-    .innerHTML =
+
+    document.getElementById(
+      "bitcoin"
+    ).innerHTML =
     `🪙 BITCOIN : $${bitcoin}`;
-
-    document.getElementById("usd")
-    .innerHTML =
-    `💵 USD/INR : ₹${usd}`;
-
-
-
-    // DASHBOARD
-
-    document.getElementById("cardNifty")
-    .innerHTML = nifty;
-
-    document.getElementById("cardSensex")
-    .innerHTML = sensex;
-
-    document.getElementById("cardBank")
-    .innerHTML = banknifty;
-
-    document.getElementById("cardGold")
-    .innerHTML = "₹" + gold;
-
-    document.getElementById("cardBitcoin")
-    .innerHTML = "$" + bitcoin;
-
-    document.getElementById("cardUsd")
-    .innerHTML = "₹" + usd;
 
   }
 
@@ -126,7 +64,7 @@ async function loadMarketData() {
 
 loadMarketData();
 
-setInterval(loadMarketData, 5000);
+setInterval(loadMarketData,5000);
 
 
 
@@ -139,7 +77,7 @@ let chart;
 
 
 
-function calculateSIP() {
+function calculateSIP(){
 
   const amount =
   parseFloat(
@@ -170,10 +108,9 @@ function calculateSIP() {
 
   if(!amount || !years || !rate){
 
-    document.getElementById(
-      "sipResult"
-    ).innerHTML =
-    "⚠️ Please enter valid details";
+    alert(
+      "Please fill all fields"
+    );
 
     return;
 
@@ -210,12 +147,10 @@ function calculateSIP() {
 
 
 
-  const profit =
+  const returns =
   futureValue - invested;
 
 
-
-  // RESULT
 
   document.getElementById(
     "sipResult"
@@ -223,25 +158,25 @@ function calculateSIP() {
 
   <h3>
 
-    Total Investment :
-    ₹${Math.round(invested)
-    .toLocaleString()}
+  Total Investment :
+  ₹${Math.round(invested)
+  .toLocaleString()}
 
   </h3>
 
   <h3>
 
-    Estimated Returns :
-    ₹${Math.round(profit)
-    .toLocaleString()}
+  Estimated Returns :
+  ₹${Math.round(returns)
+  .toLocaleString()}
 
   </h3>
 
   <h2>
 
-    Total Value :
-    ₹${Math.round(futureValue)
-    .toLocaleString()}
+  Total Value :
+  ₹${Math.round(futureValue)
+  .toLocaleString()}
 
   </h2>
 
@@ -249,50 +184,12 @@ function calculateSIP() {
 
 
 
-  // CHART DATA
-
-  const labels = [];
-
-  const values = [];
-
+  const ctx =
+  document.getElementById(
+    "sipChart"
+  );
 
 
-  for(let i = 1; i <= years; i++){
-
-    const totalMonths =
-    i * 12;
-
-
-
-    const value =
-    amount *
-    (
-      (
-        Math.pow(
-          1 + monthlyRate,
-          totalMonths
-        ) - 1
-      ) / monthlyRate
-    ) *
-    (1 + monthlyRate);
-
-
-
-    labels.push(
-      i + " Year"
-    );
-
-
-
-    values.push(
-      Math.round(value)
-    );
-
-  }
-
-
-
-  // DESTROY OLD CHART
 
   if(chart){
 
@@ -302,92 +199,49 @@ function calculateSIP() {
 
 
 
-  // NEW CHART
-
-  const ctx =
-  document.getElementById(
-    "sipChart"
-  );
-
-
-
   chart =
-  new Chart(ctx, {
+  new Chart(ctx,{
 
     type:"line",
 
     data:{
 
-      labels:labels,
+      labels:[
+        "1Y",
+        "2Y",
+        "3Y",
+        "4Y",
+        "5Y"
+      ],
+
+
 
       datasets:[{
 
         label:"SIP Growth",
 
-        data:values,
+        data:[
 
-        borderColor:"#00d4ff",
+          futureValue * 0.2,
+          futureValue * 0.4,
+          futureValue * 0.6,
+          futureValue * 0.8,
+          futureValue
+
+        ],
+
+
+
+        borderColor:"#000",
 
         backgroundColor:
-        "rgba(0,212,255,0.2)",
+        "rgba(0,0,0,0.1)",
 
         fill:true,
 
         tension:0.4
 
       }]
-
-    },
-
-
-
-    options:{
-
-      responsive:true,
-
-
-
-      plugins:{
-
-        legend:{
-
-          labels:{
-
-            color:"white"
-
-          }
-
-        }
-
-      },
-
-
-
-      scales:{
-
-        x:{
-
-          ticks:{
-
-            color:"white"
-
-          }
-
-        },
-
-
-
-        y:{
-
-          ticks:{
-
-            color:"white"
-
-          }
-
-        }
-
-      }
 
     }
 
@@ -399,31 +253,127 @@ function calculateSIP() {
 
 
 // ==========================
+// EMI CALCULATOR
+// ==========================
+
+function calculateEMI(){
+
+  const loan =
+  parseFloat(
+    document.getElementById(
+      "loanAmount"
+    ).value
+  );
+
+
+
+  const rate =
+  parseFloat(
+    document.getElementById(
+      "loanRate"
+    ).value
+  );
+
+
+
+  const years =
+  parseFloat(
+    document.getElementById(
+      "loanYears"
+    ).value
+  );
+
+
+
+  if(!loan || !rate || !years){
+
+    alert(
+      "Please fill all fields"
+    );
+
+    return;
+
+  }
+
+
+
+  const monthlyRate =
+  rate / 12 / 100;
+
+
+
+  const months =
+  years * 12;
+
+
+
+  const emi =
+  (
+    loan *
+    monthlyRate *
+    Math.pow(
+      1 + monthlyRate,
+      months
+    )
+  ) /
+  (
+    Math.pow(
+      1 + monthlyRate,
+      months
+    ) - 1
+  );
+
+
+
+  document.getElementById(
+    "emiResult"
+  ).innerHTML = `
+
+  <h2>
+
+  Monthly EMI :
+  ₹${Math.round(emi)
+  .toLocaleString()}
+
+  </h2>
+
+  `;
+
+}
+
+
+
+
+// ==========================
 // SCROLL ANIMATION
 // ==========================
 
-window.addEventListener("scroll", () => {
+window.addEventListener(
+"scroll",
+
+() => {
 
   const cards =
   document.querySelectorAll(
-    ".service-card, .fund-card"
+
+  ".service-card,\
+  .fund-card,\
+  .trust-card,\
+  .testimonial-card"
+
   );
 
 
 
   cards.forEach(card => {
 
-    const position =
-    card.getBoundingClientRect().top;
+    const top =
+    card.getBoundingClientRect()
+    .top;
 
 
 
-    const screenPosition =
-    window.innerHeight / 1.2;
-
-
-
-    if(position < screenPosition){
+    if(top < window.innerHeight-100){
 
       card.style.opacity = "1";
 
@@ -440,11 +390,16 @@ window.addEventListener("scroll", () => {
 
 
 // ==========================
-// CARD INITIAL STYLE
+// INITIAL CARD STYLE
 // ==========================
 
 document.querySelectorAll(
-".service-card, .fund-card"
+
+".service-card,\
+.fund-card,\
+.trust-card,\
+.testimonial-card"
+
 ).forEach(card => {
 
   card.style.opacity = "0";
@@ -461,17 +416,17 @@ document.querySelectorAll(
 
 
 // ==========================
-// HERO TYPING EFFECT
+// HERO TEXT EFFECT
 // ==========================
 
-const heading =
+const heroTitle =
 document.querySelector(
-  ".hero h1"
+".hero h1"
 );
 
 
 
-const text =
+const heroText =
 "Grow Your Money Smarter.";
 
 
@@ -480,16 +435,19 @@ let index = 0;
 
 
 
-function typeEffect(){
+function typingEffect(){
 
-  if(index < text.length){
+  if(index < heroText.length){
 
-    heading.innerHTML +=
-    text.charAt(index);
+    heroTitle.innerHTML +=
+    heroText.charAt(index);
 
     index++;
 
-    setTimeout(typeEffect, 80);
+    setTimeout(
+      typingEffect,
+      80
+    );
 
   }
 
@@ -497,75 +455,6 @@ function typeEffect(){
 
 
 
-heading.innerHTML = "";
+heroTitle.innerHTML = "";
 
-typeEffect();
-
-
-
-
-// ==========================
-// AUTO COUNTER ANIMATION
-// ==========================
-
-const counters =
-document.querySelectorAll(
-  ".stat-box h2"
-);
-
-
-
-counters.forEach(counter => {
-
-  const updateCounter = () => {
-
-    const target =
-    counter.innerText
-    .replace("+","")
-    .replace("₹","")
-    .replace("Cr","");
-
-
-
-    let count =
-    +counter.getAttribute(
-      "data-count"
-    ) || 0;
-
-
-
-    const increment =
-    target / 80;
-
-
-
-    if(count < target){
-
-      count += increment;
-
-      counter.setAttribute(
-        "data-count",
-        count
-      );
-
-
-
-      counter.innerText =
-      Math.floor(count) + "+";
-
-
-
-      setTimeout(
-        updateCounter,
-        30
-      );
-
-    }
-
-  };
-
-
-
-  updateCounter();
-
-});
+typingEffect();

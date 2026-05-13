@@ -1,4 +1,18 @@
 // ==========================
+// REMOVE LOADER
+// ==========================
+
+window.addEventListener("load", () => {
+
+  document.getElementById("loader")
+  .style.display = "none";
+
+});
+
+
+
+
+// ==========================
 // LIVE MARKET DATA
 // ==========================
 
@@ -8,65 +22,72 @@ async function loadMarketData() {
 
     // DEMO LIVE STYLE VALUES
 
-    const niftyValue =
-    (24000 + Math.random() * 1000)
+    const nifty =
+    (24000 + Math.random() * 500)
     .toFixed(2);
 
-    const sensexValue =
+    const sensex =
     (80000 + Math.random() * 1000)
     .toFixed(2);
 
-    const goldValue =
+    const gold =
     (95000 + Math.random() * 2000)
     .toFixed(2);
 
-    const bitcoinValue =
-    (100000 + Math.random() * 5000)
+    const bitcoin =
+    (60000 + Math.random() * 5000)
+    .toFixed(2);
+
+    const usd =
+    (83 + Math.random())
     .toFixed(2);
 
 
 
-    // TOP MARKET BAR
+    // TOP BAR
 
     document.getElementById("nifty")
     .innerHTML =
-    `📈 NIFTY 50 : ${niftyValue}`;
+    `📈 NIFTY 50 : ${nifty}`;
 
     document.getElementById("sensex")
     .innerHTML =
-    `💰 SENSEX : ${sensexValue}`;
+    `💰 SENSEX : ${sensex}`;
 
     document.getElementById("gold")
     .innerHTML =
-    `🥇 GOLD : ₹${goldValue}`;
+    `🥇 GOLD : ₹${gold}`;
 
     document.getElementById("bitcoin")
     .innerHTML =
-    `🪙 BITCOIN : $${bitcoinValue}`;
+    `🪙 BITCOIN : $${bitcoin}`;
+
+    document.getElementById("usd")
+    .innerHTML =
+    `💵 USD/INR : ₹${usd}`;
 
 
 
-    // DASHBOARD CARD
+    // DASHBOARD
 
     document.getElementById("cardNifty")
-    .innerHTML =
-    niftyValue;
+    .innerHTML = nifty;
 
     document.getElementById("cardSensex")
-    .innerHTML =
-    sensexValue;
+    .innerHTML = sensex;
 
     document.getElementById("cardGold")
-    .innerHTML =
-    "₹" + goldValue;
+    .innerHTML = "₹" + gold;
 
     document.getElementById("cardBitcoin")
-    .innerHTML =
-    "$" + bitcoinValue;
+    .innerHTML = "$" + bitcoin;
+
+    document.getElementById("cardUsd")
+    .innerHTML = "₹" + usd;
 
   }
 
-  catch(error) {
+  catch(error){
 
     console.log(error);
 
@@ -76,8 +97,6 @@ async function loadMarketData() {
 
 
 
-// AUTO REFRESH
-
 loadMarketData();
 
 setInterval(loadMarketData, 5000);
@@ -85,9 +104,8 @@ setInterval(loadMarketData, 5000);
 
 
 
-
 // ==========================
-// LIVE MUTUAL FUND API
+// LIVE MUTUAL FUNDS
 // ==========================
 
 async function loadMutualFunds() {
@@ -144,22 +162,16 @@ async function loadMutualFunds() {
       card.innerHTML = `
 
       <h2>
-
         ${fund.schemeName}
-
       </h2>
 
       <p>
-
-        Scheme Code:
+        Scheme Code :
         ${fund.schemeCode}
-
       </p>
 
       <button>
-
         Invest Now
-
       </button>
 
       `;
@@ -172,10 +184,10 @@ async function loadMutualFunds() {
 
   }
 
-  catch(error) {
+  catch(error){
 
     container.innerHTML =
-    "Unable to load Mutual Funds";
+    "Unable to load funds";
 
   }
 
@@ -184,7 +196,6 @@ async function loadMutualFunds() {
 
 
 loadMutualFunds();
-
 
 
 
@@ -217,7 +228,7 @@ function calculateSIP() {
 
 
 
-  if(!amount || !years) {
+  if(!amount || !years){
 
     document.getElementById(
       "sipResult"
@@ -232,12 +243,8 @@ function calculateSIP() {
 
   const annualRate = 12;
 
-
-
   const monthlyRate =
   annualRate / 12 / 100;
-
-
 
   const months =
   years * 12;
@@ -344,17 +351,13 @@ function calculateSIP() {
 
 
 
-  // DESTROY OLD GRAPH
-
-  if(chart) {
+  if(chart){
 
     chart.destroy();
 
   }
 
 
-
-  // CREATE GRAPH
 
   const ctx =
   document.getElementById(
@@ -450,16 +453,15 @@ function calculateSIP() {
 
 
 
-
 // ==========================
-// SMOOTH ANIMATION
+// SCROLL ANIMATION
 // ==========================
 
 window.addEventListener("scroll", () => {
 
   const cards =
   document.querySelectorAll(
-    ".service-card, .fund-card, .trust-card"
+    ".service-card, .fund-card"
   );
 
 
@@ -488,3 +490,105 @@ window.addEventListener("scroll", () => {
   });
 
 });
+
+
+
+
+// ==========================
+// SEARCH FILTER
+// ==========================
+
+const searchInput =
+document.querySelector(
+  ".search-box input"
+);
+
+
+
+searchInput.addEventListener(
+"keyup",
+
+function(){
+
+  const value =
+  searchInput.value
+  .toLowerCase();
+
+
+
+  const cards =
+  document.querySelectorAll(
+    ".fund-card"
+  );
+
+
+
+  cards.forEach(card => {
+
+    const text =
+    card.innerText
+    .toLowerCase();
+
+
+
+    if(text.includes(value)){
+
+      card.style.display =
+      "block";
+
+    }
+
+    else{
+
+      card.style.display =
+      "none";
+
+    }
+
+  });
+
+});
+
+
+
+
+// ==========================
+// TYPING EFFECT
+// ==========================
+
+const heading =
+document.querySelector(
+  ".hero h1"
+);
+
+
+
+const text =
+"Grow Your Wealth Smartly.";
+
+
+
+let index = 0;
+
+
+
+function typeEffect(){
+
+  if(index < text.length){
+
+    heading.innerHTML +=
+    text.charAt(index);
+
+    index++;
+
+    setTimeout(typeEffect, 80);
+
+  }
+
+}
+
+
+
+heading.innerHTML = "";
+
+typeEffect();

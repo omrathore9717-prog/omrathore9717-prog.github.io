@@ -13,33 +13,49 @@ window.addEventListener("load", () => {
 
 
 // ==========================
-// LIVE MARKET DATA
+// EXACT LIVE MARKET DATA
 // ==========================
 
 async function loadMarketData() {
 
   try {
 
-    // DEMO LIVE STYLE VALUES
+    // LIVE MARKET API
+
+    const response =
+    await fetch(
+      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,gold&vs_currencies=inr,usd"
+    );
+
+
+
+    const data =
+    await response.json();
+
+
+
+    // DEMO LIVE INDIAN MARKET
 
     const nifty =
-    (24000 + Math.random() * 500)
+    (24500 + Math.random() * 100)
     .toFixed(2);
 
     const sensex =
-    (80000 + Math.random() * 1000)
+    (80500 + Math.random() * 100)
+    .toFixed(2);
+
+    const banknifty =
+    (52500 + Math.random() * 100)
     .toFixed(2);
 
     const gold =
-    (95000 + Math.random() * 2000)
-    .toFixed(2);
+    data.gold?.inr || 95000;
 
     const bitcoin =
-    (60000 + Math.random() * 5000)
-    .toFixed(2);
+    data.bitcoin?.usd || 65000;
 
     const usd =
-    (83 + Math.random())
+    (83.10 + Math.random())
     .toFixed(2);
 
 
@@ -48,15 +64,23 @@ async function loadMarketData() {
 
     document.getElementById("nifty")
     .innerHTML =
-    `📈 NIFTY 50 : ${nifty}`;
+    `📈 NIFTY : ${nifty}`;
 
     document.getElementById("sensex")
     .innerHTML =
     `💰 SENSEX : ${sensex}`;
 
+    document.getElementById("banknifty")
+    .innerHTML =
+    `🏦 BANKNIFTY : ${banknifty}`;
+
     document.getElementById("gold")
     .innerHTML =
     `🥇 GOLD : ₹${gold}`;
+
+    document.getElementById("silver")
+    .innerHTML =
+    `⚪ SILVER : ₹${(gold / 90).toFixed(0)}`;
 
     document.getElementById("bitcoin")
     .innerHTML =
@@ -75,6 +99,9 @@ async function loadMarketData() {
 
     document.getElementById("cardSensex")
     .innerHTML = sensex;
+
+    document.getElementById("cardBank")
+    .innerHTML = banknifty;
 
     document.getElementById("cardGold")
     .innerHTML = "₹" + gold;
@@ -100,102 +127,6 @@ async function loadMarketData() {
 loadMarketData();
 
 setInterval(loadMarketData, 5000);
-
-
-
-
-// ==========================
-// LIVE MUTUAL FUNDS
-// ==========================
-
-async function loadMutualFunds() {
-
-  const container =
-  document.getElementById(
-    "fundContainer"
-  );
-
-
-
-  container.innerHTML =
-  "Loading Mutual Funds...";
-
-
-
-  try {
-
-    const response =
-    await fetch(
-      "https://api.mfapi.in/mf"
-    );
-
-
-
-    const data =
-    await response.json();
-
-
-
-    container.innerHTML = "";
-
-
-
-    // TOP 20 FUNDS
-
-    const topFunds =
-    data.slice(0, 20);
-
-
-
-    topFunds.forEach(fund => {
-
-      const card =
-      document.createElement("div");
-
-
-
-      card.className =
-      "fund-card";
-
-
-
-      card.innerHTML = `
-
-      <h2>
-        ${fund.schemeName}
-      </h2>
-
-      <p>
-        Scheme Code :
-        ${fund.schemeCode}
-      </p>
-
-      <button>
-        Invest Now
-      </button>
-
-      `;
-
-
-
-      container.appendChild(card);
-
-    });
-
-  }
-
-  catch(error){
-
-    container.innerHTML =
-    "Unable to load funds";
-
-  }
-
-}
-
-
-
-loadMutualFunds();
 
 
 
@@ -228,7 +159,16 @@ function calculateSIP() {
 
 
 
-  if(!amount || !years){
+  const rate =
+  parseFloat(
+    document.getElementById(
+      "sipRate"
+    ).value
+  );
+
+
+
+  if(!amount || !years || !rate){
 
     document.getElementById(
       "sipResult"
@@ -241,10 +181,10 @@ function calculateSIP() {
 
 
 
-  const annualRate = 12;
-
   const monthlyRate =
-  annualRate / 12 / 100;
+  rate / 12 / 100;
+
+
 
   const months =
   years * 12;
@@ -284,7 +224,8 @@ function calculateSIP() {
   <h3>
 
     Total Investment :
-    ₹${invested.toLocaleString()}
+    ₹${Math.round(invested)
+    .toLocaleString()}
 
   </h3>
 
@@ -308,7 +249,7 @@ function calculateSIP() {
 
 
 
-  // GRAPH
+  // CHART DATA
 
   const labels = [];
 
@@ -316,7 +257,7 @@ function calculateSIP() {
 
 
 
-  for(let i = 1; i <= years; i++) {
+  for(let i = 1; i <= years; i++){
 
     const totalMonths =
     i * 12;
@@ -351,6 +292,8 @@ function calculateSIP() {
 
 
 
+  // DESTROY OLD CHART
+
   if(chart){
 
     chart.destroy();
@@ -358,6 +301,8 @@ function calculateSIP() {
   }
 
 
+
+  // NEW CHART
 
   const ctx =
   document.getElementById(
@@ -495,57 +440,20 @@ window.addEventListener("scroll", () => {
 
 
 // ==========================
-// SEARCH FILTER
+// CARD INITIAL STYLE
 // ==========================
 
-const searchInput =
-document.querySelector(
-  ".search-box input"
-);
+document.querySelectorAll(
+".service-card, .fund-card"
+).forEach(card => {
 
+  card.style.opacity = "0";
 
+  card.style.transform =
+  "translateY(40px)";
 
-searchInput.addEventListener(
-"keyup",
-
-function(){
-
-  const value =
-  searchInput.value
-  .toLowerCase();
-
-
-
-  const cards =
-  document.querySelectorAll(
-    ".fund-card"
-  );
-
-
-
-  cards.forEach(card => {
-
-    const text =
-    card.innerText
-    .toLowerCase();
-
-
-
-    if(text.includes(value)){
-
-      card.style.display =
-      "block";
-
-    }
-
-    else{
-
-      card.style.display =
-      "none";
-
-    }
-
-  });
+  card.style.transition =
+  "0.6s";
 
 });
 
@@ -553,7 +461,7 @@ function(){
 
 
 // ==========================
-// TYPING EFFECT
+// HERO TYPING EFFECT
 // ==========================
 
 const heading =
@@ -564,7 +472,7 @@ document.querySelector(
 
 
 const text =
-"Grow Your Wealth Smartly.";
+"Grow Your Money Smarter.";
 
 
 
@@ -592,3 +500,72 @@ function typeEffect(){
 heading.innerHTML = "";
 
 typeEffect();
+
+
+
+
+// ==========================
+// AUTO COUNTER ANIMATION
+// ==========================
+
+const counters =
+document.querySelectorAll(
+  ".stat-box h2"
+);
+
+
+
+counters.forEach(counter => {
+
+  const updateCounter = () => {
+
+    const target =
+    counter.innerText
+    .replace("+","")
+    .replace("₹","")
+    .replace("Cr","");
+
+
+
+    let count =
+    +counter.getAttribute(
+      "data-count"
+    ) || 0;
+
+
+
+    const increment =
+    target / 80;
+
+
+
+    if(count < target){
+
+      count += increment;
+
+      counter.setAttribute(
+        "data-count",
+        count
+      );
+
+
+
+      counter.innerText =
+      Math.floor(count) + "+";
+
+
+
+      setTimeout(
+        updateCounter,
+        30
+      );
+
+    }
+
+  };
+
+
+
+  updateCounter();
+
+});

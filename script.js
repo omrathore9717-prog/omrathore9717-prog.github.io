@@ -1,6 +1,6 @@
-// NAVBAR SHADOW EFFECT
+// NAVBAR EFFECT
 
-window.addEventListener("scroll", () => {
+window.addEventListener("scroll",()=>{
 
     const navbar =
     document.querySelector(".navbar");
@@ -12,7 +12,6 @@ window.addEventListener("scroll", () => {
 
         navbar.style.background =
         "rgba(255,255,255,0.98)";
-
     }
 
     else{
@@ -47,13 +46,13 @@ document.getElementById("usd");
 function updateMarketData(){
 
     const niftyValue =
-    (24500 + Math.random() * 350).toFixed(2);
+    (24500 + Math.random() * 400).toFixed(2);
 
     const sensexValue =
-    (80500 + Math.random() * 600).toFixed(2);
+    (80500 + Math.random() * 500).toFixed(2);
 
     const goldValue =
-    (72500 + Math.random() * 800).toFixed(2);
+    (72500 + Math.random() * 600).toFixed(2);
 
     const usdValue =
     (83 + Math.random()).toFixed(2);
@@ -163,7 +162,7 @@ function calculateSIP(){
 
 
 
-// SIP DOUGHNUT CHART
+// SIP CHART
 
 const sipChart =
 document.getElementById("sipChart");
@@ -232,7 +231,7 @@ function updateChart(
 
 
 
-// PORTFOLIO LINE CHART
+// PORTFOLIO CHART
 
 const portfolioChart =
 document.getElementById("portfolioChart");
@@ -261,9 +260,9 @@ new Chart(portfolioChart,{
                 2,
                 5,
                 7,
-                9,
-                11,
-                15
+                10,
+                12,
+                16
             ],
 
             borderColor:"#111111",
@@ -316,16 +315,18 @@ new Chart(portfolioChart,{
 
 
 
-// CARD SCROLL ANIMATION
+// CARD ANIMATION
 
 const cards =
 
 document.querySelectorAll(
 
-    ".service-card,\
-     .market-card,\
-     .fund-card,\
-     .contact-card"
+".service-card,\
+ .market-card,\
+ .testimonial-card,\
+ .faq-box,\
+ .contact-card,\
+ .amc-card"
 
 );
 
@@ -341,11 +342,11 @@ function revealCards(){
             top < window.innerHeight - 80
         ){
 
-            card.style.opacity = "1";
+            card.style.opacity =
+            "1";
 
             card.style.transform =
             "translateY(0px)";
-
         }
 
     });
@@ -355,7 +356,8 @@ function revealCards(){
 
 cards.forEach(card => {
 
-    card.style.opacity = "0";
+    card.style.opacity =
+    "0";
 
     card.style.transform =
     "translateY(50px)";
@@ -376,17 +378,18 @@ revealCards();
 
 
 
-// HERO FLOATING ANIMATION
+// FLOATING ANIMATION
 
-const floatingBoxes =
-document.querySelectorAll(".floating-box");
+const floatingCards =
+document.querySelectorAll(".floating-card");
 
 
-floatingBoxes.forEach((box,index)=>{
+floatingCards.forEach((card,index)=>{
 
     setInterval(()=>{
 
-        box.style.transform =
+        card.style.transform =
+
         `translateY(${
             Math.sin(Date.now()/700 + index) * 10
         }px)`;
@@ -398,9 +401,48 @@ floatingBoxes.forEach((box,index)=>{
 
 
 
-// AUTO SIP DEFAULT VALUES
+// BUTTON EFFECT
 
-window.onload = () => {
+const buttons =
+document.querySelectorAll(
+
+".primary-btn,\
+ .secondary-btn,\
+ .calculate-btn,\
+ .nav-btn"
+
+);
+
+
+buttons.forEach(button=>{
+
+    button.addEventListener(
+        "mouseenter",
+        ()=>{
+
+            button.style.transform =
+            "translateY(-4px) scale(1.02)";
+        }
+    );
+
+
+    button.addEventListener(
+        "mouseleave",
+        ()=>{
+
+            button.style.transform =
+            "translateY(0px) scale(1)";
+        }
+    );
+
+});
+
+
+
+
+// AUTO DEFAULT SIP VALUES
+
+window.onload = ()=>{
 
     document.getElementById(
         "sipAmount"
@@ -421,39 +463,87 @@ window.onload = () => {
 
 
 
-// BUTTON HOVER EFFECT
+// MOBILE MENU SIMPLE FIX
 
-const buttons =
-document.querySelectorAll(
-    ".primary-btn,\
-     .secondary-btn,\
-     .calculate-btn,\
-     .nav-btn"
+const navLinks =
+document.querySelector(".nav-links");
+
+
+window.addEventListener(
+    "resize",
+    ()=>{
+
+        if(window.innerWidth > 1100){
+
+            navLinks.style.display =
+            "flex";
+        }
+
+    }
 );
 
 
-buttons.forEach(button=>{
 
-    button.addEventListener(
-        "mouseenter",
-        ()=>{
 
-            button.style.transform =
-            "translateY(-5px) scale(1.02)";
+// SMOOTH ACTIVE LINK
 
+const sections =
+document.querySelectorAll("section");
+
+const navItems =
+document.querySelectorAll(".nav-links a");
+
+
+window.addEventListener("scroll",()=>{
+
+    let current = "";
+
+    sections.forEach(section=>{
+
+        const sectionTop =
+        section.offsetTop;
+
+        if(
+            pageYOffset >= sectionTop - 200
+        ){
+
+            current =
+            section.getAttribute("id");
         }
-    );
+
+    });
 
 
+    navItems.forEach(link=>{
 
-    button.addEventListener(
-        "mouseleave",
-        ()=>{
+        link.classList.remove("active");
 
-            button.style.transform =
-            "translateY(0px) scale(1)";
+        if(
+            link.getAttribute("href")
+            .includes(current)
+        ){
 
+            link.classList.add("active");
         }
-    );
+
+    });
 
 });
+
+
+
+
+// LOADING EFFECT
+
+window.addEventListener("load",()=>{
+
+    document.body.style.opacity =
+    "1";
+
+});
+
+document.body.style.opacity =
+"0";
+
+document.body.style.transition =
+"0.6s ease";

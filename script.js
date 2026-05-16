@@ -1,248 +1,135 @@
-// MARKET CHART
+// LIVE MARKET VALUES
 
-const marketChart = document.getElementById('marketChart');
+const nifty = document.getElementById("nifty");
+const sensex = document.getElementById("sensex");
+const gold = document.getElementById("gold");
 
-new Chart(marketChart, {
+function updateMarket() {
 
-  type: 'line',
+    const niftyValue =
+        (22000 + Math.random() * 500).toFixed(2);
 
-  data: {
+    const sensexValue =
+        (72000 + Math.random() * 1000).toFixed(2);
 
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    const goldValue =
+        (72000 + Math.random() * 500).toFixed(2);
 
-    datasets: [{
+    nifty.innerHTML = niftyValue;
 
-      label: 'Market Growth',
+    sensex.innerHTML = sensexValue;
 
-      data: [10, 25, 18, 40, 35, 60],
+    gold.innerHTML =
+        "₹" + goldValue;
+}
 
-      borderWidth: 3,
+updateMarket();
 
-      tension: 0.4,
+setInterval(updateMarket, 3000);
 
-      fill: true
 
-    }]
+// SIP CALCULATOR
 
-  },
+function calculateSIP() {
 
-  options: {
+    const amount =
+        document.getElementById("amount").value;
 
-    responsive: true,
+    const years =
+        document.getElementById("years").value;
 
-    plugins: {
+    const result =
+        document.getElementById("result");
 
-      legend: {
+    if (amount === "" || years === "") {
 
-        labels: {
+        result.innerHTML =
+            "Please Enter Values";
 
-          color: 'white'
-
-        }
-
-      }
-
-    },
-
-    scales: {
-
-      x: {
-
-        ticks: {
-
-          color: 'white'
-
-        },
-
-        grid: {
-
-          color: 'rgba(255,255,255,0.08)'
-
-        }
-
-      },
-
-      y: {
-
-        ticks: {
-
-          color: 'white'
-
-        },
-
-        grid: {
-
-          color: 'rgba(255,255,255,0.08)'
-
-        }
-
-      }
-
+        return;
     }
 
-  }
+    const monthlyInvestment =
+        parseFloat(amount);
 
-});
+    const investmentYears =
+        parseFloat(years);
 
+    const rate =
+        12 / 100 / 12;
 
+    const months =
+        investmentYears * 12;
 
+    const maturity =
+        monthlyInvestment *
+        (((Math.pow(1 + rate, months)) - 1) / rate) *
+        (1 + rate);
 
-// SIP CHART
-
-const sipChart = document.getElementById('sipChart');
-
-new Chart(sipChart, {
-
-  type: 'doughnut',
-
-  data: {
-
-    labels: ['Invested Amount', 'Estimated Returns'],
-
-    datasets: [{
-
-      data: [600000, 561695],
-
-      borderWidth: 1
-
-    }]
-
-  },
-
-  options: {
-
-    responsive: true,
-
-    plugins: {
-
-      legend: {
-
-        labels: {
-
-          color: 'white'
-
-        }
-
-      }
-
-    }
-
-  }
-
-});
-
-
-
-
-// SIP CALCULATOR FUNCTION
-
-function calculateSIP(){
-
-  let monthly = parseFloat(
-    document.getElementById('monthly').value
-  );
-
-  let annualRate = parseFloat(
-    document.getElementById('rate').value
-  );
-
-  let years = parseFloat(
-    document.getElementById('years').value
-  );
-
-
-  let monthlyRate = annualRate / 12 / 100;
-
-  let months = years * 12;
-
-
-  let futureValue = monthly *
-
-  (
-    (
-      (Math.pow(1 + monthlyRate, months)) - 1
-    )
-    / monthlyRate
-  )
-
-  * (1 + monthlyRate);
-
-
-  document.getElementById('futureValue').innerText =
-
-  '₹' +
-
-  Math.round(futureValue).toLocaleString();
-
+    result.innerHTML =
+        "Expected Return: ₹" +
+        maturity.toFixed(0);
 }
 
 
+// NAVBAR SHADOW EFFECT
 
+window.addEventListener("scroll", function () {
 
-// AUTO CALCULATE ON LOAD
+    const navbar =
+        document.querySelector(".navbar");
 
-calculateSIP();
+    if (window.scrollY > 50) {
 
+        navbar.style.background =
+            "#000";
 
-
-
-// NAVBAR SCROLL EFFECT
-
-window.addEventListener('scroll', () => {
-
-  const navbar = document.querySelector('.navbar');
-
-  if(window.scrollY > 50){
-
-    navbar.style.background =
-    'rgba(5,8,22,0.95)';
-
-  }
-
-  else{
-
-    navbar.style.background =
-    'rgba(255,255,255,0.05)';
-
-  }
-
-});
-
-
-
-
-// SMOOTH ANIMATION
-
-const cards = document.querySelectorAll(
-  '.service-card, .testimonial, .stat-box'
-);
-
-window.addEventListener('scroll', () => {
-
-  cards.forEach(card => {
-
-    const cardTop = card.getBoundingClientRect().top;
-
-    if(cardTop < window.innerHeight - 50){
-
-      card.style.transform = 'translateY(0)';
-      card.style.opacity = '1';
-
+        navbar.style.boxShadow =
+            "0 0 20px rgba(255,255,255,0.08)";
     }
 
-  });
+    else {
 
+        navbar.style.background =
+            "rgba(0,0,0,0.85)";
+
+        navbar.style.boxShadow =
+            "none";
+    }
 });
 
 
+// SCROLL ANIMATION
 
+const cards =
+    document.querySelectorAll(
+        ".service-card, .market-card, .glass-card"
+    );
 
-// INITIAL CARD STYLE
+window.addEventListener("scroll", () => {
 
-cards.forEach(card => {
+    cards.forEach((card) => {
 
-  card.style.transform = 'translateY(40px)';
-  card.style.opacity = '0';
-  card.style.transition = '0.6s ease';
+        const cardTop =
+            card.getBoundingClientRect().top;
 
+        if (cardTop < window.innerHeight - 100) {
+
+            card.style.opacity = "1";
+
+            card.style.transform =
+                "translateY(0px)";
+        }
+    });
+});
+
+cards.forEach((card) => {
+
+    card.style.opacity = "0";
+
+    card.style.transform =
+        "translateY(40px)";
+
+    card.style.transition =
+        "0.8s ease";
 });

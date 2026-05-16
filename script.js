@@ -1,14 +1,28 @@
-// MOBILE MENU
+// NAVBAR SHADOW EFFECT
 
-const menuBtn =
-document.querySelector(".menu-btn");
+window.addEventListener("scroll", () => {
 
-const navLinks =
-document.querySelector(".nav-links");
+    const navbar =
+    document.querySelector(".navbar");
 
-menuBtn.addEventListener("click", () => {
+    if(window.scrollY > 50){
 
-    navLinks.classList.toggle("active");
+        navbar.style.boxShadow =
+        "0 10px 30px rgba(0,0,0,0.08)";
+
+        navbar.style.background =
+        "rgba(255,255,255,0.98)";
+
+    }
+
+    else{
+
+        navbar.style.boxShadow =
+        "none";
+
+        navbar.style.background =
+        "rgba(255,255,255,0.92)";
+    }
 
 });
 
@@ -29,16 +43,17 @@ document.getElementById("gold");
 const usd =
 document.getElementById("usd");
 
+
 function updateMarketData(){
 
     const niftyValue =
-    (24500 + Math.random() * 300).toFixed(2);
+    (24500 + Math.random() * 350).toFixed(2);
 
     const sensexValue =
-    (80500 + Math.random() * 500).toFixed(2);
+    (80500 + Math.random() * 600).toFixed(2);
 
     const goldValue =
-    (72500 + Math.random() * 700).toFixed(2);
+    (72500 + Math.random() * 800).toFixed(2);
 
     const usdValue =
     (83 + Math.random()).toFixed(2);
@@ -57,6 +72,7 @@ function updateMarketData(){
     "₹" + usdValue;
 
 }
+
 
 updateMarketData();
 
@@ -95,10 +111,9 @@ function calculateSIP(){
     ){
 
         result.innerHTML =
-        "Please Enter Values";
+        "Please Enter Valid Values";
 
         return;
-
     }
 
 
@@ -109,7 +124,7 @@ function calculateSIP(){
     years * 12;
 
 
-    const maturityValue =
+    const maturity =
 
     amount *
 
@@ -134,13 +149,13 @@ function calculateSIP(){
     "₹" +
 
     Math.round(
-        maturityValue
+        maturity
     ).toLocaleString();
 
 
     updateChart(
         amount * months,
-        maturityValue - (amount * months)
+        maturity - (amount * months)
     );
 
 }
@@ -148,12 +163,13 @@ function calculateSIP(){
 
 
 
-// SIP CHART
+// SIP DOUGHNUT CHART
 
 const sipChart =
 document.getElementById("sipChart");
 
-const chart = new Chart(sipChart, {
+
+const chart = new Chart(sipChart,{
 
     type:"doughnut",
 
@@ -161,7 +177,7 @@ const chart = new Chart(sipChart, {
 
         labels:[
             "Invested Amount",
-            "Estimated Growth"
+            "Estimated Returns"
         ],
 
         datasets:[{
@@ -216,10 +232,11 @@ function updateChart(
 
 
 
-// PORTFOLIO CHART
+// PORTFOLIO LINE CHART
 
 const portfolioChart =
 document.getElementById("portfolioChart");
+
 
 new Chart(portfolioChart,{
 
@@ -238,24 +255,27 @@ new Chart(portfolioChart,{
 
         datasets:[{
 
-            label:"Portfolio Growth",
+            label:"Growth",
 
             data:[
-                4,
-                6,
-                8,
+                2,
+                5,
                 7,
-                10,
-                14
+                9,
+                11,
+                15
             ],
 
             borderColor:"#111111",
 
-            backgroundColor:"rgba(0,0,0,0.05)",
+            backgroundColor:
+            "rgba(0,0,0,0.05)",
 
             fill:true,
 
-            tension:0.4
+            tension:0.4,
+
+            pointRadius:4
 
         }]
 
@@ -296,51 +316,23 @@ new Chart(portfolioChart,{
 
 
 
-// NAVBAR EFFECT
+// CARD SCROLL ANIMATION
 
-window.addEventListener("scroll", () => {
-
-    const navbar =
-    document.querySelector(".navbar");
-
-    if(window.scrollY > 50){
-
-        navbar.style.boxShadow =
-        "0 10px 30px rgba(0,0,0,0.08)";
-
-    }
-
-    else{
-
-        navbar.style.boxShadow =
-        "none";
-
-    }
-
-});
-
-
-
-
-// SCROLL ANIMATION
-
-const animatedCards =
+const cards =
 
 document.querySelectorAll(
 
     ".service-card,\
      .market-card,\
      .fund-card,\
-     .amc-card,\
-     .contact-card,\
-     .stat-card"
+     .contact-card"
 
 );
 
 
 function revealCards(){
 
-    animatedCards.forEach(card => {
+    cards.forEach(card => {
 
         const top =
         card.getBoundingClientRect().top;
@@ -361,7 +353,7 @@ function revealCards(){
 }
 
 
-animatedCards.forEach(card => {
+cards.forEach(card => {
 
     card.style.opacity = "0";
 
@@ -384,7 +376,29 @@ revealCards();
 
 
 
-// AUTO SIP EXAMPLE
+// HERO FLOATING ANIMATION
+
+const floatingBoxes =
+document.querySelectorAll(".floating-box");
+
+
+floatingBoxes.forEach((box,index)=>{
+
+    setInterval(()=>{
+
+        box.style.transform =
+        `translateY(${
+            Math.sin(Date.now()/700 + index) * 10
+        }px)`;
+
+    },30);
+
+});
+
+
+
+
+// AUTO SIP DEFAULT VALUES
 
 window.onload = () => {
 
@@ -403,3 +417,43 @@ window.onload = () => {
     calculateSIP();
 
 };
+
+
+
+
+// BUTTON HOVER EFFECT
+
+const buttons =
+document.querySelectorAll(
+    ".primary-btn,\
+     .secondary-btn,\
+     .calculate-btn,\
+     .nav-btn"
+);
+
+
+buttons.forEach(button=>{
+
+    button.addEventListener(
+        "mouseenter",
+        ()=>{
+
+            button.style.transform =
+            "translateY(-5px) scale(1.02)";
+
+        }
+    );
+
+
+
+    button.addEventListener(
+        "mouseleave",
+        ()=>{
+
+            button.style.transform =
+            "translateY(0px) scale(1)";
+
+        }
+    );
+
+});

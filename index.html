@@ -3,26 +3,20 @@
 
 <head>
 
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
 
     <meta name="viewport"
-          content="width=device-width, initial-scale=1.0" />
+          content="width=device-width, initial-scale=1.0">
 
     <title>
-        OM Financial Service | Mutual Funds, SIP, Insurance & Loans
+        OM Financial Service | Smart Investment Solutions
     </title>
 
     <meta name="description"
-          content="OM Financial Service offers Mutual Funds, SIP Planning, Insurance, Loans & Financial Solutions with professional investment guidance." />
-
-    <meta name="keywords"
-          content="Mutual Funds, SIP, Insurance, Loans, Financial Services, Investment Planning" />
-
-    <meta name="author"
-          content="OM Financial Service" />
+          content="Professional Mutual Fund, SIP, Insurance & Loan Services with OM Financial Service.">
 
     <link rel="stylesheet"
-          href="style.css" />
+          href="style.css">
 
     <link rel="preconnect"
           href="https://fonts.googleapis.com">
@@ -31,7 +25,7 @@
           href="https://fonts.gstatic.com"
           crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -40,64 +34,108 @@
 
 <body>
 
+
+
     <!-- NAVBAR -->
 
     <header class="navbar">
 
         <div class="logo">
-            OM Financial Service
+
+            <div class="logo-circle">
+                OM
+            </div>
+
+            <div class="logo-text">
+
+                <h2>
+                    OM Financial
+                </h2>
+
+                <span>
+                    Smart Wealth Solutions
+                </span>
+
+            </div>
+
         </div>
+
+
 
         <nav class="nav-links">
 
-            <a href="#home">Home</a>
+            <a href="#home">
+                Home
+            </a>
 
-            <a href="#services">Services</a>
+            <a href="#services">
+                Services
+            </a>
 
-            <a href="#market">Market</a>
+            <a href="#market">
+                Market
+            </a>
 
-            <a href="#calculator">Calculator</a>
+            <a href="#funds">
+                Funds
+            </a>
 
-            <a href="#about">About</a>
+            <a href="#calculator">
+                SIP Calculator
+            </a>
 
-            <a href="#contact">Contact</a>
+            <a href="#contact">
+                Contact
+            </a>
 
         </nav>
 
-        <div class="menu-btn">
-            ☰
-        </div>
+
+
+        <a href="https://wa.me/919717857755"
+           class="nav-btn">
+
+            WhatsApp
+
+        </a>
 
     </header>
 
 
 
-    <!-- HERO SECTION -->
+
+    <!-- HERO -->
 
     <section class="hero"
              id="home">
 
-        <div class="hero-left">
+        <div class="hero-content">
 
-            <div class="tag">
-                Trusted Financial Guidance
+            <div class="hero-tag">
+
+                Trusted Mutual Fund & SIP Guidance
+
             </div>
+
 
             <h1>
 
-                Smart Investing <br>
+                Build Wealth <br>
 
-                For Your <span>Future</span>
+                With Smarter <span>Financial Planning</span>
 
             </h1>
 
+
             <p>
 
-                Professional financial solutions including Mutual Funds,
-                SIP Planning, Insurance, Loans & Wealth Management
-                tailored for long-term growth.
+                OM Financial Service helps you invest smarter with
+                Mutual Funds, SIP, Insurance & Financial Planning
+                solutions designed for long-term growth & security.
 
             </p>
+
+
 
             <div class="hero-buttons">
 
@@ -108,23 +146,45 @@
 
                 </a>
 
-                <a href="tel:9717857755"
+
+                <a href="https://wa.me/919717857755"
                    class="secondary-btn">
 
-                    Call Now
+                    Chat on WhatsApp
 
                 </a>
 
             </div>
 
 
-            <!-- SEBI NOTE -->
 
-            <div class="disclaimer">
+            <!-- TRUST BADGES -->
 
-                * Mutual Fund investments are subject to market risks.
+            <div class="trust-badges">
+
+                <div class="badge">
+                    ✔ Trusted Guidance
+                </div>
+
+                <div class="badge">
+                    ✔ Goal Based Planning
+                </div>
+
+                <div class="badge">
+                    ✔ Long Term Investing
+                </div>
+
+            </div>
+
+
+
+            <!-- DISCLAIMER -->
+
+            <div class="hero-disclaimer">
+
+                Mutual Fund investments are subject to market risks.
                 Read all scheme related documents carefully before investing.
-                Returns shown are illustrative only and not guaranteed.
+                Returns are illustrative and not guaranteed.
 
             </div>
 
@@ -132,90 +192,62 @@
 
 
 
-        <!-- HERO RIGHT -->
 
-        <div class="hero-right">
+        <!-- HERO IMAGE -->
 
-            <div class="portfolio-card">
+        <div class="hero-image">
 
-                <div class="card-top">
+            <div class="hero-card">
+
+                <div class="card-header">
 
                     <h3>
-                        Portfolio Overview
+                        Portfolio Performance
                     </h3>
 
                     <span>
-                        Live
+                        LIVE
                     </span>
 
                 </div>
 
+
                 <h1>
-                    ₹12,84,520
+                    ₹18,45,230
                 </h1>
 
                 <p>
-                    Estimated Portfolio Value
+                    Estimated Wealth Growth
                 </p>
+
 
                 <canvas id="portfolioChart"></canvas>
 
             </div>
 
 
+            <div class="floating-box box1">
 
-            <div class="stats-grid">
+                <h3>
+                    +18%
+                </h3>
 
-                <div class="stat-card">
+                <p>
+                    Annual Growth
+                </p>
 
-                    <h2>
-                        150+
-                    </h2>
-
-                    <p>
-                        Investors
-                    </p>
-
-                </div>
+            </div>
 
 
-                <div class="stat-card">
+            <div class="floating-box box2">
 
-                    <h2>
-                        ₹1Cr+
-                    </h2>
+                <h3>
+                    SIP
+                </h3>
 
-                    <p>
-                        Investments Guided
-                    </p>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <h2>
-                        24×7
-                    </h2>
-
-                    <p>
-                        Support
-                    </p>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <h2>
-                        5★
-                    </h2>
-
-                    <p>
-                        Client Rating
-                    </p>
-
-                </div>
+                <p>
+                    Wealth Creation
+                </p>
 
             </div>
 
@@ -231,82 +263,86 @@
     <section class="market-section"
              id="market">
 
-        <div class="section-heading">
+        <div class="section-header">
 
             <h2>
                 Live Market Overview
             </h2>
 
             <p>
-                Real-time market indicators for informational purposes only.
+                Real-time market values for informational purpose only.
             </p>
 
         </div>
+
 
         <div class="market-grid">
 
             <div class="market-card">
 
-                <h3>
+                <h4>
                     NIFTY 50
-                </h3>
+                </h4>
 
                 <h1 id="nifty">
                     Loading...
                 </h1>
 
-                <span class="market-status positive">
-                    ▲ Positive
+                <span class="green">
+                    ▲ Market Positive
                 </span>
 
             </div>
 
 
+
             <div class="market-card">
 
-                <h3>
+                <h4>
                     SENSEX
-                </h3>
+                </h4>
 
                 <h1 id="sensex">
                     Loading...
                 </h1>
 
-                <span class="market-status positive">
-                    ▲ Positive
+                <span class="green">
+                    ▲ Stable Growth
                 </span>
 
             </div>
 
 
+
             <div class="market-card">
 
-                <h3>
+                <h4>
                     GOLD
-                </h3>
+                </h4>
 
                 <h1 id="gold">
                     Loading...
                 </h1>
 
-                <span class="market-status neutral">
-                    ● Stable
+                <span class="dark">
+                    ● Safe Asset
                 </span>
 
             </div>
 
 
+
             <div class="market-card">
 
-                <h3>
+                <h4>
                     USD / INR
-                </h3>
+                </h4>
 
                 <h1 id="usd">
                     Loading...
                 </h1>
 
-                <span class="market-status negative">
+                <span class="red">
                     ▼ Volatile
                 </span>
 
@@ -320,199 +356,22 @@
 
 
     <!-- SERVICES -->
-     <!-- AMC PARTNERS -->
-
-<section class="amc-section">
-
-    <div class="section-heading">
-
-        <h2>
-            Trusted AMC Partners
-        </h2>
-
-        <p>
-            Invest with India's leading Asset Management Companies.
-        </p>
-
-    </div>
-
-
-    <div class="amc-grid">
-
-        <div class="amc-card">
-
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/SBI-logo.svg"
-                 alt="SBI Mutual Fund">
-
-            <h3>
-                SBI Mutual Fund
-            </h3>
-
-        </div>
-
-
-        <div class="amc-card">
-
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/HDFC_Bank_Logo.svg"
-                 alt="HDFC Mutual Fund">
-
-            <h3>
-                HDFC Mutual Fund
-            </h3>
-
-        </div>
-
-
-        <div class="amc-card">
-
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/ICICI_Bank_Logo.svg"
-                 alt="ICICI Prudential">
-
-            <h3>
-                ICICI Prudential
-            </h3>
-
-        </div>
-
-
-        <div class="amc-card">
-
-            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/Nippon_India_Mutual_Fund_logo.png"
-                 alt="Nippon India">
-
-            <h3>
-                Nippon India
-            </h3>
-
-        </div>
-
-
-        <div class="amc-card">
-
-            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f5/Axis_Bank_logo.svg"
-                 alt="Axis Mutual Fund">
-
-            <h3>
-                Axis Mutual Fund
-            </h3>
-
-        </div>
-
-
-        <div class="amc-card">
-
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Kotak_Mahindra_Bank_logo.svg"
-                 alt="Kotak Mutual Fund">
-
-            <h3>
-                Kotak Mutual Fund
-            </h3>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-
-<!-- TOP FUNDS -->
-
-<section class="fund-section">
-
-    <div class="section-heading">
-
-        <h2>
-            Popular Investment Funds
-        </h2>
-
-        <p>
-            Explore diversified equity & hybrid mutual fund categories.
-        </p>
-
-    </div>
-
-
-    <div class="fund-grid">
-
-        <div class="fund-card">
-
-            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1200&auto=format&fit=crop"
-                 alt="Equity Fund">
-
-            <div class="fund-content">
-
-                <h3>
-                    Equity Growth Fund
-                </h3>
-
-                <p>
-                    Long-term capital appreciation focused strategy.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="fund-card">
-
-            <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop"
-                 alt="SIP Fund">
-
-            <div class="fund-content">
-
-                <h3>
-                    SIP Wealth Fund
-                </h3>
-
-                <p>
-                    Disciplined monthly investing approach.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="fund-card">
-
-            <img src="https://images.unsplash.com/photo-1579621970795-87facc2f976d?q=80&w=1200&auto=format&fit=crop"
-                 alt="Hybrid Fund">
-
-            <div class="fund-content">
-
-                <h3>
-                    Hybrid Balanced Fund
-                </h3>
-
-                <p>
-                    Equity + Debt allocation for balanced growth.
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
 
     <section class="services-section"
              id="services">
 
-        <div class="section-heading">
+        <div class="section-header">
 
             <h2>
                 Financial Services
             </h2>
 
             <p>
-                Comprehensive financial solutions for individuals & families.
+                Everything you need for smart investing & financial growth.
             </p>
 
         </div>
+
 
 
         <div class="services-grid">
@@ -528,10 +387,12 @@
                 </h3>
 
                 <p>
-                    SIP & Lump Sum investment options with professional guidance.
+                    Equity, Hybrid & Debt investment options
+                    with professional support.
                 </p>
 
             </div>
+
 
 
             <div class="service-card">
@@ -545,10 +406,12 @@
                 </h3>
 
                 <p>
-                    Goal-based investment planning with disciplined wealth creation.
+                    Goal-based SIP investing for long-term
+                    wealth creation.
                 </p>
 
             </div>
+
 
 
             <div class="service-card">
@@ -562,10 +425,12 @@
                 </h3>
 
                 <p>
-                    Health, Life & General insurance solutions for protection.
+                    Health & Life insurance solutions for
+                    financial protection.
                 </p>
 
             </div>
+
 
 
             <div class="service-card">
@@ -579,42 +444,98 @@
                 </h3>
 
                 <p>
-                    Home, Business & Personal loan support with easy process.
+                    Personal, Home & Business loan assistance
+                    with easy process.
                 </p>
 
             </div>
 
+        </div>
 
-            <div class="service-card">
+    </section>
 
-                <div class="service-icon">
-                    📊
+
+
+
+    <!-- TOP FUNDS -->
+
+    <section class="fund-section"
+             id="funds">
+
+        <div class="section-header">
+
+            <h2>
+                Investment Opportunities
+            </h2>
+
+            <p>
+                Explore popular investment categories for long-term growth.
+            </p>
+
+        </div>
+
+
+
+        <div class="fund-grid">
+
+            <div class="fund-card">
+
+                <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?q=80&w=1200&auto=format&fit=crop"
+                     alt="Equity Fund">
+
+                <div class="fund-content">
+
+                    <h3>
+                        Equity Growth Fund
+                    </h3>
+
+                    <p>
+                        Designed for long-term capital appreciation.
+                    </p>
+
                 </div>
-
-                <h3>
-                    Financial Planning
-                </h3>
-
-                <p>
-                    Long-term strategies for wealth management & retirement.
-                </p>
 
             </div>
 
 
-            <div class="service-card">
 
-                <div class="service-icon">
-                    👨‍💼
+            <div class="fund-card">
+
+                <img src="https://images.unsplash.com/photo-1579621970795-87facc2f976d?q=80&w=1200&auto=format&fit=crop"
+                     alt="SIP Fund">
+
+                <div class="fund-content">
+
+                    <h3>
+                        SIP Wealth Plan
+                    </h3>
+
+                    <p>
+                        Systematic monthly investments for disciplined growth.
+                    </p>
+
                 </div>
 
-                <h3>
-                    Tax Saving
-                </h3>
+            </div>
 
-                <p>
-                    ELSS & tax efficient planning for better financial growth.
-                </p>
+
+
+            <div class="fund-card">
+
+                <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop"
+                     alt="Hybrid Fund">
+
+                <div class="fund-content">
+
+                    <h3>
+                        Balanced Hybrid Fund
+                    </h3>
+
+                    <p>
+                        Balanced allocation between equity & debt.
+                    </p>
+
+                </div>
 
             </div>
 
@@ -630,30 +551,28 @@
     <section class="calculator-section"
              id="calculator">
 
-        <div class="section-heading">
+        <div class="section-header">
 
             <h2>
                 SIP Calculator
             </h2>
 
             <p>
-
-                Returns are illustrative based on assumed annual growth rate
-                and are not guaranteed.
-
+                Estimate future investment value based on assumed growth rate.
             </p>
 
         </div>
 
 
-        <div class="calculator-container">
+
+        <div class="calculator-wrapper">
 
             <div class="calculator-box">
 
                 <div class="input-group">
 
                     <label>
-                        Monthly Investment (₹)
+                        Monthly Investment
                     </label>
 
                     <input type="number"
@@ -661,6 +580,7 @@
                            placeholder="5000">
 
                 </div>
+
 
 
                 <div class="input-group">
@@ -676,10 +596,11 @@
                 </div>
 
 
+
                 <div class="input-group">
 
                     <label>
-                        Investment Period (Years)
+                        Time Period (Years)
                     </label>
 
                     <input type="number"
@@ -689,12 +610,14 @@
                 </div>
 
 
+
                 <button onclick="calculateSIP()"
                         class="calculate-btn">
 
                     Calculate Returns
 
                 </button>
+
 
 
                 <div class="sip-result">
@@ -709,8 +632,8 @@
 
                     <p>
 
-                        * Estimated values are illustrative and
-                        do not guarantee future returns.
+                        Returns shown are illustrative only
+                        and do not guarantee future performance.
 
                     </p>
 
@@ -720,53 +643,9 @@
 
 
 
-            <!-- SIP CHART -->
-
             <div class="chart-box">
 
                 <canvas id="sipChart"></canvas>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-
-    <!-- ABOUT -->
-
-    <section class="about-section"
-             id="about">
-
-        <div class="section-heading">
-
-            <h2>
-                About OM Financial Service
-            </h2>
-
-        </div>
-
-        <div class="about-container">
-
-            <div class="about-text">
-
-                <p>
-
-                    OM Financial Service provides professional financial
-                    guidance focused on disciplined investing, wealth
-                    creation & long-term financial growth.
-
-                </p>
-
-                <p>
-
-                    We assist clients with Mutual Funds, SIP planning,
-                    Insurance, Loans & financial awareness using a
-                    transparent and client-first approach.
-
-                </p>
 
             </div>
 
@@ -782,10 +661,10 @@
     <section class="contact-section"
              id="contact">
 
-        <div class="section-heading">
+        <div class="section-header">
 
             <h2>
-                Contact Us
+                Contact OM Financial Service
             </h2>
 
             <p>
@@ -795,7 +674,8 @@
         </div>
 
 
-        <div class="contact-container">
+
+        <div class="contact-grid">
 
             <div class="contact-card">
 
@@ -810,6 +690,7 @@
             </div>
 
 
+
             <div class="contact-card">
 
                 <h3>
@@ -817,20 +698,21 @@
                 </h3>
 
                 <p>
-                    Available 24×7
+                    Instant Chat Support
                 </p>
 
             </div>
 
 
+
             <div class="contact-card">
 
                 <h3>
-                    Service Area
+                    Investment Guidance
                 </h3>
 
                 <p>
-                    India
+                    Goal Based Planning
                 </p>
 
             </div>
@@ -866,12 +748,13 @@
 
 
 
-    <!-- WHATSAPP -->
+    <!-- FLOATING WHATSAPP -->
 
     <a href="https://wa.me/919717857755"
-       class="whatsapp-btn">
+       class="whatsapp-float">
 
-        ☎
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
+             alt="WhatsApp">
 
     </a>
 

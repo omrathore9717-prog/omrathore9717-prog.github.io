@@ -1,858 +1,316 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OM Financial Service</title>
 
-<meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<title>
-OM Financial Service
-</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-<meta name="description"
-content="Mutual Funds, SIP, LIC and Loan Services">
-
-<meta name="keywords"
-content="Mutual Funds, SIP, LIC, Loan, Finance">
-
-<meta name="robots"
-content="index, follow">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-rel="stylesheet">
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<link rel="stylesheet"
-href="style.css">
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
+  <nav class="navbar">
 
+    <div class="logo">
+      OM Financial
+    </div>
 
-<!-- HEADER -->
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#calculator">Calculator</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contact">Contact</a>
+    </div>
 
-<header>
+  </nav>
 
-<div class="logo">
 
-OM Financial Service
+  <section class="hero" id="home">
 
-</div>
+    <div class="hero-container">
 
+      <div class="hero-content">
 
+        <h1>
+          Smart <span>Investments</span><br>
+          Better Financial Future
+        </h1>
 
-<nav>
+        <p>
+          Grow your wealth with Mutual Funds, SIP Planning,
+          Insurance, LIC & Loan Services.
+        </p>
 
-<a href="#home">Home</a>
+        <div class="hero-buttons">
 
-<a href="#services">Services</a>
+          <a href="#calculator" class="btn primary-btn">
+            Start SIP
+          </a>
 
-<a href="#funds">Funds</a>
+          <a href="tel:9717857755" class="btn secondary-btn">
+            Call Now
+          </a>
 
-<a href="#calculator">Calculator</a>
+        </div>
 
-<a href="#contact">Contact</a>
+      </div>
 
-</nav>
 
+      <div class="hero-card">
 
+        <canvas id="marketChart"></canvas>
 
-<a href="https://wa.me/919717857755"
-class="header-btn">
+        <div class="stats">
 
-Invest Now
+          <div class="stat-box">
+            <h2>100+</h2>
+            <p>Clients</p>
+          </div>
 
-</a>
+          <div class="stat-box">
+            <h2>₹50L+</h2>
+            <p>Managed</p>
+          </div>
 
-</header>
+          <div class="stat-box">
+            <h2>24x7</h2>
+            <p>Support</p>
+          </div>
 
+          <div class="stat-box">
+            <h2>5★</h2>
+            <p>Rating</p>
+          </div>
 
+        </div>
 
+      </div>
 
+    </div>
 
-<!-- LIVE MARKET -->
+  </section>
 
-<section class="market-bar">
 
-<div class="market-track">
+  <div class="ticker">
 
-<span id="nifty">
+    <div class="ticker-track">
 
-Loading NIFTY...
+      <span>NIFTY ▲ 24,450</span>
+      <span>SENSEX ▲ 80,220</span>
+      <span>BANK NIFTY ▲ 52,400</span>
+      <span>Gold ▲ ₹72,000</span>
+      <span>SIP Growth ▲</span>
 
-</span>
+    </div>
 
-<span id="sensex">
+  </div>
 
-Loading SENSEX...
 
-</span>
 
-<span id="gold">
+  <section class="section" id="services">
 
-Loading GOLD...
+    <div class="section-title">
 
-</span>
+      <h2>Our Services</h2>
 
-<span id="bitcoin">
+      <p>
+        Professional financial solutions for your future.
+      </p>
 
-Loading BITCOIN...
+    </div>
 
-</span>
 
-</div>
+    <div class="services-grid">
 
-</section>
+      <div class="service-card">
+        <div class="service-icon">📈</div>
+        <h3>Mutual Funds</h3>
+        <p>Long-term wealth creation strategies.</p>
+      </div>
 
+      <div class="service-card">
+        <div class="service-icon">💰</div>
+        <h3>SIP Planning</h3>
+        <p>Build disciplined investment habits.</p>
+      </div>
 
+      <div class="service-card">
+        <div class="service-icon">🛡️</div>
+        <h3>Insurance</h3>
+        <p>Secure your family future with trusted plans.</p>
+      </div>
 
+      <div class="service-card">
+        <div class="service-icon">🏦</div>
+        <h3>Loan Services</h3>
+        <p>Fast and simple loan assistance support.</p>
+      </div>
 
+    </div>
 
-<!-- HERO -->
+  </section>
 
-<section class="hero"
-id="home">
 
-<div class="hero-left">
 
-<h1>
+  <section class="section" id="calculator">
 
-Grow Your Money Smarter.
+    <div class="section-title">
 
-</h1>
+      <h2>SIP Calculator</h2>
 
-<p>
+      <p>
+        Calculate your future investment value instantly.
+      </p>
 
-Advanced investment platform with
-Mutual Funds, SIP, LIC Insurance
-and Loan Services.
+    </div>
 
-</p>
 
+    <div class="calculator">
 
+      <div class="calc-box">
 
-<div class="hero-buttons">
+        <div class="input-group">
 
-<a href="#calculator"
-class="primary-btn">
+          <label>Monthly Investment (₹)</label>
 
-Start SIP
+          <input type="number" id="monthly" value="5000">
 
-</a>
+        </div>
 
 
+        <div class="input-group">
 
-<a href="https://wa.me/919717857755"
-class="secondary-btn">
+          <label>Expected Return (%)</label>
 
-Talk Expert
+          <input type="number" id="rate" value="12">
 
-</a>
+        </div>
 
-</div>
 
-</div>
+        <div class="input-group">
 
+          <label>Time Period (Years)</label>
 
+          <input type="number" id="years" value="10">
 
-<div class="hero-right">
+        </div>
 
-<img src="https://images.unsplash.com/photo-1559526324-593bc073d938?q=80&w=1200&auto=format&fit=crop">
+        <button class="btn primary-btn" onclick="calculateSIP()">
+          Calculate
+        </button>
 
-</div>
 
-</section>
+        <div class="result">
 
+          <h3>Estimated Wealth</h3>
 
+          <h1 id="futureValue">
+            ₹11,61,695
+          </h1>
 
+        </div>
 
+      </div>
 
-<!-- SERVICES -->
 
-<section class="services"
-id="services">
+      <div class="hero-card">
 
-<div class="section-title">
+        <canvas id="sipChart"></canvas>
 
-<h1>
+      </div>
 
-Financial Services
+    </div>
 
-</h1>
+  </section>
 
-<p>
 
-Everything in one platform
 
-</p>
+  <section class="section" id="reviews">
 
-</div>
+    <div class="section-title">
 
+      <h2>Client Reviews</h2>
 
+      <p>
+        Trusted by happy investors.
+      </p>
 
-<div class="service-grid">
+    </div>
 
 
+    <div class="testimonial-grid">
 
-<div class="service-card">
+      <div class="testimonial">
+        <p>
+          Excellent investment guidance and support.
+        </p>
+        <h4>— Rahul Sharma</h4>
+      </div>
 
-<img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1200&auto=format&fit=crop">
+      <div class="testimonial">
+        <p>
+          Very professional financial services experience.
+        </p>
+        <h4>— Priya Verma</h4>
+      </div>
 
-<h2>
+      <div class="testimonial">
+        <p>
+          Best SIP planning support and fast service.
+        </p>
+        <h4>— Amit Kumar</h4>
+      </div>
 
-Mutual Funds
+    </div>
 
-</h2>
+  </section>
 
-<p>
 
-Top investment plans for wealth creation.
 
-</p>
+  <section class="section" id="contact">
 
-</div>
+    <div class="contact-box">
 
+      <h2>
+        Start Your Investment Journey Today
+      </h2>
 
+      <p>
+        Connect with OM Financial Service today.
+      </p>
 
-<div class="service-card">
+      <a href="tel:9717857755" class="btn secondary-btn">
+        Call : 9717857755
+      </a>
 
-<img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=1200&auto=format&fit=crop">
+    </div>
 
-<h2>
+  </section>
 
-SIP Planning
 
-</h2>
 
-<p>
+  <footer class="footer">
 
-Monthly investing for future goals.
+    © 2026 OM Financial Service
 
-</p>
+  </footer>
 
-</div>
 
 
+  <a href="https://wa.me/919717857755" class="whatsapp">
+    ☎
+  </a>
 
-<div class="service-card">
-
-<img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200&auto=format&fit=crop">
-
-<h2>
-
-LIC Insurance
-
-</h2>
-
-<p>
-
-Secure your family financially.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-
-
-<!-- TRUST SECTION -->
-
-<section class="trust-section">
-
-<div class="section-title">
-
-<h1>
-
-Why Investors Trust Us
-
-</h1>
-
-<p>
-
-Smart investing with transparency.
-
-</p>
-
-</div>
-
-
-
-<div class="trust-grid">
-
-
-
-<div class="trust-card">
-
-<i class="fa-solid fa-shield-halved"></i>
-
-<h2>
-
-Safe Investments
-
-</h2>
-
-<p>
-
-Secure financial planning.
-
-</p>
-
-</div>
-
-
-
-<div class="trust-card">
-
-<i class="fa-solid fa-chart-line"></i>
-
-<h2>
-
-Market Experts
-
-</h2>
-
-<p>
-
-Professional investment guidance.
-
-</p>
-
-</div>
-
-
-
-<div class="trust-card">
-
-<i class="fa-solid fa-headset"></i>
-
-<h2>
-
-24×7 Support
-
-</h2>
-
-<p>
-
-Easy support anytime.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-
-
-<!-- MUTUAL FUNDS -->
-
-<section class="funds"
-id="funds">
-
-<div class="section-title">
-
-<h1>
-
-India Top Mutual Funds
-
-</h1>
-
-<p>
-
-Trusted and high performing funds.
-
-</p>
-
-</div>
-
-
-
-<div id="fundContainer">
-
-
-
-<div class="fund-card">
-
-<img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop">
-
-<h2>
-
-Parag Parikh Flexi Cap Fund
-
-</h2>
-
-<p>
-
-Flexi Cap Wealth Growth
-
-</p>
-
-<button>
-
-Invest Now
-
-</button>
-
-</div>
-
-
-
-<div class="fund-card">
-
-<img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1200&auto=format&fit=crop">
-
-<h2>
-
-SBI Small Cap Fund
-
-</h2>
-
-<p>
-
-High Growth Small Cap
-
-</p>
-
-<button>
-
-Invest Now
-
-</button>
-
-</div>
-
-
-
-<div class="fund-card">
-
-<img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop">
-
-<h2>
-
-Axis Bluechip Fund
-
-</h2>
-
-<p>
-
-Large Cap Equity Fund
-
-</p>
-
-<button>
-
-Invest Now
-
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-
-
-<!-- SIP CALCULATOR -->
-
-<section class="calculator"
-id="calculator">
-
-<div class="section-title">
-
-<h1>
-
-Advanced SIP Calculator
-
-</h1>
-
-<p>
-
-Calculate future returns instantly.
-
-</p>
-
-</div>
-
-
-
-<div class="calculator-grid">
-
-
-
-<div class="calc-box">
-
-<input type="number"
-id="sipAmount"
-placeholder="Monthly SIP Amount">
-
-<input type="number"
-id="sipYears"
-placeholder="Investment Years">
-
-<input type="number"
-id="sipRate"
-placeholder="Expected Return Rate (%)">
-
-<button onclick="calculateSIP()">
-
-Calculate Returns
-
-</button>
-
-<div id="sipResult"></div>
-
-</div>
-
-
-
-<div class="chart-box">
-
-<canvas id="sipChart"></canvas>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-
-
-<!-- EMI CALCULATOR -->
-
-<section class="calculator">
-
-<div class="section-title">
-
-<h1>
-
-EMI Calculator
-
-</h1>
-
-<p>
-
-Calculate monthly loan EMI.
-
-</p>
-
-</div>
-
-
-
-<div class="calc-box">
-
-<input type="number"
-id="loanAmount"
-placeholder="Loan Amount">
-
-<input type="number"
-id="loanRate"
-placeholder="Interest Rate">
-
-<input type="number"
-id="loanYears"
-placeholder="Loan Years">
-
-<button onclick="calculateEMI()">
-
-Calculate EMI
-
-</button>
-
-<div id="emiResult"></div>
-
-</div>
-
-</section>
-
-
-
-
-
-<!-- TESTIMONIALS -->
-
-<section class="testimonial-section">
-
-<div class="section-title">
-
-<h1>
-
-Client Reviews
-
-</h1>
-
-<p>
-
-Trusted by investors.
-
-</p>
-
-</div>
-
-
-
-<div class="testimonial-grid">
-
-
-
-<div class="testimonial-card">
-
-<img src="https://randomuser.me/api/portraits/men/32.jpg">
-
-<h2>
-
-Rahul Sharma
-
-</h2>
-
-<p>
-
-Best investment guidance.
-
-</p>
-
-</div>
-
-
-
-<div class="testimonial-card">
-
-<img src="https://randomuser.me/api/portraits/women/44.jpg">
-
-<h2>
-
-Priya Mehta
-
-</h2>
-
-<p>
-
-Easy and trusted process.
-
-</p>
-
-</div>
-
-
-
-<div class="testimonial-card">
-
-<img src="https://randomuser.me/api/portraits/men/76.jpg">
-
-<h2>
-
-Amit Verma
-
-</h2>
-
-<p>
-
-Professional support service.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-
-
-<!-- FAQ -->
-
-<section class="faq-section">
-
-<div class="section-title">
-
-<h1>
-
-Frequently Asked Questions
-
-</h1>
-
-</div>
-
-
-
-<div class="faq-box">
-
-<details>
-
-<summary>
-
-What is SIP?
-
-</summary>
-
-<p>
-
-SIP means monthly investment in mutual funds.
-
-</p>
-
-</details>
-
-
-
-<details>
-
-<summary>
-
-Can I start with ₹500?
-
-</summary>
-
-<p>
-
-Yes, many SIP plans start from ₹500.
-
-</p>
-
-</details>
-
-</div>
-
-</section>
-
-
-
-
-
-<!-- CONTACT -->
-
-<section class="contact"
-id="contact">
-
-<div class="section-title">
-
-<h1>
-
-Contact Us
-
-</h1>
-
-<p>
-
-Start your investment journey today.
-
-</p>
-
-</div>
-
-
-
-<form
-action="https://formsubmit.co/satish.p.capital@gmail.com"
-method="POST">
-
-<input type="hidden"
-name="_captcha"
-value="false">
-
-
-
-<div class="form-grid">
-
-<input type="text"
-placeholder="Full Name"
-required>
-
-<input type="email"
-placeholder="Email Address"
-required>
-
-</div>
-
-
-
-<div class="form-grid">
-
-<input type="tel"
-placeholder="Mobile Number">
-
-<input type="text"
-placeholder="City">
-
-</div>
-
-
-
-<textarea
-placeholder="Your Financial Goals"></textarea>
-
-<button type="submit">
-
-Submit Details
-
-</button>
-
-</form>
-
-</section>
-
-
-
-
-
-<!-- FOOTER -->
-
-<footer>
-
-<h2>
-
-OM Financial Service
-
-</h2>
-
-<p>
-
-© 2026 All Rights Reserved
-
-</p>
-
-</footer>
-
-
-
-
-
-<!-- WHATSAPP -->
-
-<a href="https://wa.me/919717857755"
-class="whatsapp">
-
-<i class="fa-brands fa-whatsapp"></i>
-
-</a>
-
-
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 
 </body>
 </html>

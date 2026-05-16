@@ -1,4 +1,6 @@
+// =========================
 // NAVBAR EFFECT
+// =========================
 
 window.addEventListener("scroll",()=>{
 
@@ -7,20 +9,23 @@ window.addEventListener("scroll",()=>{
 
     if(window.scrollY > 50){
 
-        navbar.style.boxShadow =
-        "0 10px 30px rgba(0,0,0,0.08)";
-
         navbar.style.background =
-        "rgba(255,255,255,0.98)";
+        "rgba(255,255,255,0.75)";
+
+        navbar.style.backdropFilter =
+        "blur(20px)";
+
+        navbar.style.boxShadow =
+        "0 10px 40px rgba(0,0,0,0.05)";
     }
 
     else{
 
+        navbar.style.background =
+        "rgba(255,255,255,0.55)";
+
         navbar.style.boxShadow =
         "none";
-
-        navbar.style.background =
-        "rgba(255,255,255,0.92)";
     }
 
 });
@@ -28,7 +33,9 @@ window.addEventListener("scroll",()=>{
 
 
 
+// =========================
 // LIVE MARKET DATA
+// =========================
 
 const nifty =
 document.getElementById("nifty");
@@ -46,13 +53,13 @@ document.getElementById("usd");
 function updateMarketData(){
 
     const niftyValue =
-    (24500 + Math.random() * 400).toFixed(2);
+    (24500 + Math.random()*300).toFixed(2);
 
     const sensexValue =
-    (80500 + Math.random() * 500).toFixed(2);
+    (80500 + Math.random()*500).toFixed(2);
 
     const goldValue =
-    (72500 + Math.random() * 600).toFixed(2);
+    (72500 + Math.random()*700).toFixed(2);
 
     const usdValue =
     (83 + Math.random()).toFixed(2);
@@ -80,7 +87,9 @@ setInterval(updateMarketData,3000);
 
 
 
+// =========================
 // SIP CALCULATOR
+// =========================
 
 function calculateSIP(){
 
@@ -162,7 +171,9 @@ function calculateSIP(){
 
 
 
+// =========================
 // SIP CHART
+// =========================
 
 const sipChart =
 document.getElementById("sipChart");
@@ -185,7 +196,7 @@ const chart = new Chart(sipChart,{
 
             backgroundColor:[
                 "#111111",
-                "#d1d5db"
+                "#d9d9d9"
             ],
 
             borderWidth:0
@@ -203,7 +214,6 @@ const chart = new Chart(sipChart,{
             legend:{
 
                 position:"bottom"
-
             }
 
         }
@@ -231,7 +241,9 @@ function updateChart(
 
 
 
+// =========================
 // PORTFOLIO CHART
+// =========================
 
 const portfolioChart =
 document.getElementById("portfolioChart");
@@ -261,14 +273,14 @@ new Chart(portfolioChart,{
                 5,
                 7,
                 10,
-                12,
-                16
+                14,
+                18
             ],
 
             borderColor:"#111111",
 
             backgroundColor:
-            "rgba(0,0,0,0.05)",
+            "rgba(0,0,0,0.04)",
 
             fill:true,
 
@@ -302,7 +314,7 @@ new Chart(portfolioChart,{
 
             y:{
                 grid:{
-                    color:"#eeeeee"
+                    color:"#ececec"
                 }
             }
 
@@ -315,7 +327,9 @@ new Chart(portfolioChart,{
 
 
 
-// CARD ANIMATION
+// =========================
+// REVEAL ANIMATION
+// =========================
 
 const cards =
 
@@ -326,20 +340,20 @@ document.querySelectorAll(
  .testimonial-card,\
  .faq-box,\
  .contact-card,\
- .amc-card"
+ .top-amc-card"
 
 );
 
 
 function revealCards(){
 
-    cards.forEach(card => {
+    cards.forEach(card=>{
 
         const top =
         card.getBoundingClientRect().top;
 
         if(
-            top < window.innerHeight - 80
+            top < window.innerHeight - 100
         ){
 
             card.style.opacity =
@@ -354,7 +368,7 @@ function revealCards(){
 }
 
 
-cards.forEach(card => {
+cards.forEach(card=>{
 
     card.style.opacity =
     "0";
@@ -364,7 +378,6 @@ cards.forEach(card => {
 
     card.style.transition =
     "0.8s ease";
-
 });
 
 
@@ -378,7 +391,9 @@ revealCards();
 
 
 
-// FLOATING ANIMATION
+// =========================
+// FLOATING CARD ANIMATION
+// =========================
 
 const floatingCards =
 document.querySelectorAll(".floating-card");
@@ -401,9 +416,12 @@ floatingCards.forEach((card,index)=>{
 
 
 
-// BUTTON EFFECT
+// =========================
+// BUTTON HOVER EFFECT
+// =========================
 
 const buttons =
+
 document.querySelectorAll(
 
 ".primary-btn,\
@@ -440,7 +458,9 @@ buttons.forEach(button=>{
 
 
 
+// =========================
 // AUTO DEFAULT SIP VALUES
+// =========================
 
 window.onload = ()=>{
 
@@ -463,29 +483,9 @@ window.onload = ()=>{
 
 
 
-// MOBILE MENU SIMPLE FIX
-
-const navLinks =
-document.querySelector(".nav-links");
-
-
-window.addEventListener(
-    "resize",
-    ()=>{
-
-        if(window.innerWidth > 1100){
-
-            navLinks.style.display =
-            "flex";
-        }
-
-    }
-);
-
-
-
-
-// SMOOTH ACTIVE LINK
+// =========================
+// ACTIVE NAVBAR LINK
+// =========================
 
 const sections =
 document.querySelectorAll("section");
@@ -533,7 +533,9 @@ window.addEventListener("scroll",()=>{
 
 
 
-// LOADING EFFECT
+// =========================
+// BODY FADE LOADER
+// =========================
 
 window.addEventListener("load",()=>{
 
@@ -547,3 +549,146 @@ document.body.style.opacity =
 
 document.body.style.transition =
 "0.6s ease";
+
+
+
+
+// =========================
+// CURSOR GLOW EFFECT
+// =========================
+
+const glow =
+document.createElement("div");
+
+document.body.appendChild(glow);
+
+glow.style.position = "fixed";
+glow.style.width = "250px";
+glow.style.height = "250px";
+glow.style.borderRadius = "50%";
+glow.style.background =
+"rgba(0,0,0,0.05)";
+glow.style.pointerEvents = "none";
+glow.style.filter = "blur(60px)";
+glow.style.zIndex = "0";
+glow.style.transform =
+"translate(-50%,-50%)";
+
+
+document.addEventListener("mousemove",(e)=>{
+
+    glow.style.left =
+    e.clientX + "px";
+
+    glow.style.top =
+    e.clientY + "px";
+
+});
+
+
+
+
+// =========================
+// PARALLAX HERO
+// =========================
+
+window.addEventListener("scroll",()=>{
+
+    const scroll =
+    window.pageYOffset;
+
+    const hero =
+    document.querySelector(".hero");
+
+    hero.style.backgroundPositionY =
+    scroll * 0.5 + "px";
+
+});
+
+
+
+
+// =========================
+// COUNTER ANIMATION
+// =========================
+
+function animateCounter(
+    element,
+    target
+){
+
+    let current = 0;
+
+    const increment =
+    target / 100;
+
+    const timer =
+    setInterval(()=>{
+
+        current += increment;
+
+        if(current >= target){
+
+            current = target;
+
+            clearInterval(timer);
+        }
+
+        element.innerHTML =
+        Math.floor(current);
+
+    },20);
+
+}
+
+
+
+
+// =========================
+// PREMIUM PAGE INTERACTION
+// =========================
+
+const allCards =
+document.querySelectorAll(
+
+".market-card,\
+ .service-card,\
+ .testimonial-card,\
+ .top-amc-card,\
+ .faq-box,\
+ .contact-card"
+
+);
+
+
+allCards.forEach(card=>{
+
+    card.addEventListener("mousemove",(e)=>{
+
+        const rect =
+        card.getBoundingClientRect();
+
+        const x =
+        e.clientX - rect.left;
+
+        const y =
+        e.clientY - rect.top;
+
+        card.style.background =
+        `radial-gradient(
+            circle at ${x}px ${y}px,
+            rgba(255,255,255,0.95),
+            rgba(255,255,255,0.55)
+        )`;
+
+    });
+
+
+    card.addEventListener("mouseleave",()=>{
+
+        card.style.background =
+        "rgba(255,255,255,0.55)";
+
+    });
+
+});

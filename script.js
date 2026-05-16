@@ -1,135 +1,405 @@
-// LIVE MARKET VALUES
+// MOBILE MENU
 
-const nifty = document.getElementById("nifty");
-const sensex = document.getElementById("sensex");
-const gold = document.getElementById("gold");
+const menuBtn =
+document.querySelector(".menu-btn");
 
-function updateMarket() {
+const navLinks =
+document.querySelector(".nav-links");
+
+menuBtn.addEventListener("click", () => {
+
+    navLinks.classList.toggle("active");
+
+});
+
+
+
+
+// LIVE MARKET DATA
+
+const nifty =
+document.getElementById("nifty");
+
+const sensex =
+document.getElementById("sensex");
+
+const gold =
+document.getElementById("gold");
+
+const usd =
+document.getElementById("usd");
+
+function updateMarketData(){
 
     const niftyValue =
-        (22000 + Math.random() * 500).toFixed(2);
+    (24500 + Math.random() * 300).toFixed(2);
 
     const sensexValue =
-        (72000 + Math.random() * 1000).toFixed(2);
+    (80500 + Math.random() * 500).toFixed(2);
 
     const goldValue =
-        (72000 + Math.random() * 500).toFixed(2);
+    (72500 + Math.random() * 700).toFixed(2);
 
-    nifty.innerHTML = niftyValue;
+    const usdValue =
+    (83 + Math.random()).toFixed(2);
 
-    sensex.innerHTML = sensexValue;
+
+    nifty.innerHTML =
+    niftyValue;
+
+    sensex.innerHTML =
+    sensexValue;
 
     gold.innerHTML =
-        "₹" + goldValue;
+    "₹" + goldValue;
+
+    usd.innerHTML =
+    "₹" + usdValue;
+
 }
 
-updateMarket();
+updateMarketData();
 
-setInterval(updateMarket, 3000);
+setInterval(updateMarketData,3000);
+
+
 
 
 // SIP CALCULATOR
 
-function calculateSIP() {
+function calculateSIP(){
 
     const amount =
-        document.getElementById("amount").value;
-
-    const years =
-        document.getElementById("years").value;
-
-    const result =
-        document.getElementById("result");
-
-    if (amount === "" || years === "") {
-
-        result.innerHTML =
-            "Please Enter Values";
-
-        return;
-    }
-
-    const monthlyInvestment =
-        parseFloat(amount);
-
-    const investmentYears =
-        parseFloat(years);
+    parseFloat(
+        document.getElementById("sipAmount").value
+    );
 
     const rate =
-        12 / 100 / 12;
+    parseFloat(
+        document.getElementById("sipRate").value
+    );
+
+    const years =
+    parseFloat(
+        document.getElementById("sipYears").value
+    );
+
+    const result =
+    document.getElementById("sipResult");
+
+
+    if(
+        isNaN(amount) ||
+        isNaN(rate) ||
+        isNaN(years)
+    ){
+
+        result.innerHTML =
+        "Please Enter Values";
+
+        return;
+
+    }
+
+
+    const monthlyRate =
+    rate / 12 / 100;
 
     const months =
-        investmentYears * 12;
+    years * 12;
 
-    const maturity =
-        monthlyInvestment *
-        (((Math.pow(1 + rate, months)) - 1) / rate) *
-        (1 + rate);
+
+    const maturityValue =
+
+    amount *
+
+    (
+        (
+            Math.pow(
+                1 + monthlyRate,
+                months
+            ) - 1
+        ) / monthlyRate
+    )
+
+    *
+
+    (
+        1 + monthlyRate
+    );
+
 
     result.innerHTML =
-        "Expected Return: ₹" +
-        maturity.toFixed(0);
+
+    "₹" +
+
+    Math.round(
+        maturityValue
+    ).toLocaleString();
+
+
+    updateChart(
+        amount * months,
+        maturityValue - (amount * months)
+    );
+
 }
 
 
-// NAVBAR SHADOW EFFECT
 
-window.addEventListener("scroll", function () {
+
+// SIP CHART
+
+const sipChart =
+document.getElementById("sipChart");
+
+const chart = new Chart(sipChart, {
+
+    type:"doughnut",
+
+    data:{
+
+        labels:[
+            "Invested Amount",
+            "Estimated Growth"
+        ],
+
+        datasets:[{
+
+            data:[50,50],
+
+            backgroundColor:[
+                "#111111",
+                "#d1d5db"
+            ],
+
+            borderWidth:0
+
+        }]
+
+    },
+
+    options:{
+
+        responsive:true,
+
+        plugins:{
+
+            legend:{
+
+                position:"bottom"
+
+            }
+
+        }
+
+    }
+
+});
+
+
+
+function updateChart(
+    invested,
+    returns
+){
+
+    chart.data.datasets[0].data = [
+        invested,
+        returns
+    ];
+
+    chart.update();
+
+}
+
+
+
+
+// PORTFOLIO CHART
+
+const portfolioChart =
+document.getElementById("portfolioChart");
+
+new Chart(portfolioChart,{
+
+    type:"line",
+
+    data:{
+
+        labels:[
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun"
+        ],
+
+        datasets:[{
+
+            label:"Portfolio Growth",
+
+            data:[
+                4,
+                6,
+                8,
+                7,
+                10,
+                14
+            ],
+
+            borderColor:"#111111",
+
+            backgroundColor:"rgba(0,0,0,0.05)",
+
+            fill:true,
+
+            tension:0.4
+
+        }]
+
+    },
+
+    options:{
+
+        responsive:true,
+
+        plugins:{
+
+            legend:{
+                display:false
+            }
+
+        },
+
+        scales:{
+
+            x:{
+                grid:{
+                    display:false
+                }
+            },
+
+            y:{
+                grid:{
+                    color:"#eeeeee"
+                }
+            }
+
+        }
+
+    }
+
+});
+
+
+
+
+// NAVBAR EFFECT
+
+window.addEventListener("scroll", () => {
 
     const navbar =
-        document.querySelector(".navbar");
+    document.querySelector(".navbar");
 
-    if (window.scrollY > 50) {
-
-        navbar.style.background =
-            "#000";
+    if(window.scrollY > 50){
 
         navbar.style.boxShadow =
-            "0 0 20px rgba(255,255,255,0.08)";
+        "0 10px 30px rgba(0,0,0,0.08)";
+
     }
 
-    else {
-
-        navbar.style.background =
-            "rgba(0,0,0,0.85)";
+    else{
 
         navbar.style.boxShadow =
-            "none";
+        "none";
+
     }
+
 });
+
+
 
 
 // SCROLL ANIMATION
 
-const cards =
-    document.querySelectorAll(
-        ".service-card, .market-card, .glass-card"
-    );
+const animatedCards =
 
-window.addEventListener("scroll", () => {
+document.querySelectorAll(
 
-    cards.forEach((card) => {
+    ".service-card,\
+     .market-card,\
+     .fund-card,\
+     .amc-card,\
+     .contact-card,\
+     .stat-card"
 
-        const cardTop =
-            card.getBoundingClientRect().top;
+);
 
-        if (cardTop < window.innerHeight - 100) {
+
+function revealCards(){
+
+    animatedCards.forEach(card => {
+
+        const top =
+        card.getBoundingClientRect().top;
+
+        if(
+            top < window.innerHeight - 80
+        ){
 
             card.style.opacity = "1";
 
             card.style.transform =
-                "translateY(0px)";
-        }
-    });
-});
+            "translateY(0px)";
 
-cards.forEach((card) => {
+        }
+
+    });
+
+}
+
+
+animatedCards.forEach(card => {
 
     card.style.opacity = "0";
 
     card.style.transform =
-        "translateY(40px)";
+    "translateY(50px)";
 
     card.style.transition =
-        "0.8s ease";
+    "0.8s ease";
+
 });
+
+
+window.addEventListener(
+    "scroll",
+    revealCards
+);
+
+revealCards();
+
+
+
+
+// AUTO SIP EXAMPLE
+
+window.onload = () => {
+
+    document.getElementById(
+        "sipAmount"
+    ).value = 5000;
+
+    document.getElementById(
+        "sipRate"
+    ).value = 12;
+
+    document.getElementById(
+        "sipYears"
+    ).value = 10;
+
+    calculateSIP();
+
+};

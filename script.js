@@ -38,10 +38,9 @@ window.addEventListener("scroll",()=>{
 // =========================
 
 const marketItems = [
-    {symbol: '%5ENSEI', valueId: 'nifty-value', changeId: 'nifty-change'},
-    {symbol: '%5EBSESN', valueId: 'sensex-value', changeId: 'sensex-change'},
-    {symbol: '%5ENSEBANK', valueId: 'banknifty-value', changeId: 'banknifty-change'},
-    {symbol: 'INR%3DX', valueId: 'usd-value', changeId: 'usd-change'}
+    {symbol: '^NSEI', valueId: 'nifty-value', changeId: 'nifty-change', tickerId: 'ticker-nifty'},
+    {symbol: '^BSESN', valueId: 'sensex-value', changeId: 'sensex-change', tickerId: 'ticker-sensex'},
+    {symbol: 'INR=X', valueId: 'usd-value', changeId: 'usd-change', tickerId: 'ticker-usd'}
 ];
 
 const goldValue = document.getElementById('gold-value');
@@ -56,28 +55,36 @@ function setMarketLoading() {
     marketItems.forEach(item => {
         const valueEl = document.getElementById(item.valueId);
         const changeEl = document.getElementById(item.changeId);
+        const tickerEl = document.getElementById(item.tickerId);
         if(valueEl) valueEl.innerText = 'Loading...';
         if(changeEl) changeEl.innerText = 'Fetching...';
+        if(tickerEl) tickerEl.innerText = 'Loading...';
     });
     if(goldValue) goldValue.innerText = 'Loading...';
     if(goldChange) goldChange.innerText = 'Fetching...';
+    const tickerGold = document.getElementById('ticker-gold');
+    if(tickerGold) tickerGold.innerText = 'Loading...';
 }
 
 function setMarketError() {
     marketItems.forEach(item => {
         const valueEl = document.getElementById(item.valueId);
         const changeEl = document.getElementById(item.changeId);
+        const tickerEl = document.getElementById(item.tickerId);
         if(valueEl) valueEl.innerText = 'Market data unavailable';
         if(changeEl) changeEl.innerText = '';
+        if(tickerEl) tickerEl.innerText = 'Market data unavailable';
     });
     if(goldValue) goldValue.innerText = 'Market data unavailable';
     if(goldChange) goldChange.innerText = '';
+    const tickerGold = document.getElementById('ticker-gold');
+    if(tickerGold) tickerGold.innerText = 'Market data unavailable';
 }
 
 async function fetchMarketData() {
     setMarketLoading();
     try {
-        const symbols = marketItems.map(item => item.symbol).join(',');
+        const symbols = marketItems.map(item => encodeURIComponent(item.symbol)).join(',');
         const quoteUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://query1.finance.yahoo.com/v7/finance/quote?symbols=' + symbols);
         const quoteResp = await fetch(quoteUrl);
         if(!quoteResp.ok) throw new Error('Quote fetch failed');
@@ -85,20 +92,27 @@ async function fetchMarketData() {
         const quotes = quoteJson.quoteResponse?.result || [];
 
         marketItems.forEach(item => {
-            const quote = quotes.find(q => q.symbol === decodeURIComponent(item.symbol));
+            const quote = quotes.find(q => q.symbol === item.symbol);
             const valueEl = document.getElementById(item.valueId);
             const changeEl = document.getElementById(item.changeId);
+            const tickerEl = document.getElementById(item.tickerId);
 
             if(!quote || typeof quote.regularMarketPrice !== 'number') {
                 if(valueEl) valueEl.innerText = 'Market data unavailable';
                 if(changeEl) changeEl.innerText = '';
+                if(tickerEl) tickerEl.innerText = 'Market data unavailable';
                 return;
             }
 
             const price = quote.regularMarketPrice;
             const change = quote.regularMarketChange || 0;
             const percent = quote.regularMarketChangePercent || 0;
-            if(valueEl) valueEl.innerText = item.symbol === 'INR%3DX' ? '₹' + price.toFixed(4) : price.toLocaleString('en-IN', {maximumFractionDigits: 2});
+            const formattedValue = item.symbol === 'INR=X'
+                ? '₹' + price.toFixed(4)
+                : price.toLocaleString('en-IN', {maximumFractionDigits: 2});
+
+            if(valueEl) valueEl.innerText = formattedValue;
+            if(tickerEl) tickerEl.innerText = formattedValue;
             if(changeEl) {
                 changeEl.innerText = formatChange(change, percent);
                 changeEl.className = 'market-detail ' + (change > 0 ? 'positive' : change < 0 ? 'negative' : 'neutral');
@@ -107,7 +121,6 @@ async function fetchMarketData() {
 
         const usdQuote = quotes.find(q => q.symbol === 'INR=X');
         const usdRate = usdQuote?.regularMarketPrice;
-
         if(!usdRate || typeof usdRate !== 'number') {
             throw new Error('USD/INR unavailable');
         }
@@ -115,20 +128,25 @@ async function fetchMarketData() {
         const goldResp = await fetch('https://api.metals.live/v1/spot/gold');
         if(!goldResp.ok) throw new Error('Gold fetch failed');
         const goldJson = await goldResp.json();
-        const goldPriceUSD = Array.isArray(goldJson) ? (typeof goldJson[0] === 'object' ? goldJson[0].price : goldJson[0]) : null;
+        const goldQuote = Array.isArray(goldJson) ? goldJson[0] : goldJson;
+        const goldPriceUSD = typeof goldQuote === 'object' ? goldQuote.price : goldQuote;
+        const goldPreviousUSD = Array.isArray(goldJson) && goldJson[1] ? (typeof goldJson[1] === 'object' ? goldJson[1].price : goldJson[1]) : null;
+
         if(!goldPriceUSD || typeof goldPriceUSD !== 'number') {
             throw new Error('Gold price unavailable');
         }
 
         const goldInrPer10g = goldPriceUSD * usdRate / 31.1035 * 10;
+        const goldChangeAmount = goldPreviousUSD ? (goldPriceUSD - goldPreviousUSD) * usdRate / 31.1035 * 10 : 0;
+        const goldPercent = goldPreviousUSD ? (goldChangeAmount / (goldPreviousUSD * usdRate / 31.1035 * 10)) * 100 : 0;
+
         if(goldValue) goldValue.innerText = '₹' + goldInrPer10g.toFixed(2);
         if(goldChange) {
-            const lastGold = goldPriceUSD * usdRate / 31.1035 * 9.9; // approximate change fallback
-            const diff = goldInrPer10g - lastGold;
-            const pct = (diff / lastGold) * 100;
-            goldChange.innerText = formatChange(diff, pct);
-            goldChange.className = 'market-detail ' + (diff > 0 ? 'positive' : diff < 0 ? 'negative' : 'neutral');
+            goldChange.innerText = goldPreviousUSD ? formatChange(goldChangeAmount, goldPercent) : '•';
+            goldChange.className = 'market-detail ' + (goldChangeAmount > 0 ? 'positive' : goldChangeAmount < 0 ? 'negative' : 'neutral');
         }
+        const tickerGold = document.getElementById('ticker-gold');
+        if(tickerGold) tickerGold.innerText = '₹' + goldInrPer10g.toFixed(2);
     } catch (error) {
         console.error('Market fetch error', error);
         setMarketError();

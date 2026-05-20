@@ -496,6 +496,193 @@ function calculateLumpsum(){
     if(resultEl) resultEl.innerText = '₹' + Math.round(M).toLocaleString();
 }
 
+const screenerFunds = [
+    { name: 'Alpha Growth Fund', category: 'Large Cap', returns: '18.4%', aum: '₹9,200 Cr', description: 'Stable bluechip performance for long-term growth.' },
+    { name: 'Emerging Leaders', category: 'Mid Cap', returns: '22.1%', aum: '₹5,800 Cr', description: 'High potential mid cap portfolio with momentum.' },
+    { name: 'Future Bluechip', category: 'Small Cap', returns: '24.7%', aum: '₹3,200 Cr', description: 'Aggressive growth fund for future leaders.' },
+    { name: 'Secure Income Fund', category: 'Debt Funds', returns: '8.2%', aum: '₹7,400 Cr', description: 'Low volatility debt fund for steady income.' },
+    { name: 'Tax Saver ELSS', category: 'ELSS', returns: '15.6%', aum: '₹4,900 Cr', description: 'Tax-efficient equity-linked savings with growth.' },
+    { name: 'Balanced Advantage', category: 'Hybrid', returns: '13.2%', aum: '₹6,800 Cr', description: 'Hybrid strategy for disciplined risk management.' }
+];
+
+function renderScreener(funds){
+    const grid = document.getElementById('screenerGrid');
+    if(!grid) return;
+    grid.innerHTML = funds.map(fund => `
+        <div class="screener-card">
+            <h4>${fund.name}</h4>
+            <span>${fund.category}</span>
+            <p>${fund.description}</p>
+            <div class="fund-stats"><span>Returns ${fund.returns}</span><span>AUM ${fund.aum}</span></div>
+            <button class="secondary-btn">View Fund</button>
+        </div>
+    `).join('');
+}
+
+function updateScreener(){
+    const search = document.getElementById('screenerSearch');
+    const term = search?.value.toLowerCase() || '';
+    const activeChip = document.querySelector('.chip.active');
+    const filter = activeChip ? activeChip.dataset.filter : 'all';
+
+    const filtered = screenerFunds.filter(fund => {
+        const matchesTerm = fund.name.toLowerCase().includes(term) || fund.category.toLowerCase().includes(term) || fund.description.toLowerCase().includes(term);
+        const matchesFilter = filter === 'all' || fund.category === filter;
+        return matchesTerm && matchesFilter;
+    });
+    renderScreener(filtered);
+}
+
+function initializeScreener(){
+    renderScreener(screenerFunds);
+    const search = document.getElementById('screenerSearch');
+    const chips = document.querySelectorAll('.chip');
+    if(search){
+        search.addEventListener('input', updateScreener);
+    }
+    chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            chips.forEach(other => other.classList.remove('active'));
+            chip.classList.add('active');
+            updateScreener();
+        });
+    });
+}
+
+function calculateRiskProfile(){
+    const riskResult = document.getElementById('riskResult');
+    const horizon = document.querySelector('input[name="horizon"]:checked');
+    const tolerance = document.querySelector('input[name="riskTolerance"]:checked');
+    const goalType = document.querySelector('input[name="goalType"]:checked');
+
+    if(!horizon || !tolerance || !goalType){
+        if(riskResult) riskResult.innerText = 'Please answer all questions to get your profile.';
+        return;
+    }
+
+    let score = 0;
+    [horizon.value, tolerance.value, goalType.value].forEach(value => {
+        if(value === 'conservative') score += 1;
+        if(value === 'moderate') score += 2;
+        if(value === 'aggressive') score += 3;
+    });
+
+    let profile = 'Balanced Investor';
+    let detail = 'A balanced strategy combining growth and stability.';
+    if(score <= 4){
+        profile = 'Conservative Investor';
+        detail = 'Your preference is for steady savings and lower risk exposure.';
+    } else if(score >= 7){
+        profile = 'Aggressive Investor';
+        detail = 'You are comfortable with higher volatility for stronger long-term returns.';
+    }
+
+    if(riskResult) riskResult.innerText = `${profile} — ${detail}`;
+}
+
+function downloadReport(title, body){
+    if(window.jsPDF){
+        const doc = new window.jsPDF();
+        doc.setFontSize(22);
+        doc.text(title, 20, 30);
+        doc.setFontSize(14);
+        doc.text(body, 20, 50);
+        doc.save(`${title.replace(/\s+/g, '_')}.pdf`);
+    } else {
+        alert(`Download ready: ${title}`);
+    }
+}
+
+window.addEventListener('load', initializeScreener);
+
+function calculateRetirement(){
+    const currentAge = parseFloat(document.getElementById('retireCurrentAge').value);
+    const retireAge = parseFloat(document.getElementById('retireAge').value);
+    const monthly = parseFloat(document.getElementById('retireMonthly').value);
+    const rate = parseFloat(document.getElementById('retireReturn').value);
+
+    const corpusEl = document.getElementById('retireCorpus');
+    const futureEl = document.getElementById('retireFuture');
+    const growthEl = document.getElementById('retireGrowth');
+
+    if(isNaN(currentAge) || isNaN(retireAge) || isNaN(monthly) || isNaN(rate) || retireAge <= currentAge){
+        if(corpusEl) corpusEl.innerText = 'Enter valid values';
+        if(futureEl) futureEl.innerText = '—';
+        if(growthEl) growthEl.innerText = '—';
+        return;
+    }
+
+    const years = retireAge - currentAge;
+    const months = years * 12;
+    const monthlyRate = rate / 12 / 100;
+    const futureValue = monthlyRate === 0
+        ? monthly * months
+        : monthly * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+    const invested = monthly * months;
+    const growth = futureValue - invested;
+
+    if(corpusEl) corpusEl.innerText = '₹' + Math.round(invested).toLocaleString();
+    if(futureEl) futureEl.innerText = '₹' + Math.round(futureValue).toLocaleString();
+    if(growthEl) growthEl.innerText = '₹' + Math.round(growth).toLocaleString();
+}
+
+function calculateEducation(){
+    const childAge = parseFloat(document.getElementById('childAge').value);
+    const target = parseFloat(document.getElementById('childTarget').value);
+    const years = parseFloat(document.getElementById('childYears').value);
+
+    const corpusEl = document.getElementById('childCorpus');
+    const futureEl = document.getElementById('childFuture');
+    const growthEl = document.getElementById('childGrowth');
+
+    if(isNaN(childAge) || isNaN(target) || isNaN(years) || years <= 0){
+        if(corpusEl) corpusEl.innerText = 'Enter valid values';
+        if(futureEl) futureEl.innerText = '—';
+        if(growthEl) growthEl.innerText = '—';
+        return;
+    }
+
+    const annualRate = 0.09;
+    const monthlyRate = annualRate / 12;
+    const months = years * 12;
+    const monthlySip = target * monthlyRate / (Math.pow(1 + monthlyRate, months) - 1);
+    const invested = monthlySip * months;
+    const growth = target - invested;
+
+    if(corpusEl) corpusEl.innerText = '₹' + Math.round(target).toLocaleString();
+    if(futureEl) futureEl.innerText = '₹' + Math.round(monthlySip).toLocaleString();
+    if(growthEl) growthEl.innerText = '₹' + Math.round(growth).toLocaleString();
+}
+
+function calculateWealthBuilder(){
+    const monthly = parseFloat(document.getElementById('wealthMonthly').value);
+    const years = parseFloat(document.getElementById('wealthYears').value);
+    const rate = parseFloat(document.getElementById('wealthReturn').value);
+
+    const corpusEl = document.getElementById('wealthCorpus');
+    const futureEl = document.getElementById('wealthFuture');
+    const growthEl = document.getElementById('wealthGrowth');
+
+    if(isNaN(monthly) || isNaN(years) || isNaN(rate) || years <= 0){
+        if(corpusEl) corpusEl.innerText = 'Enter valid values';
+        if(futureEl) futureEl.innerText = '—';
+        if(growthEl) growthEl.innerText = '—';
+        return;
+    }
+
+    const months = years * 12;
+    const monthlyRate = rate / 12 / 100;
+    const futureValue = monthlyRate === 0
+        ? monthly * months
+        : monthly * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+    const invested = monthly * months;
+    const growth = futureValue - invested;
+
+    if(corpusEl) corpusEl.innerText = '₹' + Math.round(invested).toLocaleString();
+    if(futureEl) futureEl.innerText = '₹' + Math.round(futureValue).toLocaleString();
+    if(growthEl) growthEl.innerText = '₹' + Math.round(growth).toLocaleString();
+}
+
 
 
 
@@ -688,6 +875,7 @@ document.querySelectorAll(
  .service-card,\
  .testimonial-card,\
  .top-amc-card,\
+ .planner-card,\
  .faq-box,\
  .contact-card"
 

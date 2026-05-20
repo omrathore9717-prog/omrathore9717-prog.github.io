@@ -169,7 +169,7 @@
 
             </div>
 
-            <div class="quick-links" style="margin-top:18px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <div class="quick-links">
                 <a href="#dashboard" class="secondary-btn">Dashboard</a>
                 <a href="#market" class="secondary-btn">Market</a>
                 <a href="#services" class="secondary-btn">Services</a>
@@ -424,8 +424,8 @@
         </div>
 
         <div class="amc-grid">
-            <div class="amc-illustration" style="grid-column:1/-1;text-align:center;margin-bottom:12px;">
-                <img src="https://images.unsplash.com/photo-1555685812-4b943f1bfb3c?auto=format&fit=crop&w=1200&q=80" alt="Investment illustration" loading="lazy" style="max-width:420px;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,0.08);">
+            <div class="amc-illustration">
+                <img src="https://images.unsplash.com/photo-1555685812-4b943f1bfb3c?auto=format&fit=crop&w=1200&q=80" alt="Investment illustration" loading="lazy">
             </div>
 
             <div class="amc-card"><img class="amc-img" src="images/sbi.svg" loading="lazy" alt="SBI Mutual Fund"><div>SBI Mutual Fund</div></div>
@@ -507,34 +507,34 @@
                     <h2 id="result">₹0</h2>
                 </div>
 
-                <p style="margin-top:20px;color:#666;">
+                <p class="note-text">
                     Returns shown are illustrative only and not guaranteed.
                 </p>
 
             </div>
 
-            <div class="charts-row" style="margin-top:30px;display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start;">
-                <div class="chart-card" style="background:#fff;border-radius:16px;padding:18px;border:1px solid #eee;">
+            <div class="chart-grid">
+                <div class="chart-card">
                     <canvas id="sipGrowthChart" height="220"></canvas>
                 </div>
 
-                <div class="chart-card" style="background:#fff;border-radius:16px;padding:18px;border:1px solid #eee;text-align:center;">
+                <div class="chart-card">
                     <canvas id="sipChart" height="220"></canvas>
                 </div>
             </div>
 
-            <hr style="margin:30px 0;border:none;border-top:1px solid #eee;">
+            <hr class="section-divider">
 
-            <div class="emi-box" style="margin-top:10px;">
-                <h3 style="margin-bottom:12px;">EMI Calculator</h3>
+            <div class="emi-box">
+                <h3>EMI Calculator</h3>
                 <label>Loan Amount</label>
                 <input type="number" id="loanAmount" placeholder="e.g. 500000">
                 <label>Interest Rate (annual %)</label>
                 <input type="number" id="loanRate" placeholder="e.g. 7.5">
                 <label>Tenure (Years)</label>
                 <input type="number" id="loanTenure" placeholder="e.g. 5">
-                <button onclick="calculateEMI()" style="margin-top:12px;">Calculate EMI</button>
-                <div style="margin-top:12px;text-align:center;">
+                <button onclick="calculateEMI()">Calculate EMI</button>
+                <div class="emi-result-row">
                     <p>Estimated EMI</p>
                     <h3 id="emiResult">₹0</h3>
                 </div>
@@ -542,8 +542,8 @@
 
         </div>
 
-            <div style="text-align:center;margin-top:16px;">
-                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80" alt="Investment growth illustration" loading="lazy" style="max-width:320px;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.06);">
+            <div class="feature-media">
+                <img class="feature-image" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80" alt="Investment growth illustration" loading="lazy">
             </div>
 
     </section>
@@ -593,8 +593,8 @@
 
         </div>
 
-            <div style="text-align:center;margin-top:16px;">
-                <img src="https://images.unsplash.com/photo-1556740772-1a741367b93e?auto=format&fit=crop&w=800&q=80" alt="Lumpsum growth" loading="lazy" style="max-width:320px;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.06);">
+            <div class="feature-media">
+                <img class="feature-image" src="https://images.unsplash.com/photo-1556740772-1a741367b93e?auto=format&fit=crop&w=800&q=80" alt="Lumpsum growth" loading="lazy">
             </div>
 
     </section>
@@ -609,43 +609,126 @@
 
         <div class="planner-grid">
 
-            <div class="planner-card">
-                <h3>Retirement Planner</h3>
-                <label>Current Age</label>
-                <input type="number" id="retireCurrentAge" placeholder="30">
-                <label>Retirement Age</label>
-                <input type="number" id="retireAge" placeholder="60">
-                <label>Monthly Investment</label>
-                <input type="number" id="retireMonthly" placeholder="15000">
-                <label>Expected Return (%)</label>
-                <input type="number" id="retireReturn" placeholder="10">
-                <button onclick="calculateRetirement()">Estimate Corpus</button>
-                <div class="planner-result" id="retireResult">Estimated corpus will appear here.</div>
-            </div>
+            <article class="planner-card">
+                <div class="planner-head">
+                    <span class="planner-icon">👴</span>
+                    <div>
+                        <h3>Retirement Planner</h3>
+                        <p>Plan a secure corpus with monthly contributions and compounded returns.</p>
+                    </div>
+                </div>
+                <div class="planner-fields">
+                    <div class="planner-field">
+                        <label>Current Age</label>
+                        <input type="number" id="retireCurrentAge" placeholder="30">
+                    </div>
+                    <div class="planner-field">
+                        <label>Retirement Age</label>
+                        <input type="number" id="retireAge" placeholder="60">
+                    </div>
+                    <div class="planner-field">
+                        <label>Monthly Investment</label>
+                        <input type="number" id="retireMonthly" placeholder="15000">
+                    </div>
+                    <div class="planner-field">
+                        <label>Expected Return (%)</label>
+                        <input type="number" id="retireReturn" placeholder="10">
+                    </div>
+                </div>
+                <button class="primary-btn planner-btn" onclick="calculateRetirement()">Estimate Corpus</button>
+                <div class="planner-output">
+                    <div class="planner-stat">
+                        <span>Estimated Corpus</span>
+                        <strong id="retireCorpus">₹0</strong>
+                    </div>
+                    <div class="planner-stat">
+                        <span>Future Value</span>
+                        <strong id="retireFuture">₹0</strong>
+                    </div>
+                    <div class="planner-stat">
+                        <span>Growth</span>
+                        <strong id="retireGrowth">₹0</strong>
+                    </div>
+                </div>
+            </article>
 
-            <div class="planner-card">
-                <h3>Child Education Planner</h3>
-                <label>Child Age</label>
-                <input type="number" id="childAge" placeholder="5">
-                <label>Target Amount</label>
-                <input type="number" id="childTarget" placeholder="2000000">
-                <label>Years Left</label>
-                <input type="number" id="childYears" placeholder="13">
-                <button onclick="calculateEducation()">Estimate Savings</button>
-                <div class="planner-result" id="childResult">Estimated plan will appear here.</div>
-            </div>
+            <article class="planner-card">
+                <div class="planner-head">
+                    <span class="planner-icon">🎓</span>
+                    <div>
+                        <h3>Child Education Planner</h3>
+                        <p>Estimate the monthly savings needed for your child’s future education goals.</p>
+                    </div>
+                </div>
+                <div class="planner-fields">
+                    <div class="planner-field">
+                        <label>Child Age</label>
+                        <input type="number" id="childAge" placeholder="5">
+                    </div>
+                    <div class="planner-field">
+                        <label>Target Amount</label>
+                        <input type="number" id="childTarget" placeholder="2000000">
+                    </div>
+                    <div class="planner-field">
+                        <label>Years Left</label>
+                        <input type="number" id="childYears" placeholder="13">
+                    </div>
+                </div>
+                <button class="primary-btn planner-btn" onclick="calculateEducation()">Estimate Savings</button>
+                <div class="planner-output">
+                    <div class="planner-stat">
+                        <span>Goal Amount</span>
+                        <strong id="childCorpus">₹0</strong>
+                    </div>
+                    <div class="planner-stat">
+                        <span>Monthly SIP</span>
+                        <strong id="childFuture">₹0</strong>
+                    </div>
+                    <div class="planner-stat">
+                        <span>Growth Needed</span>
+                        <strong id="childGrowth">₹0</strong>
+                    </div>
+                </div>
+            </article>
 
-            <div class="planner-card">
-                <h3>Wealth Builder Planner</h3>
-                <label>Monthly Investment</label>
-                <input type="number" id="wealthMonthly" placeholder="10000">
-                <label>Years</label>
-                <input type="number" id="wealthYears" placeholder="15">
-                <label>Expected Return (%)</label>
-                <input type="number" id="wealthReturn" placeholder="12">
-                <button onclick="calculateWealthBuilder()">Estimate Portfolio</button>
-                <div class="planner-result" id="wealthResult">Estimated growth will appear here.</div>
-            </div>
+            <article class="planner-card">
+                <div class="planner-head">
+                    <span class="planner-icon">📈</span>
+                    <div>
+                        <h3>Wealth Builder Planner</h3>
+                        <p>Project how disciplined investing can grow your capital over time.</p>
+                    </div>
+                </div>
+                <div class="planner-fields">
+                    <div class="planner-field">
+                        <label>Monthly Investment</label>
+                        <input type="number" id="wealthMonthly" placeholder="10000">
+                    </div>
+                    <div class="planner-field">
+                        <label>Years</label>
+                        <input type="number" id="wealthYears" placeholder="15">
+                    </div>
+                    <div class="planner-field">
+                        <label>Expected Return (%)</label>
+                        <input type="number" id="wealthReturn" placeholder="12">
+                    </div>
+                </div>
+                <button class="primary-btn planner-btn" onclick="calculateWealthBuilder()">Estimate Portfolio</button>
+                <div class="planner-output">
+                    <div class="planner-stat">
+                        <span>Estimated Corpus</span>
+                        <strong id="wealthCorpus">₹0</strong>
+                    </div>
+                    <div class="planner-stat">
+                        <span>Future Value</span>
+                        <strong id="wealthFuture">₹0</strong>
+                    </div>
+                    <div class="planner-stat">
+                        <span>Growth</span>
+                        <strong id="wealthGrowth">₹0</strong>
+                    </div>
+                </div>
+            </article>
 
         </div>
 
@@ -821,7 +904,7 @@
 
         <div class="card">
 
-            <p style="line-height:2;">
+            <p class="disclaimer-text">
                 Mutual Fund investments are subject to market risks. Please read all scheme related documents carefully before investing.
                 Past performance does not guarantee future returns.
                 Returns displayed on this website are for illustration purposes only and are not assured.
@@ -884,7 +967,7 @@
             Trusted financial guidance for modern investors.
         </p>
 
-        <div class="hero-buttons" style="margin-top:40px;">
+        <div class="hero-buttons">
 
             <a class="primary-btn"
                 href="tel:+919717857755">
@@ -915,25 +998,25 @@
     <!-- FOOTER -->
 
     <!-- PREMIUM CTA -->
-    <section class="section" id="premium-cta" style="padding-top:60px;padding-bottom:60px;">
-        <div class="cta-card" style="background:#000;color:#fff;padding:40px;border-radius:24px;text-align:center;max-width:980px;margin:0 auto;">
-            <h2 style="font-size:36px;margin-bottom:12px;">Upgrade to OM Premium</h2>
-            <p style="color:#ccc;margin-bottom:20px;">Unlock advanced analytics, priority support and personalised investment plans.</p>
-            <a class="primary-btn" href="#contact" style="padding:12px 28px;border-radius:40px;">Get Premium</a>
+    <section class="section premium-cta" id="premium-cta">
+        <div class="cta-card">
+            <h2>Upgrade to OM Premium</h2>
+            <p>Unlock advanced analytics, priority support and personalised investment plans.</p>
+            <a class="primary-btn" href="#contact">Get Premium</a>
         </div>
     </section>
 
-    <footer style="border-top:1px solid #eee;background:#fff;padding:40px 8%;">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;">
+    <footer class="site-footer">
+        <div class="footer-grid">
             <div>
                 <strong>OM Financial Service</strong>
-                <p style="color:#666;margin-top:6px;">Smart Wealth Solutions • © 2026</p>
+                <p class="footer-note">Smart Wealth Solutions • © 2026</p>
             </div>
 
-            <div style="display:flex;gap:18px;align-items:center;">
-                <a href="#services" style="color:#000;text-decoration:none;">Services</a>
-                <a href="#funds" style="color:#000;text-decoration:none;">Funds</a>
-                <a href="#contact" style="color:#000;text-decoration:none;">Contact</a>
+            <div class="footer-links">
+                <a href="#services">Services</a>
+                <a href="#funds">Funds</a>
+                <a href="#contact">Contact</a>
             </div>
         </div>
     </footer>

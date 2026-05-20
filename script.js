@@ -37,17 +37,10 @@ window.addEventListener("scroll",()=>{
 // LIVE MARKET DATA
 // =========================
 
-const nifty =
-document.getElementById("nifty");
-
-const sensex =
-document.getElementById("sensex");
-
-const gold =
-document.getElementById("gold");
-
-const usd =
-document.getElementById("usd");
+const nifty = document.getElementById("nifty");
+const sensex = document.getElementById("sensex");
+const gold = document.getElementById("gold");
+const usd = document.getElementById("usd");
 
 
 function updateMarketData(){
@@ -65,17 +58,10 @@ function updateMarketData(){
     (83 + Math.random()).toFixed(2);
 
 
-    nifty.innerHTML =
-    niftyValue;
-
-    sensex.innerHTML =
-    sensexValue;
-
-    gold.innerHTML =
-    "₹" + goldValue;
-
-    usd.innerHTML =
-    "₹" + usdValue;
+    if(nifty) nifty.innerHTML = niftyValue;
+    if(sensex) sensex.innerHTML = sensexValue;
+    if(gold) gold.innerHTML = "₹" + goldValue;
+    if(usd) usd.innerHTML = "₹" + usdValue;
 
 }
 
@@ -91,80 +77,49 @@ setInterval(updateMarketData,3000);
 // SIP CALCULATOR
 // =========================
 
+
 function calculateSIP(){
 
-    const amount =
-    parseFloat(
-        document.getElementById("sipAmount").value
-    );
+    const amount = parseFloat(document.getElementById("monthly").value);
+    const rate = parseFloat(document.getElementById("rate").value);
+    const years = parseFloat(document.getElementById("years").value);
 
-    const rate =
-    parseFloat(
-        document.getElementById("sipRate").value
-    );
+    const investedEl = document.getElementById("invested");
+    const returnsEl = document.getElementById("estimated");
+    const resultEl = document.getElementById("result");
 
-    const years =
-    parseFloat(
-        document.getElementById("sipYears").value
-    );
-
-    const result =
-    document.getElementById("sipResult");
-
-
-    if(
-        isNaN(amount) ||
-        isNaN(rate) ||
-        isNaN(years)
-    ){
-
-        result.innerHTML =
-        "Please Enter Valid Values";
-
+    if(isNaN(amount) || isNaN(rate) || isNaN(years)){
+        if(resultEl) resultEl.innerText = "Please Enter Valid Values";
         return;
     }
 
+    const monthlyRate = rate / 12 / 100;
+    const months = years * 12;
 
-    const monthlyRate =
-    rate / 12 / 100;
+    // build monthly progression for growth chart
+    const labels = [];
+    const data = [];
 
-    const months =
-    years * 12;
+    let balance = 0;
+    for(let m=1; m<=months; m++){
+        balance = balance * (1 + monthlyRate) + amount;
+        labels.push(m);
+        data.push(Math.round(balance));
+    }
 
+    const maturity = Math.round(balance);
+    const invested = Math.round(amount * months);
+    const estimatedReturns = Math.max(0, maturity - invested);
 
-    const maturity =
+    if(investedEl) investedEl.innerText = "₹" + invested.toLocaleString();
+    if(returnsEl) returnsEl.innerText = "₹" + estimatedReturns.toLocaleString();
+    if(resultEl) resultEl.innerText = "₹" + maturity.toLocaleString();
 
-    amount *
+    if(typeof updateChart === 'function'){
+        updateChart(invested, estimatedReturns);
+    }
 
-    (
-        (
-            Math.pow(
-                1 + monthlyRate,
-                months
-            ) - 1
-        ) / monthlyRate
-    )
-
-    *
-
-    (
-        1 + monthlyRate
-    );
-
-
-    result.innerHTML =
-
-    "₹" +
-
-    Math.round(
-        maturity
-    ).toLocaleString();
-
-
-    updateChart(
-        amount * months,
-        maturity - (amount * months)
-    );
+    updateGrowthChart(labels, data);
 
 }
 
@@ -175,67 +130,80 @@ function calculateSIP(){
 // SIP CHART
 // =========================
 
-const sipChart =
-document.getElementById("sipChart");
+const sipChart = document.getElementById("sipChart");
 
-
-const chart = new Chart(sipChart,{
-
-    type:"doughnut",
-
-    data:{
-
-        labels:[
-            "Invested Amount",
-            "Estimated Returns"
-        ],
-
-        datasets:[{
-
-            data:[50,50],
-
-            backgroundColor:[
-                "#111111",
-                "#d9d9d9"
-            ],
-
-            borderWidth:0
-
-        }]
-
-    },
-
-    options:{
-
-        responsive:true,
-
-        plugins:{
-
-            legend:{
-
-                position:"bottom"
+let chart = null;
+if(sipChart && typeof window !== 'undefined' && window.Chart){
+    chart = new Chart(sipChart,{
+        type:"doughnut",
+        data:{
+            labels:["Invested Amount","Estimated Returns"],
+            datasets:[{
+                data:[50,50],
+                backgroundColor:["#111111","#d9d9d9"],
+                borderWidth:0
+            }]
+        },
+        options:{
+            responsive:true,
+            plugins:{
+                legend:{ position:"bottom" }
             }
-
         }
+    });
+}
 
+// SIP Growth Line Chart
+const sipGrowthCanvas = document.getElementById("sipGrowthChart");
+let sipGrowthChart = null;
+if(sipGrowthCanvas && typeof window !== 'undefined' && window.Chart){
+    sipGrowthChart = new Chart(sipGrowthCanvas,{
+        type: 'line',
+        data: { labels: [], datasets: [{ label: 'SIP Value', data: [], borderColor: '#111111', backgroundColor: 'rgba(0,0,0,0.06)', fill: true, tension: 0.3 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } } } }
+    });
+}
+
+function updateChart(invested, returns){
+    if(!chart) return;
+    chart.data.datasets[0].data = [invested, returns];
+    chart.update();
+}
+
+function updateGrowthChart(labels, data){
+    if(!sipGrowthChart) return;
+    sipGrowthChart.data.labels = labels;
+    sipGrowthChart.data.datasets[0].data = data;
+    sipGrowthChart.update();
+}
+
+
+// =========================
+// EMI CALCULATOR
+// =========================
+
+function calculateEMI(){
+    const P = parseFloat(document.getElementById('loanAmount').value);
+    const annualR = parseFloat(document.getElementById('loanRate').value);
+    const years = parseFloat(document.getElementById('loanTenure').value);
+    const emiEl = document.getElementById('emiResult');
+
+    if(isNaN(P) || isNaN(annualR) || isNaN(years) || years<=0){
+        if(emiEl) emiEl.innerText = 'Please enter valid values';
+        return;
     }
 
-});
+    const r = annualR/12/100;
+    const n = years*12;
+    let emi = 0;
 
+    if(r === 0){
+        emi = P / n;
+    } else {
+        emi = P * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
+    }
 
-
-function updateChart(
-    invested,
-    returns
-){
-
-    chart.data.datasets[0].data = [
-        invested,
-        returns
-    ];
-
-    chart.update();
-
+    if(emiEl) emiEl.innerText = '₹' + Math.round(emi).toLocaleString();
 }
 
 
@@ -245,84 +213,30 @@ function updateChart(
 // PORTFOLIO CHART
 // =========================
 
-const portfolioChart =
-document.getElementById("portfolioChart");
+const portfolioChart = document.getElementById("portfolioChart");
 
-
-new Chart(portfolioChart,{
-
-    type:"line",
-
-    data:{
-
-        labels:[
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun"
-        ],
-
-        datasets:[{
-
-            label:"Growth",
-
-            data:[
-                2,
-                5,
-                7,
-                10,
-                14,
-                18
-            ],
-
-            borderColor:"#111111",
-
-            backgroundColor:
-            "rgba(0,0,0,0.04)",
-
-            fill:true,
-
-            tension:0.4,
-
-            pointRadius:4
-
-        }]
-
-    },
-
-    options:{
-
-        responsive:true,
-
-        plugins:{
-
-            legend:{
-                display:false
-            }
-
+if(portfolioChart && typeof window !== 'undefined' && window.Chart){
+    new Chart(portfolioChart,{
+        type:"line",
+        data:{
+            labels:["Jan","Feb","Mar","Apr","May","Jun"],
+            datasets:[{
+                label:"Growth",
+                data:[2,5,7,10,14,18],
+                borderColor:"#111111",
+                backgroundColor:"rgba(0,0,0,0.04)",
+                fill:true,
+                tension:0.4,
+                pointRadius:4
+            }]
         },
-
-        scales:{
-
-            x:{
-                grid:{
-                    display:false
-                }
-            },
-
-            y:{
-                grid:{
-                    color:"#ececec"
-                }
-            }
-
+        options:{
+            responsive:true,
+            plugins:{ legend:{ display:false } },
+            scales:{ x:{ grid:{ display:false } }, y:{ grid:{ color:"#ececec" } } }
         }
-
-    }
-
-});
+    });
+}
 
 
 
@@ -464,21 +378,56 @@ buttons.forEach(button=>{
 
 window.onload = ()=>{
 
-    document.getElementById(
-        "sipAmount"
-    ).value = 5000;
+    const monthlyEl = document.getElementById("monthly");
+    const rateEl = document.getElementById("rate");
+    const yearsEl = document.getElementById("years");
 
-    document.getElementById(
-        "sipRate"
-    ).value = 12;
-
-    document.getElementById(
-        "sipYears"
-    ).value = 10;
+    if(monthlyEl) monthlyEl.value = 5000;
+    if(rateEl) rateEl.value = 12;
+    if(yearsEl) yearsEl.value = 10;
 
     calculateSIP();
 
 };
+
+// Set default values for lumpsum inputs
+window.addEventListener('load', ()=>{
+    const lsAmount = document.getElementById('lumpsumAmount');
+    const lsRate = document.getElementById('lumpsumRate');
+    const lsYears = document.getElementById('lumpsumYears');
+
+    if(lsAmount && !lsAmount.value) lsAmount.value = 100000;
+    if(lsRate && !lsRate.value) lsRate.value = 8;
+    if(lsYears && !lsYears.value) lsYears.value = 5;
+});
+
+
+// Lumpsum Calculator
+function calculateLumpsum(){
+    const P = parseFloat(document.getElementById('lumpsumAmount').value);
+    const rate = parseFloat(document.getElementById('lumpsumRate').value);
+    const years = parseFloat(document.getElementById('lumpsumYears').value);
+
+    const investedEl = document.getElementById('lumpsum_invested');
+    const returnsEl = document.getElementById('lumpsum_estimated');
+    const resultEl = document.getElementById('lumpsum_result');
+
+    if(isNaN(P) || isNaN(rate) || isNaN(years)){
+        if(resultEl) resultEl.innerText = 'Please enter valid values';
+        return;
+    }
+
+    const r = rate / 100;
+    const t = years;
+
+    const M = P * Math.pow(1 + r, t);
+    const invested = P;
+    const estimated = M - invested;
+
+    if(investedEl) investedEl.innerText = '₹' + Math.round(invested).toLocaleString();
+    if(returnsEl) returnsEl.innerText = '₹' + Math.round(estimated).toLocaleString();
+    if(resultEl) resultEl.innerText = '₹' + Math.round(M).toLocaleString();
+}
 
 
 
@@ -639,6 +588,23 @@ function animateCounter(
 
     },20);
 
+}
+
+// Observe dashboard counters and animate when visible
+const counters = document.querySelectorAll('.counter');
+if(counters && counters.length){
+    const obs = new IntersectionObserver((entries, observer)=>{
+        entries.forEach(entry=>{
+            if(entry.isIntersecting){
+                const el = entry.target;
+                const target = parseInt(el.getAttribute('data-target')) || 0;
+                animateCounter(el, target);
+                observer.unobserve(el);
+            }
+        });
+    },{ threshold: 0.6 });
+
+    counters.forEach(c=> obs.observe(c));
 }
 
 

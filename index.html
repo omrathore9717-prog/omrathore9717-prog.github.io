@@ -5,16 +5,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>OM Financial Service | Smart Wealth Solutions</title>
+        <title>OM Financial Service — Mutual Funds, SIP Investment & Wealth Management</title>
 
-    <meta name="description"
-        content="OM Financial Service provides Mutual Funds, SIP Investment, Insurance, Wealth Management and Financial Planning Solutions.">
+        <meta name="description" content="OM Financial Service offers SIP Investment, Mutual Funds, Insurance, Wealth Management and personalised financial planning. Get expert investment advice and easy SIP tools.">
+        <meta name="keywords" content="Mutual Funds, SIP Investment, Insurance, Financial Planning, Wealth Management, Investment Advisor">
+        <link rel="canonical" href="/">
+        <meta name="theme-color" content="#000000">
 
-    <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style.css">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="OM Financial Service — SIP, Mutual Funds & Wealth Management">
+        <meta property="og:description" content="Expert SIP calculators, mutual fund guidance and wealth planning. Start investing today with OM Financial Service.">
+        <meta property="og:url" content="/">
+        <meta property="og:site_name" content="OM Financial Service">
+        <meta property="og:image" content="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1200&auto=format&fit=crop">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="OM Financial Service — SIP & Wealth Management">
+        <meta name="twitter:description" content="SIP calculators, mutual fund recommendations, insurance and wealth planning services.">
+        <meta name="twitter:image" content="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1200&auto=format&fit=crop">
+
+        <!-- Chart.js (defer for performance) -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+        <!-- Structured Data: FinancialService + LocalBusiness -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "FinancialService",
+                    "name": "OM Financial Service",
+                    "url": "/",
+                    "telephone": "+919717857755",
+                    "logo": "https://example.com/logo.png",
+                    "description": "SIP Investment, Mutual Funds, Insurance and Wealth Management services.",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "streetAddress": "Mumbai, India",
+                        "addressLocality": "Mumbai",
+                        "addressRegion": "MH",
+                        "postalCode": "400001",
+                        "addressCountry": "IN"
+                    }
+                },
+                {
+                    "@type": "LocalBusiness",
+                    "name": "OM Financial Service",
+                    "telephone": "+919717857755",
+                    "image": "https://example.com/logo.png",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "streetAddress": "Mumbai, India",
+                        "addressLocality": "Mumbai",
+                        "addressRegion": "MH",
+                        "postalCode": "400001",
+                        "addressCountry": "IN"
+                    }
+                }
+            ]
+        }
+        </script>
+
+        <!-- FAQ structured data (kept updated with page content below) -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "What is SIP?",
+                    "acceptedAnswer": {"@type": "Answer","text": "SIP (Systematic Investment Plan) lets you invest a fixed amount regularly into mutual funds to build wealth over time."}
+                },
+                {
+                    "@type": "Question",
+                    "name": "Why invest in mutual funds?",
+                    "acceptedAnswer": {"@type": "Answer","text": "Mutual funds provide professional management, diversification and liquidity, making them suitable for long-term wealth creation."}
+                },
+                {
+                    "@type": "Question",
+                    "name": "How does SIP work?",
+                    "acceptedAnswer": {"@type": "Answer","text": "You invest a fixed sum at regular intervals; units are bought at the prevailing NAV, averaging the purchase cost over time."}
+                }
+            ]
+        }
+        </script>
 </head>
 
 <body>
@@ -57,7 +139,9 @@
 
     <section class="hero" id="home">
 
-        <div class="hero-content">
+        <div class="hero-grid">
+
+            <div class="hero-content">
 
             <h1>
                 Grow Your Wealth <br>
@@ -80,6 +164,99 @@
                     Explore Services
                 </a>
 
+            </div>
+
+            <div class="quick-links" style="margin-top:18px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                <a href="#dashboard" class="secondary-btn">Dashboard</a>
+                <a href="#market" class="secondary-btn">Market</a>
+                <a href="#services" class="secondary-btn">Services</a>
+                <a href="#funds" class="secondary-btn">Funds</a>
+                <a href="#calculator" class="secondary-btn">Calculator</a>
+                <a href="#faq" class="secondary-btn">FAQ</a>
+                <a href="#contact" class="secondary-btn">Contact</a>
+            </div>
+
+        </div>
+
+            </div>
+
+            <div class="hero-media">
+                <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80" alt="Wealth management office" loading="lazy">
+            </div>
+
+        </div>
+
+    </section>
+    
+    <!-- BLOG -->
+    <section class="section" id="blog">
+
+        <div class="section-title">
+            <h2>Insights & Articles</h2>
+            <p>Latest finance reads and investment guides</p>
+        </div>
+
+        <div class="blog-grid">
+
+            <div class="blog-card">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80" alt="Article 1" loading="lazy">
+                <h4>How SIP Builds Wealth Over Time</h4>
+                <p>Understand the power of compounding and disciplined investing.</p>
+            </div>
+
+            <div class="blog-card">
+                <img src="https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=800&q=80" alt="Article 2" loading="lazy">
+                <h4>Choosing the Right Mutual Funds</h4>
+                <p>Practical tips to evaluate fund performance and risk.</p>
+            </div>
+
+            <div class="blog-card">
+                <img src="https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=800&q=80" alt="Article 3" loading="lazy">
+                <h4>Tax Efficient Investment Strategies</h4>
+                <p>Maximise returns by optimising post-tax income.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- PREMIUM DASHBOARD -->
+
+    <section class="section" id="dashboard">
+
+        <div class="section-title">
+            <h2>Premium Dashboard</h2>
+            <p>One glance overview of your finances</p>
+        </div>
+
+        <div class="dashboard-grid">
+
+            <div class="glass-card">
+                <div class="card-inner">
+                    <p>Assets Under Management</p>
+                    <h3 class="counter" data-target="125000000">₹0</h3>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="card-inner">
+                    <p>SIP Clients</p>
+                    <h3 class="counter" data-target="45200">0</h3>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="card-inner">
+                    <p>Insurance Services</p>
+                    <h3 class="counter" data-target="8200">0</h3>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="card-inner">
+                    <p>Loan Services</p>
+                    <h3 class="counter" data-target="15000">0</h3>
+                </div>
             </div>
 
         </div>
@@ -117,6 +294,11 @@
                 <p id="gold">Loading...</p>
             </div>
 
+            <div class="market-card">
+                <h3>USD / INR</h3>
+                <p id="usd">Loading...</p>
+            </div>
+
         </div>
 
     </section>
@@ -133,45 +315,39 @@
         <div class="grid">
 
             <div class="card">
+                <img class="service-icon" src="https://source.unsplash.com/80x80/?investment" alt="Mutual Funds" loading="lazy">
                 <h3>Mutual Funds</h3>
-                <p>
-                    SIP investment plans with diversified portfolio management and long-term wealth creation.
-                </p>
+                <p>Curated mutual fund recommendations and portfolio construction.</p>
             </div>
 
             <div class="card">
+                <img class="service-icon" src="https://source.unsplash.com/80x80/?sip,investment" alt="SIP Planning" loading="lazy">
+                <h3>SIP Planning</h3>
+                <p>Systematic investment plans tailored for short and long term goals.</p>
+            </div>
+
+            <div class="card">
+                <img class="service-icon" src="https://source.unsplash.com/80x80/?insurance,protection" alt="Insurance" loading="lazy">
                 <h3>Insurance</h3>
-                <p>
-                    Secure your family with life insurance, health insurance and protection plans.
-                </p>
+                <p>Life, health and protection plans to secure you and your family.</p>
             </div>
 
             <div class="card">
-                <h3>Retirement Planning</h3>
-                <p>
-                    Plan a financially independent future with disciplined investment strategies.
-                </p>
+                <img class="service-icon" src="https://source.unsplash.com/80x80/?loan,money" alt="Loans" loading="lazy">
+                <h3>Loans</h3>
+                <p>Loan advisory and competitive offers for home, personal and business needs.</p>
             </div>
 
             <div class="card">
+                <img class="service-icon" src="https://source.unsplash.com/80x80/?tax,calculator" alt="Tax Saving" loading="lazy">
                 <h3>Tax Saving</h3>
-                <p>
-                    Invest smartly under 80C and maximize tax-efficient wealth growth.
-                </p>
+                <p>Strategies to optimise tax liabilities and increase post-tax returns.</p>
             </div>
 
             <div class="card">
-                <h3>Wealth Management</h3>
-                <p>
-                    Professional portfolio guidance and goal-based financial planning.
-                </p>
-            </div>
-
-            <div class="card">
-                <h3>Child Future Planning</h3>
-                <p>
-                    Create education and future security plans for your children.
-                </p>
+                <img class="service-icon" src="https://source.unsplash.com/80x80/?retirement,planning" alt="Retirement Planning" loading="lazy">
+                <h3>Retirement Planning</h3>
+                <p>Goal-based planning for a comfortable and independent retirement.</p>
             </div>
 
         </div>
@@ -188,17 +364,16 @@
         </div>
 
         <div class="amc-grid">
+            <div class="amc-illustration" style="grid-column:1/-1;text-align:center;margin-bottom:12px;">
+                <img src="https://images.unsplash.com/photo-1555685812-4b943f1bfb3c?auto=format&fit=crop&w=1200&q=80" alt="Investment illustration" loading="lazy" style="max-width:420px;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,0.08);">
+            </div>
 
-            <div class="amc-card">SBI Mutual Fund</div>
-            <div class="amc-card">HDFC Mutual Fund</div>
-            <div class="amc-card">ICICI Prudential</div>
-            <div class="amc-card">Nippon India Mutual Fund</div>
-            <div class="amc-card">Axis Mutual Fund</div>
-            <div class="amc-card">Kotak Mutual Fund</div>
-            <div class="amc-card">Aditya Birla Sun Life</div>
-            <div class="amc-card">UTI Mutual Fund</div>
-            <div class="amc-card">Mirae Asset</div>
-            <div class="amc-card">DSP Mutual Fund</div>
+            <div class="amc-card"><img class="amc-img" src="images/sbi.svg" loading="lazy" alt="SBI Mutual Fund"><div>SBI Mutual Fund</div></div>
+            <div class="amc-card"><img class="amc-img" src="images/hdfc.svg" loading="lazy" alt="HDFC Mutual Fund"><div>HDFC Mutual Fund</div></div>
+            <div class="amc-card"><img class="amc-img" src="images/icici.svg" loading="lazy" alt="ICICI Prudential"><div>ICICI Prudential</div></div>
+            <div class="amc-card"><img class="amc-img" src="images/nippon.svg" loading="lazy" alt="Nippon India"><div>Nippon India</div></div>
+            <div class="amc-card"><img class="amc-img" src="images/axis.svg" loading="lazy" alt="Axis Mutual Fund"><div>Axis Mutual Fund</div></div>
+            <div class="amc-card"><img class="amc-img" src="images/mirae.svg" loading="lazy" alt="Mirae Asset"><div>Mirae Asset</div></div>
 
         </div>
 
@@ -232,11 +407,20 @@
 
             <div class="result-box">
 
-                <p>Estimated Future Value</p>
+                <div class="result-row">
+                    <p>Invested Amount</p>
+                    <h3 id="invested">₹0</h3>
+                </div>
 
-                <h2 id="result">
-                    ₹0
-                </h2>
+                <div class="result-row">
+                    <p>Estimated Returns</p>
+                    <h3 id="estimated">₹0</h3>
+                </div>
+
+                <div class="result-row">
+                    <p>Total Value</p>
+                    <h2 id="result">₹0</h2>
+                </div>
 
                 <p style="margin-top:20px;color:#666;">
                     Returns shown are illustrative only and not guaranteed.
@@ -244,7 +428,89 @@
 
             </div>
 
+            <div class="charts-row" style="margin-top:30px;display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start;">
+                <div class="chart-card" style="background:#fff;border-radius:16px;padding:18px;border:1px solid #eee;">
+                    <canvas id="sipGrowthChart" height="220"></canvas>
+                </div>
+
+                <div class="chart-card" style="background:#fff;border-radius:16px;padding:18px;border:1px solid #eee;text-align:center;">
+                    <canvas id="sipChart" height="220"></canvas>
+                </div>
+            </div>
+
+            <hr style="margin:30px 0;border:none;border-top:1px solid #eee;">
+
+            <div class="emi-box" style="margin-top:10px;">
+                <h3 style="margin-bottom:12px;">EMI Calculator</h3>
+                <label>Loan Amount</label>
+                <input type="number" id="loanAmount" placeholder="e.g. 500000">
+                <label>Interest Rate (annual %)</label>
+                <input type="number" id="loanRate" placeholder="e.g. 7.5">
+                <label>Tenure (Years)</label>
+                <input type="number" id="loanTenure" placeholder="e.g. 5">
+                <button onclick="calculateEMI()" style="margin-top:12px;">Calculate EMI</button>
+                <div style="margin-top:12px;text-align:center;">
+                    <p>Estimated EMI</p>
+                    <h3 id="emiResult">₹0</h3>
+                </div>
+            </div>
+
         </div>
+
+            <div style="text-align:center;margin-top:16px;">
+                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80" alt="Investment growth illustration" loading="lazy" style="max-width:320px;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.06);">
+            </div>
+
+    </section>
+
+    <!-- LUMPSUM CALCULATOR -->
+
+    <section class="section" id="lumpsum">
+
+        <div class="section-title">
+            <h2>Lumpsum Calculator</h2>
+            <p>Estimate returns for one-time investments</p>
+        </div>
+
+        <div class="lumpsum-calculator">
+
+            <label>One Time Investment Amount</label>
+            <input type="number" id="lumpsumAmount" placeholder="e.g. 100000">
+
+            <label>Expected Annual Return (%)</label>
+            <input type="number" id="lumpsumRate" placeholder="e.g. 8">
+
+            <label>Investment Period (Years)</label>
+            <input type="number" id="lumpsumYears" placeholder="e.g. 5">
+
+            <button onclick="calculateLumpsum()">
+                Calculate Returns
+            </button>
+
+            <div class="result-box">
+
+                <div class="result-row">
+                    <p>Invested Amount</p>
+                    <h3 id="lumpsum_invested">₹0</h3>
+                </div>
+
+                <div class="result-row">
+                    <p>Estimated Returns</p>
+                    <h3 id="lumpsum_estimated">₹0</h3>
+                </div>
+
+                <div class="result-row">
+                    <p>Total Value</p>
+                    <h2 id="lumpsum_result">₹0</h2>
+                </div>
+
+            </div>
+
+        </div>
+
+            <div style="text-align:center;margin-top:16px;">
+                <img src="https://images.unsplash.com/photo-1556740772-1a741367b93e?auto=format&fit=crop&w=800&q=80" alt="Lumpsum growth" loading="lazy" style="max-width:320px;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.06);">
+            </div>
 
     </section>
 
@@ -304,6 +570,35 @@
 
     </section>
 
+    <!-- FAQ -->
+    <section class="section" id="faq">
+
+        <div class="section-title">
+            <h2>Frequently Asked Questions</h2>
+            <p>Common questions about SIPs, mutual funds and investing.</p>
+        </div>
+
+        <div class="grid">
+
+            <div class="card">
+                <h3>What is SIP?</h3>
+                <p>Systematic Investment Plan (SIP) allows you to invest a fixed amount periodically into mutual funds, helping build wealth through rupee-cost averaging.</p>
+            </div>
+
+            <div class="card">
+                <h3>Why invest in mutual funds?</h3>
+                <p>Mutual funds offer diversification, professional management and easy access to different asset classes, ideal for both new and experienced investors.</p>
+            </div>
+
+            <div class="card">
+                <h3>How does SIP work?</h3>
+                <p>With SIP you invest a fixed sum monthly or quarterly; units are purchased at the prevailing NAV, averaging your purchase cost over time.</p>
+            </div>
+
+        </div>
+
+    </section>
+
     <!-- CONTACT -->
 <!-- CONTACT -->
 
@@ -311,9 +606,8 @@
 
     <div class="contact-box">
 
-        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1200&auto=format&fit=crop"
-            alt="Financial Planning"
-            class="contact-image">
+        <img src="https://images.unsplash.com/photo-1542744095-291d1f67b221?auto=format&fit=crop&w=1200&q=80"
+            alt="Financial Advisor" class="contact-image" loading="lazy">
 
         <h2>
             Build Wealth With Confidence
@@ -348,15 +642,31 @@
 
     <!-- FOOTER -->
 
-    <footer>
+    <!-- PREMIUM CTA -->
+    <section class="section" id="premium-cta" style="padding-top:60px;padding-bottom:60px;">
+        <div class="cta-card" style="background:#000;color:#fff;padding:40px;border-radius:24px;text-align:center;max-width:980px;margin:0 auto;">
+            <h2 style="font-size:36px;margin-bottom:12px;">Upgrade to OM Premium</h2>
+            <p style="color:#ccc;margin-bottom:20px;">Unlock advanced analytics, priority support and personalised investment plans.</p>
+            <a class="primary-btn" href="#contact" style="padding:12px 28px;border-radius:40px;">Get Premium</a>
+        </div>
+    </section>
 
-        <p>
-            © 2026 OM Financial Service. All Rights Reserved.
-        </p>
+    <footer style="border-top:1px solid #eee;background:#fff;padding:40px 8%;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;">
+            <div>
+                <strong>OM Financial Service</strong>
+                <p style="color:#666;margin-top:6px;">Smart Wealth Solutions • © 2026</p>
+            </div>
 
+            <div style="display:flex;gap:18px;align-items:center;">
+                <a href="#services" style="color:#000;text-decoration:none;">Services</a>
+                <a href="#funds" style="color:#000;text-decoration:none;">Funds</a>
+                <a href="#contact" style="color:#000;text-decoration:none;">Contact</a>
+            </div>
+        </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 
 </body>
 

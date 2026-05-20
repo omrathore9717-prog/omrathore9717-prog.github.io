@@ -191,7 +191,7 @@ body{
 
 .section-illustration img{ width:100%; border-radius:12px; }
 
-.service-icon{ width:64px; height:64px; object-fit:cover; border-radius:12px; margin-bottom:12px; }
+.service-icon{ width:72px; height:72px; object-fit:cover; border-radius:18px; margin:0 auto 18px; display:block; box-shadow:0 12px 30px rgba(0,0,0,0.08); }
 
 .blog-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:24px; }
 .blog-card{ background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 14px 40px rgba(0,0,0,0.06); padding:0; }
@@ -215,16 +215,41 @@ body{
 }
 
 .market-card{
-    background:#000;
+    background:#111;
     color:#fff;
-    padding:35px;
-    border-radius:25px;
+    padding:28px 28px 30px;
+    border-radius:28px;
+    box-shadow:0 24px 60px rgba(0,0,0,0.16);
+    transition:transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.market-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 30px 80px rgba(0,0,0,0.2);
 }
 
 .market-card h3{
     font-size:22px;
+    margin-bottom:18px;
+}
+
+.market-current{
+    font-size:34px;
+    font-weight:700;
     margin-bottom:10px;
 }
+
+.market-detail{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:#ccc;
+    font-size:14px;
+}
+
+.market-detail.positive{ color:#69c16b; }
+.market-detail.negative{ color:#ff6b6b; }
+.market-detail.neutral{ color:#ccc; }
 
 /* CALCULATOR */
 

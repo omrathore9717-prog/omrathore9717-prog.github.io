@@ -319,6 +319,7 @@ document.querySelectorAll(
 ".service-card,\
  .market-card,\
  .testimonial-card,\
+ .planner-card,\
  .faq-box,\
  .contact-card,\
  .top-amc-card"

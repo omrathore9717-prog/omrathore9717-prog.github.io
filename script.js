@@ -725,3 +725,29 @@ allCards.forEach(card=>{
     });
 
 });
+
+
+// =========================
+// FAQ ACCORDION
+// =========================
+const faqItems = document.querySelectorAll('.faq-item');
+faqItems.forEach(item=>{
+    const button = item.querySelector('.faq-question');
+    button.addEventListener('click', ()=>{
+        faqItems.forEach(other=>{
+            if(other !== item) other.classList.remove('active');
+        });
+        item.classList.toggle('active');
+    });
+});
+
+// =========================
+// WHATSAPP POPUP
+// =========================
+const whatsappPopup = document.getElementById('whatsappPopup');
+const closeWhatsapp = document.getElementById('closeWhatsapp');
+if(closeWhatsapp && whatsappPopup){
+    closeWhatsapp.addEventListener('click', ()=>{
+        whatsappPopup.style.display = 'none';
+    });
+}

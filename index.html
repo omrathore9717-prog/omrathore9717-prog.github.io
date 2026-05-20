@@ -33,6 +33,8 @@
 
         <!-- Chart.js (defer for performance) -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer integrity="sha512-W6lwjP2nSu/JnJs3x1wrFJrtUJdodLtwN45DkOc0kda3igrbFMp9DIPAdxDzC/0NnXK+0iqfz9gF5uItrYI6Xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer integrity="sha512-TKCrn6D0h7ENJADlfrf6NCNtkZHyKJRZWS+Q6ZA2mqgH4JZuqERe4YjJf7GPjN/FnBCO+uX7k0PatzG9I2z53Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <!-- Structured Data: FinancialService + LocalBusiness -->
         <script type="application/ld+json">
@@ -132,6 +134,7 @@
             target="_blank">
             WhatsApp
         </a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
 
     </nav>
 
@@ -263,6 +266,58 @@
 
     </section>
 
+    <!-- CLIENT ENQUIRY DASHBOARD -->
+    <section class="section" id="enquiry-dashboard">
+
+        <div class="section-title">
+            <h2>Client Enquiry Dashboard</h2>
+            <p>Track enquiry volume and client onboarding at a glance.</p>
+        </div>
+
+        <div class="dashboard-grid enquiry-grid">
+
+            <div class="glass-card">
+                <div class="card-inner">
+                    <p>Total Enquiries</p>
+                    <h3 class="counter" data-target="1280">0</h3>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="card-inner">
+                    <p>SIP Clients</p>
+                    <h3 class="counter" data-target="860">0</h3>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="card-inner">
+                    <p>Insurance Clients</p>
+                    <h3 class="counter" data-target="530">0</h3>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="card-inner">
+                    <p>Loan Clients</p>
+                    <h3 class="counter" data-target="410">0</h3>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- MARKET TICKER -->
+    <section class="ticker-section">
+        <div class="ticker-wrap">
+            <div class="ticker-item"><span>NIFTY</span> <strong id="ticker-nifty">Loading...</strong></div>
+            <div class="ticker-item"><span>SENSEX</span> <strong id="ticker-sensex">Loading...</strong></div>
+            <div class="ticker-item"><span>USD/INR</span> <strong id="ticker-usd">Loading...</strong></div>
+            <div class="ticker-item"><span>GOLD</span> <strong id="ticker-gold">Loading...</strong></div>
+        </div>
+    </section>
+
     <!-- MARKET -->
 
     <section class="section" id="market">
@@ -381,6 +436,31 @@
             <div class="amc-card"><img class="amc-img" src="images/mirae.svg" loading="lazy" alt="Mirae Asset"><div>Mirae Asset</div></div>
 
         </div>
+
+    </section>
+
+    <!-- MUTUAL FUND SCREENER -->
+    <section class="section" id="screener">
+
+        <div class="section-title">
+            <h2>Mutual Fund Screener</h2>
+            <p>Find funds by category, performance and style.</p>
+        </div>
+
+        <div class="screener-panel">
+            <input type="search" id="screenerSearch" placeholder="Search funds by name or category">
+            <div class="filter-chips">
+                <button class="chip active" data-filter="all">All</button>
+                <button class="chip" data-filter="Large Cap">Large Cap</button>
+                <button class="chip" data-filter="Mid Cap">Mid Cap</button>
+                <button class="chip" data-filter="Small Cap">Small Cap</button>
+                <button class="chip" data-filter="ELSS">ELSS</button>
+                <button class="chip" data-filter="Hybrid">Hybrid</button>
+                <button class="chip" data-filter="Debt Funds">Debt Funds</button>
+            </div>
+        </div>
+
+        <div class="screener-grid" id="screenerGrid"></div>
 
     </section>
 
@@ -519,8 +599,184 @@
 
     </section>
 
-    <!-- WHY CHOOSE -->
+    <!-- GOAL PLANNER -->
+    <section class="section" id="goal-planner">
 
+        <div class="section-title">
+            <h2>Goal Planner</h2>
+            <p>Plan your retirement, child education and wealth goals with clarity.</p>
+        </div>
+
+        <div class="planner-grid">
+
+            <div class="planner-card">
+                <h3>Retirement Planner</h3>
+                <label>Current Age</label>
+                <input type="number" id="retireCurrentAge" placeholder="30">
+                <label>Retirement Age</label>
+                <input type="number" id="retireAge" placeholder="60">
+                <label>Monthly Investment</label>
+                <input type="number" id="retireMonthly" placeholder="15000">
+                <label>Expected Return (%)</label>
+                <input type="number" id="retireReturn" placeholder="10">
+                <button onclick="calculateRetirement()">Estimate Corpus</button>
+                <div class="planner-result" id="retireResult">Estimated corpus will appear here.</div>
+            </div>
+
+            <div class="planner-card">
+                <h3>Child Education Planner</h3>
+                <label>Child Age</label>
+                <input type="number" id="childAge" placeholder="5">
+                <label>Target Amount</label>
+                <input type="number" id="childTarget" placeholder="2000000">
+                <label>Years Left</label>
+                <input type="number" id="childYears" placeholder="13">
+                <button onclick="calculateEducation()">Estimate Savings</button>
+                <div class="planner-result" id="childResult">Estimated plan will appear here.</div>
+            </div>
+
+            <div class="planner-card">
+                <h3>Wealth Builder Planner</h3>
+                <label>Monthly Investment</label>
+                <input type="number" id="wealthMonthly" placeholder="10000">
+                <label>Years</label>
+                <input type="number" id="wealthYears" placeholder="15">
+                <label>Expected Return (%)</label>
+                <input type="number" id="wealthReturn" placeholder="12">
+                <button onclick="calculateWealthBuilder()">Estimate Portfolio</button>
+                <div class="planner-result" id="wealthResult">Estimated growth will appear here.</div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- RISK PROFILE QUIZ -->
+    <section class="section" id="risk-quiz">
+
+        <div class="section-title">
+            <h2>Risk Profile Quiz</h2>
+            <p>Find the investing style that suits you.</p>
+        </div>
+
+        <div class="quiz-card">
+            <div class="quiz-question">
+                <h4>1. What is your investment horizon?</h4>
+                <label><input type="radio" name="horizon" value="conservative"> Less than 3 years</label>
+                <label><input type="radio" name="horizon" value="moderate"> 3-7 years</label>
+                <label><input type="radio" name="horizon" value="aggressive"> More than 7 years</label>
+            </div>
+            <div class="quiz-question">
+                <h4>2. How do you react to market volatility?</h4>
+                <label><input type="radio" name="riskTolerance" value="conservative"> I prefer stable returns</label>
+                <label><input type="radio" name="riskTolerance" value="moderate"> I can tolerate moderate swings</label>
+                <label><input type="radio" name="riskTolerance" value="aggressive"> I welcome higher growth potential</label>
+            </div>
+            <div class="quiz-question">
+                <h4>3. What is your main goal?</h4>
+                <label><input type="radio" name="goalType" value="conservative"> Capital preservation</label>
+                <label><input type="radio" name="goalType" value="moderate"> Balanced growth</label>
+                <label><input type="radio" name="goalType" value="aggressive"> Wealth acceleration</label>
+            </div>
+            <button onclick="calculateRiskProfile()">See Your Risk Profile</button>
+            <div class="quiz-result" id="riskResult">Choose your answers to view your profile.</div>
+        </div>
+
+    </section>
+
+    <!-- TOP PERFORMING FUNDS -->
+    <section class="section" id="top-funds">
+
+        <div class="section-title">
+            <h2>Top Performing Funds</h2>
+            <p>High-performing funds selected for premium investors.</p>
+        </div>
+
+        <div class="fund-grid">
+            <div class="fund-card">
+                <h4>Alpha Growth Fund</h4>
+                <p class="fund-category">Large Cap</p>
+                <div class="fund-stats"><span>Returns 18.4%</span><span>AUM ₹9,200 Cr</span></div>
+                <button class="secondary-btn">Explore Fund</button>
+            </div>
+            <div class="fund-card">
+                <h4>Emerging Leaders</h4>
+                <p class="fund-category">Mid Cap</p>
+                <div class="fund-stats"><span>Returns 22.1%</span><span>AUM ₹5,800 Cr</span></div>
+                <button class="secondary-btn">Explore Fund</button>
+            </div>
+            <div class="fund-card">
+                <h4>Future Bluechip</h4>
+                <p class="fund-category">Small Cap</p>
+                <div class="fund-stats"><span>Returns 24.7%</span><span>AUM ₹3,200 Cr</span></div>
+                <button class="secondary-btn">Explore Fund</button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- REPORT DOWNLOADS -->
+    <section class="section" id="reports">
+
+        <div class="section-title">
+            <h2>Download Premium Reports</h2>
+            <p>Get instant PDF guides for your investment journey.</p>
+        </div>
+
+        <div class="report-grid">
+            <div class="report-card">
+                <h4>SIP Projection</h4>
+                <p>Download a personalized SIP growth report.</p>
+                <button class="secondary-btn" onclick="downloadReport('SIP Projection', 'Your SIP projection report from OM Financial Service.')">Download</button>
+            </div>
+            <div class="report-card">
+                <h4>Retirement Report</h4>
+                <p>Receive a retirement planning summary PDF.</p>
+                <button class="secondary-btn" onclick="downloadReport('Retirement Report', 'Your retirement plan report from OM Financial Service.')">Download</button>
+            </div>
+            <div class="report-card">
+                <h4>Tax Saving Guide</h4>
+                <p>Download a tax saving strategy guide.</p>
+                <button class="secondary-btn" onclick="downloadReport('Tax Saving Guide', 'Your tax saving guide from OM Financial Service.')">Download</button>
+            </div>
+            <div class="report-card">
+                <h4>Insurance Planning</h4>
+                <p>Get a PDF planning checklist for insurance.</p>
+                <button class="secondary-btn" onclick="downloadReport('Insurance Planning', 'Your insurance planning guide from OM Financial Service.')">Download</button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section" id="testimonials">
+
+        <div class="section-title">
+            <h2>Client Testimonials</h2>
+            <p>Real feedback from premium investors.</p>
+        </div>
+
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p>“OM Financial Service helped me build a long-term SIP plan that feels secure and modern.”</p>
+                <h4>Riya Sharma</h4>
+                <div class="rating">★★★★★</div>
+            </div>
+            <div class="testimonial-card">
+                <p>“The retirement planner report gave me confidence in my future goals and portfolio mix.”</p>
+                <h4>Arjun Patel</h4>
+                <div class="rating">★★★★★</div>
+            </div>
+            <div class="testimonial-card">
+                <p>“The wealth builder tools are intuitive and helped me take the next step in investing.”</p>
+                <h4>Neha Gupta</h4>
+                <div class="rating">★★★★★</div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- WHY CHOOSE -->
     <section class="section">
 
         <div class="section-title">
@@ -580,26 +836,30 @@
 
         <div class="section-title">
             <h2>Frequently Asked Questions</h2>
-            <p>Common questions about SIPs, mutual funds and investing.</p>
+            <p>Common questions about SIPs, mutual funds and insurance.</p>
         </div>
 
-        <div class="grid">
-
-            <div class="card">
-                <h3>What is SIP?</h3>
-                <p>Systematic Investment Plan (SIP) allows you to invest a fixed amount periodically into mutual funds, helping build wealth through rupee-cost averaging.</p>
+        <div class="faq-accordion">
+            <div class="faq-item">
+                <button class="faq-question">What is SIP?</button>
+                <div class="faq-answer"><p>SIP lets you invest a fixed amount regularly into mutual funds, allowing rupee-cost averaging and disciplined savings.</p></div>
             </div>
-
-            <div class="card">
-                <h3>Why invest in mutual funds?</h3>
-                <p>Mutual funds offer diversification, professional management and easy access to different asset classes, ideal for both new and experienced investors.</p>
+            <div class="faq-item">
+                <button class="faq-question">How do mutual funds work?</button>
+                <div class="faq-answer"><p>Mutual funds pool investor money and allocate it across stocks, bonds or other assets, managed by professionals to meet investment goals.</p></div>
             </div>
-
-            <div class="card">
-                <h3>How does SIP work?</h3>
-                <p>With SIP you invest a fixed sum monthly or quarterly; units are purchased at the prevailing NAV, averaging your purchase cost over time.</p>
+            <div class="faq-item">
+                <button class="faq-question">What is ELSS?</button>
+                <div class="faq-answer"><p>ELSS is an equity-linked savings scheme with tax benefits under section 80C, designed for long-term wealth creation through equities.</p></div>
             </div>
-
+            <div class="faq-item">
+                <button class="faq-question">Why invest through SIP?</button>
+                <div class="faq-answer"><p>SIP offers convenience, rupee-cost averaging, and the benefit of disciplined investing over time, reducing the impact of market volatility.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">How does insurance help?</button>
+                <div class="faq-answer"><p>Insurance protects you and your family from financial shocks by covering medical, life and liability expenses when unexpected events occur.</p></div>
+            </div>
         </div>
 
     </section>
@@ -642,8 +902,15 @@
     </div>
 
 </section>
-  
-    </section>
+
+    <div class="whatsapp-popup" id="whatsappPopup">
+        <div class="popup-text">
+            <strong>Need help with your SIP?</strong>
+            <span>Chat with our advisor on WhatsApp</span>
+        </div>
+        <a class="popup-link" href="https://wa.me/919717857755" target="_blank">Chat Now</a>
+        <button id="closeWhatsapp" aria-label="Close popup">×</button>
+    </div>
 
     <!-- FOOTER -->
 

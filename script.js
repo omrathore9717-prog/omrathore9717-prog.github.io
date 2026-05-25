@@ -40,6 +40,9 @@ const marketProxySources = [
     'https://api.allorigins.cf/raw?url='
 ];
 
+const marketCacheKey = 'omMarketCache';
+const marketRetryAttempts = 3;
+
 function formatChange(amount, percent) {
     const arrow = amount > 0 ? '▲' : amount < 0 ? '▼' : '—';
     return `${arrow} ${Math.abs(amount).toFixed(2)} (${percent.toFixed(2)}%)`;
@@ -64,13 +67,13 @@ function setMarketLoading() {
         const changeEl = document.getElementById(item.changeId);
         const timeEl = document.getElementById(item.timeId);
         const tickerEl = document.getElementById(item.tickerId);
-        if(valueEl) valueEl.innerText = 'Loading...';
-        if(changeEl) changeEl.innerText = 'Fetching...';
+        if(valueEl) valueEl.innerText = 'Loading market data...';
+        if(changeEl) changeEl.innerText = 'Loading...';
         if(timeEl) timeEl.innerText = 'Updated: --';
         if(tickerEl) tickerEl.innerText = 'Loading...';
     });
-    if(goldValue) goldValue.innerText = 'Loading...';
-    if(goldChange) goldChange.innerText = 'Fetching...';
+    if(goldValue) goldValue.innerText = 'Loading market data...';
+    if(goldChange) goldChange.innerText = 'Loading...';
     const goldTime = document.getElementById('gold-time');
     if(goldTime) goldTime.innerText = 'Updated: --';
     const tickerGold = document.getElementById('ticker-gold');
@@ -83,23 +86,73 @@ function setMarketError() {
         const changeEl = document.getElementById(item.changeId);
         const timeEl = document.getElementById(item.timeId);
         const tickerEl = document.getElementById(item.tickerId);
-        if(valueEl) valueEl.innerText = 'Market data unavailable';
+        if(valueEl) valueEl.innerText = 'Unable to load data';
         if(changeEl) changeEl.innerText = '';
         if(timeEl) timeEl.innerText = 'Updated: --';
-        if(tickerEl) tickerEl.innerText = 'Market data unavailable';
+        if(tickerEl) tickerEl.innerText = 'Unable to load data';
     });
-    if(goldValue) goldValue.innerText = 'Market data unavailable';
+    if(goldValue) goldValue.innerText = 'Unable to load data';
     if(goldChange) goldChange.innerText = '';
     const goldTime = document.getElementById('gold-time');
     if(goldTime) goldTime.innerText = 'Updated: --';
     const tickerGold = document.getElementById('ticker-gold');
-    if(tickerGold) tickerGold.innerText = 'Market data unavailable';
+    if(tickerGold) tickerGold.innerText = 'Unable to load data';
 }
 
-async function fetchJson(url) {
-    const response = await fetch(url);
-    if(!response.ok) throw new Error(`${url} fetch failed (${response.status})`);
-    return response.json();
+function saveMarketCache(payload) {
+    try {
+        localStorage.setItem(marketCacheKey, JSON.stringify(payload));
+    } catch (error) {
+        console.warn('Market cache save failed', error);
+    }
+}
+
+function loadMarketCache() {
+    try {
+        return JSON.parse(localStorage.getItem(marketCacheKey));
+    } catch {
+        return null;
+    }
+}
+
+function populateMarketData(payload, useCached = false) {
+    if (!payload || !payload.quotes) return;
+    const updatedAt = useCached ? `Updated: ${payload.updatedAt || 'previous'}` : `Updated: ${payload.updatedAt}`;
+
+    marketItems.forEach(item => {
+        const quote = payload.quotes.find(q => q.symbol === item.symbol);
+        const valueEl = document.getElementById(item.valueId);
+        const changeEl = document.getElementById(item.changeId);
+        const timeEl = document.getElementById(item.timeId);
+        const tickerEl = document.getElementById(item.tickerId);
+
+        if(!quote || typeof quote.regularMarketPrice !== 'number') return;
+
+        const price = quote.regularMarketPrice;
+        const change = quote.regularMarketChange || 0;
+        const percent = quote.regularMarketChangePercent || 0;
+        const formattedValue = item.symbol === 'INR=X'
+            ? '₹' + price.toFixed(4)
+            : price.toLocaleString('en-IN', {maximumFractionDigits: 2});
+
+        if(valueEl) valueEl.innerText = formattedValue;
+        if(tickerEl) tickerEl.innerText = formattedValue;
+        if(changeEl) {
+            changeEl.innerText = formatChange(change, percent);
+            changeEl.className = 'market-detail ' + (change > 0 ? 'positive' : change < 0 ? 'negative' : 'neutral');
+        }
+        if(timeEl) timeEl.innerText = updatedAt;
+    });
+
+    if(payload.goldValue && goldValue) goldValue.innerText = payload.goldValue;
+    if(payload.goldChange && goldChange) {
+        goldChange.innerText = payload.goldChange;
+        goldChange.className = 'market-detail ' + (payload.goldChangeAmount > 0 ? 'positive' : payload.goldChangeAmount < 0 ? 'negative' : 'neutral');
+    }
+    const goldTime = document.getElementById('gold-time');
+    if(goldTime) goldTime.innerText = updatedAt;
+    const tickerGold = document.getElementById('ticker-gold');
+    if(tickerGold && payload.goldValue) tickerGold.innerText = payload.goldValue;
 }
 
 async function fetchQuoteData(symbols) {
@@ -107,6 +160,7 @@ async function fetchQuoteData(symbols) {
     for (const proxy of marketProxySources) {
         try {
             const json = await fetchJson(proxy + encodeURIComponent(yahooUrl));
+            console.log('API Response:', json);
             if (json?.quoteResponse?.result?.length) {
                 console.log('Market: using Yahoo proxy', proxy);
                 return json.quoteResponse.result;
@@ -116,8 +170,10 @@ async function fetchQuoteData(symbols) {
         }
     }
 
-    const fmpUrl = `https://financialmodelingprep.com/api/v3/quote/%5ENSEI,%5EBSESN,INR=X?apikey=demo`;
+    const fmpSymbols = '%5ENSEI,%5EBSESN,%5ENSEBANK,INR=X';
+    const fmpUrl = `https://financialmodelingprep.com/api/v3/quote/${fmpSymbols}?apikey=demo`;
     const backupJson = await fetchJson(fmpUrl);
+    console.log('API Response:', backupJson);
     if(Array.isArray(backupJson) && backupJson.length) {
         console.log('Market: using FinancialModelingPrep fallback');
         return backupJson.map(item => ({
@@ -132,79 +188,89 @@ async function fetchQuoteData(symbols) {
 }
 
 async function fetchUSDINR() {
-    const rates = await fetchJson('https://api.exchangerate.host/latest?base=USD&symbols=INR');
-    return Number(rates?.rates?.INR);
+    try {
+        const rates = await fetchJson('https://api.exchangerate-api.com/v4/latest/USD');
+        console.log('API Response:', rates);
+        return Number(rates?.rates?.INR);
+    } catch (error) {
+        console.warn('USD/INR first fallback failed', error);
+        const rates = await fetchJson('https://api.exchangerate.host/latest?base=USD&symbols=INR');
+        console.log('API Response:', rates);
+        return Number(rates?.rates?.INR);
+    }
 }
 
 async function fetchGoldPriceUSD() {
-    const goldData = await fetchJson('https://data-asg.goldprice.org/dbXRates/USD');
-    const goldPrice = Number(goldData?.items?.[0]?.xauPrice);
-    if(!goldPrice || isNaN(goldPrice)) throw new Error('Gold API returned invalid price');
-    return goldPrice;
+    const goldSources = [
+        'https://api.metals.live/v1/spot/gold',
+        'https://data-asg.goldprice.org/dbXRates/USD'
+    ];
+    for (const source of goldSources) {
+        try {
+            const goldData = await fetchJson(source);
+            console.log('API Response:', goldData);
+            if (source.includes('metals.live') && Array.isArray(goldData) && goldData.length) {
+                const value = Number(goldData[0]?.price);
+                if (!isNaN(value)) return value;
+            }
+            if (source.includes('goldprice') && goldData?.items?.[0]) {
+                const value = Number(goldData.items[0].xauPrice);
+                if (!isNaN(value)) return value;
+            }
+        } catch (error) {
+            console.warn('Gold source failed', source, error);
+        }
+    }
+    throw new Error('Gold API returned invalid price');
+}
+
+async function attemptFetchMarketData(attempt = 1) {
+    try {
+        return await fetchMarketUpdate();
+    } catch (error) {
+        console.warn(`Market fetch attempt ${attempt} failed`, error);
+        if (attempt < marketRetryAttempts) {
+            return attemptFetchMarketData(attempt + 1);
+        }
+        throw error;
+    }
+}
+
+async function fetchMarketUpdate() {
+    const quotes = await fetchQuoteData(marketItems.map(item => item.symbol).join(','));
+    const usdQuote = quotes.find(q => q.symbol === 'INR=X');
+    let usdRate = usdQuote?.regularMarketPrice;
+    if(!usdRate || typeof usdRate !== 'number') {
+        usdRate = await fetchUSDINR();
+    }
+    const goldPriceUSD = await fetchGoldPriceUSD();
+    const goldInrPer10g = goldPriceUSD * usdRate / 31.1035 * 10;
+    return {
+        quotes,
+        goldValue: '₹' + goldInrPer10g.toFixed(2),
+        goldChange: formatChange(0, 0),
+        goldChangeAmount: 0,
+        updatedAt: formatUpdatedTime()
+    };
 }
 
 async function fetchMarketData() {
     setMarketLoading();
+    const cached = loadMarketCache();
+    if (cached) {
+        populateMarketData(cached, true);
+    }
+
     try {
-        const symbols = marketItems.map(item => item.symbol).join(',');
-        const quotes = await fetchQuoteData(symbols);
-        const updatedAt = formatUpdatedTime();
-
-        marketItems.forEach(item => {
-            const quote = quotes.find(q => q.symbol === item.symbol);
-            const valueEl = document.getElementById(item.valueId);
-            const changeEl = document.getElementById(item.changeId);
-            const timeEl = document.getElementById(item.timeId);
-            const tickerEl = document.getElementById(item.tickerId);
-
-            if(!quote || typeof quote.regularMarketPrice !== 'number') {
-                if(valueEl) valueEl.innerText = 'Market data unavailable';
-                if(changeEl) changeEl.innerText = '';
-                if(timeEl) timeEl.innerText = 'Updated: --';
-                if(tickerEl) tickerEl.innerText = 'Market data unavailable';
-                return;
-            }
-
-            const price = quote.regularMarketPrice;
-            const change = quote.regularMarketChange || 0;
-            const percent = quote.regularMarketChangePercent || 0;
-            const formattedValue = item.symbol === 'INR=X'
-                ? '₹' + price.toFixed(4)
-                : price.toLocaleString('en-IN', {maximumFractionDigits: 2});
-
-            if(valueEl) valueEl.innerText = formattedValue;
-            if(tickerEl) tickerEl.innerText = formattedValue;
-            if(changeEl) {
-                changeEl.innerText = formatChange(change, percent);
-                changeEl.className = 'market-detail ' + (change > 0 ? 'positive' : change < 0 ? 'negative' : 'neutral');
-            }
-            if(timeEl) timeEl.innerText = `Updated: ${updatedAt}`;
-        });
-
-        const usdQuote = quotes.find(q => q.symbol === 'INR=X');
-        let usdRate = usdQuote?.regularMarketPrice;
-        if(!usdRate || typeof usdRate !== 'number') {
-            usdRate = await fetchUSDINR();
-        }
-
-        const goldPriceUSD = await fetchGoldPriceUSD();
-        const goldInrPer10g = goldPriceUSD * usdRate / 31.1035 * 10;
-        const goldChangeAmount = 0;
-
-        if(goldValue) goldValue.innerText = '₹' + goldInrPer10g.toFixed(2);
-        if(goldChange) {
-            goldChange.innerText = formatChange(goldChangeAmount, 0);
-            goldChange.className = 'market-detail neutral';
-        }
-        const tickerGold = document.getElementById('ticker-gold');
-        const goldTime = document.getElementById('gold-time');
-        if(tickerGold) tickerGold.innerText = '₹' + goldInrPer10g.toFixed(2);
-        if(goldTime) goldTime.innerText = `Updated: ${updatedAt}`;
-
-        console.log('Market update complete', {updatedAt, usdRate, goldPriceUSD});
+        const payload = await attemptFetchMarketData();
+        console.log('API Response:', payload);
+        saveMarketCache(payload);
+        populateMarketData(payload, false);
     } catch (error) {
         console.error('Market fetch error', error);
-        setMarketError();
+        if (!cached) {
+            setMarketError();
+        }
     } finally {
         hideMarketLoader();
     }
@@ -776,7 +842,7 @@ function setTheme(mode){
 
 function initTheme(){
     const stored = localStorage.getItem(themeStorageKey);
-    const mode = stored === 'light' ? 'light' : 'dark';
+    const mode = stored === 'dark' ? 'dark' : 'light';
     setTheme(mode);
 }
 

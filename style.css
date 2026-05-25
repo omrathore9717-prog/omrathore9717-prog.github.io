@@ -1,28 +1,31 @@
 :root{
     --bg:#ffffff;
-    --card:#f8fafc;
-    --surface:rgba(255,255,255,0.95);
+    --card:#ffffff;
+    --surface:#ffffff;
     --surface-soft:#f8fafc;
     --text:#111827;
     --secondary:#6b7280;
     --muted:#6b7280;
-    --border:rgba(15,23,42,0.08);
+    --border:rgba(15,23,42,0.06);
     --card-text:#111827;
     --shadow:0 10px 30px rgba(0,0,0,0.08);
     --primary:#000000;
     --accent:#111827;
 }
 
+html{
+    scroll-behavior:smooth;
+}
+
 body{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    scroll-behavior:smooth;
     font-family:'Poppins',sans-serif;
     background:var(--bg);
     color:var(--text);
     overflow-x:hidden;
-    transition:background 0.35s ease, color 0.35s ease;
+    transition:background 0.3s ease, color 0.3s ease;
 }
 
 body.dark-theme{
@@ -30,10 +33,10 @@ body.dark-theme{
     --card:#111827;
     --text:#f8fafc;
     --secondary:#9ca3af;
-    --shadow:0 10px 30px rgba(0,0,0,0.5);
-    --surface:rgba(17,24,39,0.92);
-    --surface-soft:rgba(30,41,59,0.92);
-    --border:rgba(255,255,255,0.12);
+    --shadow:0 4px 12px rgba(0,0,0,0.3);
+    --surface:#111827;
+    --surface-soft:#1a2332;
+    --border:rgba(255,255,255,0.1);
     --accent:#93c5fd;
 }
 
@@ -65,10 +68,9 @@ body.dark-theme{
     top:0;
     z-index:1000;
     background:var(--bg);
-    backdrop-filter:blur(18px);
     border-bottom:1px solid var(--border);
-    box-shadow:var(--shadow);
-    transition:background 0.35s ease, border-color 0.35s ease, color 0.35s ease, box-shadow 0.35s ease;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+    transition:background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .logo{
@@ -290,8 +292,8 @@ body.dark-theme{
 }
 
 .card:hover{
-    transform:translateY(-10px);
-    box-shadow:0 20px 60px rgba(0,0,0,0.08);
+    transform:translateY(-4px);
+    box-shadow:0 8px 24px rgba(0,0,0,0.08);
 }
 
 .card h3{
@@ -450,18 +452,19 @@ body.dark-theme{
 
 .market-box{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:25px;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
     position:relative;
 }
 
 .market-card{
     background:var(--card);
     color:var(--text);
-    padding:28px 28px 30px;
-    border-radius:28px;
-    box-shadow:var(--shadow);
-    transition:transform 0.3s ease, box-shadow 0.3s ease;
+    padding:24px;
+    border-radius:20px;
+    border:1px solid var(--border);
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
 }
 .market-time{
     margin-top:14px;
@@ -515,8 +518,8 @@ body.dark-theme .screener-panel{
 }
 
 .market-card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 30px 80px rgba(0,0,0,0.2);
+    transform:translateY(-3px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
 .market-card h3{
@@ -964,4 +967,128 @@ footer{
 @media(max-width:600px){
     .whatsapp-popup{ width:auto; right:14px; bottom:14px; padding:16px; }
     .faq-question{ font-size:18px; }
+}
+
+/* COMPREHENSIVE MOBILE RESPONSIVE - 320px to 768px */
+
+@media(max-width:768px){
+    .section{ padding:60px 5%; }
+    .section-title h2{ font-size:36px; }
+    .section-title p{ font-size:16px; }
+    .hero{ padding:60px 5%; }
+    .hero-grid{ grid-template-columns:1fr; gap:24px; }
+    .hero-content h1{ font-size:42px; line-height:1.2; }
+    .hero-content p{ font-size:16px; }
+    .market-box{ grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; }
+    .market-card{ padding:16px; border-radius:16px; }
+    .market-current{ font-size:24px; }
+    .market-card h3{ font-size:16px; margin-bottom:10px; }
+    .ticker-wrap{ flex-direction:column; }
+    .navbar{ padding:14px 5%; gap:15px; }
+    .nav-links{ gap:20px; font-size:14px; }
+    .primary-btn, .secondary-btn{ padding:14px 28px; font-size:14px; }
+    .grid{ grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; }
+    .card{ padding:24px; }
+    .card h3{ font-size:22px; }
+    .blog-grid{ grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; }
+    .blog-card h4{ font-size:16px; padding:12px 12px 0; }
+    .blog-card p{ padding:0 12px 12px; font-size:14px; }
+    .dashboard-grid{ grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; }
+    .glass-card{ padding:16px; }
+    .glass-card .card-inner h3{ font-size:20px; }
+    .calculator{ padding:24px; }
+    .calculator input, .calculator button{ padding:12px; font-size:14px; }
+    .chart-grid{ grid-template-columns:1fr; }
+    .hero-buttons{ flex-direction:column; }
+    .quick-links a.secondary-btn{ padding:10px 16px; font-size:12px; }
+    .theme-toggle{ width:44px; height:44px; font-size:16px; }
+}
+
+@media(max-width:425px){
+    .section{ padding:40px 4%; }
+    .hero{ padding:40px 4%; min-height:auto; }
+    .navbar{ flex-direction:column; padding:10px 4%; gap:12px; }
+    .logo{ gap:8px; }
+    .logo-circle{ width:48px; height:48px; font-size:20px; }
+    .logo-text h2{ font-size:20px; }
+    .logo-text p{ font-size:11px; }
+    .nav-links{ display:none; }
+    .nav-links.mobile-active{ display:flex; flex-direction:column; gap:8px; width:100%; }
+    .whatsapp-btn{ padding:12px 20px; font-size:12px; display:none; }
+    .theme-toggle{ width:40px; height:40px; }
+    .hero-content h1{ font-size:28px; line-height:1.2; margin-bottom:16px; }
+    .hero-content p{ font-size:14px; line-height:1.6; }
+    .primary-btn, .secondary-btn{ padding:12px 20px; font-size:12px; width:100%; }
+    .quick-links{ margin-top:16px; flex-direction:column; }
+    .quick-links a.secondary-btn{ width:100%; padding:10px 14px; }
+    .market-box{ grid-template-columns:repeat(2,1fr); gap:12px; }
+    .market-card{ padding:12px; border-radius:12px; }
+    .market-current{ font-size:18px; margin-bottom:6px; }
+    .market-card h3{ font-size:13px; margin-bottom:8px; }
+    .market-time{ font-size:11px; margin-top:8px; }
+    .ticker-item{ flex:1 1 100px; }
+    .section-title h2{ font-size:26px; }
+    .section-title p{ font-size:14px; }
+    .grid, .blog-grid{ grid-template-columns:1fr; }
+    .card, .blog-card{ padding:16px; border-radius:16px; }
+    .card h3, .blog-card h4{ font-size:18px; }
+    .service-icon{ width:60px; height:60px; }
+    .dashboard-grid{ grid-template-columns:repeat(2,1fr); gap:12px; }
+    .glass-card{ padding:12px; }
+    .glass-card .card-inner h3{ font-size:18px; }
+    .calculator{ padding:16px; border-radius:16px; }
+    .calculator input, .calculator button{ padding:10px; font-size:12px; }
+    .fund-stats{ flex-direction:column; }
+    .testimonial-grid{ grid-template-columns:1fr; }
+    .amc-grid{ grid-template-columns:repeat(2,1fr); }
+    .contact-box{ padding:40px 5%; }
+    .contact-box h2{ font-size:32px; }
+    .screener-grid{ grid-template-columns:1fr; }
+    .screener-panel{ padding:16px; }
+    .screener-panel input{ padding:12px 14px; font-size:14px; }
+    .chip{ padding:8px 14px; font-size:12px; }
+    .emi-box{ padding:16px; }
+    .emi-box input, .emi-box button{ padding:10px; font-size:12px; }
+    .lumpsum-calculator{ padding:16px; }
+    .lumpsum-calculator input, .lumpsum-calculator button{ padding:10px 12px; }
+    .planner-grid{ grid-template-columns:1fr; gap:16px; }
+    .planner-card{ padding:20px; }
+    .report-grid{ grid-template-columns:1fr; }
+    .result-box h2{ font-size:32px; }
+    .hero-media img{ max-width:100%; border-radius:12px; }
+}
+
+@media(max-width:375px){
+    .section{ padding:32px 3%; }
+    .hero{ padding:32px 3%; }
+    .navbar{ padding:8px 3%; }
+    .logo-circle{ width:40px; height:40px; font-size:18px; }
+    .logo-text h2{ font-size:18px; }
+    .hero-content h1{ font-size:24px; }
+    .hero-content p{ font-size:13px; }
+    .primary-btn, .secondary-btn{ padding:10px 16px; font-size:11px; }
+    .market-card h3{ font-size:12px; }
+    .market-current{ font-size:16px; }
+    .section-title h2{ font-size:22px; }
+    .card h3{ font-size:16px; }
+    .calculator{ padding:12px; }
+    .dashboard-grid{ grid-template-columns:1fr; }
+}
+
+@media(max-width:320px){
+    .section{ padding:24px 3%; }
+    .hero{ padding:24px 3%; }
+    .navbar{ gap:8px; }
+    .logo{ gap:6px; }
+    .logo-circle{ width:36px; height:36px; font-size:14px; }
+    .logo-text h2{ font-size:14px; }
+    .logo-text p{ display:none; }
+    .section-title h2{ font-size:20px; }
+    .hero-content h1{ font-size:20px; }
+    .hero-content p{ font-size:12px; }
+    .primary-btn, .secondary-btn{ padding:8px 12px; font-size:10px; }
+    .market-box{ grid-template-columns:1fr; }
+    .card, .blog-card{ padding:12px; }
+    .card h3{ font-size:15px; }
+    .quick-links{ display:none; }
 }

@@ -311,6 +311,7 @@
         <div class="ticker-wrap">
             <div class="ticker-item"><span>NIFTY</span> <strong id="ticker-nifty">Loading...</strong></div>
             <div class="ticker-item"><span>SENSEX</span> <strong id="ticker-sensex">Loading...</strong></div>
+            <div class="ticker-item"><span>BANK NIFTY</span> <strong id="ticker-bank">Loading...</strong></div>
             <div class="ticker-item"><span>USD/INR</span> <strong id="ticker-usd">Loading...</strong></div>
             <div class="ticker-item"><span>GOLD</span> <strong id="ticker-gold">Loading...</strong></div>
         </div>
@@ -325,31 +326,43 @@
             <p>Track important market indices</p>
         </div>
 
-        <div class="market-box">
+        <div class="market-box" id="marketBox">
 
             <div class="market-card">
                 <h3>NIFTY 50</h3>
                 <div class="market-current" id="nifty-value">Loading...</div>
                 <div class="market-detail" id="nifty-change">Fetching...</div>
+                <div class="market-time" id="nifty-time">Updated: --</div>
             </div>
 
             <div class="market-card">
                 <h3>SENSEX</h3>
                 <div class="market-current" id="sensex-value">Loading...</div>
                 <div class="market-detail" id="sensex-change">Fetching...</div>
+                <div class="market-time" id="sensex-time">Updated: --</div>
+            </div>
+
+            <div class="market-card">
+                <h3>BANK NIFTY</h3>
+                <div class="market-current" id="bank-value">Loading...</div>
+                <div class="market-detail" id="bank-change">Fetching...</div>
+                <div class="market-time" id="bank-time">Updated: --</div>
             </div>
 
             <div class="market-card">
                 <h3>GOLD</h3>
                 <div class="market-current" id="gold-value">Loading...</div>
                 <div class="market-detail" id="gold-change">Fetching...</div>
+                <div class="market-time" id="gold-time">Updated: --</div>
             </div>
 
             <div class="market-card">
                 <h3>USD / INR</h3>
                 <div class="market-current" id="usd-value">Loading...</div>
                 <div class="market-detail" id="usd-change">Fetching...</div>
+                <div class="market-time" id="usd-time">Updated: --</div>
             </div>
+            <div class="market-loader" id="marketLoader" aria-hidden="true"></div>
 
         </div>
 
@@ -440,7 +453,10 @@
         </div>
 
         <div class="screener-panel">
-            <input type="search" id="screenerSearch" placeholder="Search funds by name or category">
+            <div class="screener-search-wrapper">
+                <input type="search" id="screenerSearch" placeholder="Search funds by name or category" autocomplete="off">
+                <div class="autocomplete-list" id="autocompleteList" aria-live="polite"></div>
+            </div>
             <div class="filter-chips">
                 <button class="chip active" data-filter="all">All</button>
                 <button class="chip" data-filter="Large Cap">Large Cap</button>

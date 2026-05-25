@@ -6,27 +6,15 @@ window.addEventListener("scroll",()=>{
 
     const navbar =
     document.querySelector(".navbar");
+    if(!navbar) return;
 
-    if(window.scrollY > 50){
+    const isDark = document.body.classList.contains('dark-theme');
+    const lightBg = window.scrollY > 50 ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.55)';
+    const darkBg = window.scrollY > 50 ? 'rgba(14,18,36,0.92)' : 'rgba(18,23,52,0.85)';
 
-        navbar.style.background =
-        "rgba(255,255,255,0.75)";
-
-        navbar.style.backdropFilter =
-        "blur(20px)";
-
-        navbar.style.boxShadow =
-        "0 10px 40px rgba(0,0,0,0.05)";
-    }
-
-    else{
-
-        navbar.style.background =
-        "rgba(255,255,255,0.55)";
-
-        navbar.style.boxShadow =
-        "none";
-    }
+    navbar.style.background = isDark ? darkBg : lightBg;
+    navbar.style.backdropFilter = "blur(20px)";
+    navbar.style.boxShadow = window.scrollY > 50 ? "0 10px 40px rgba(0,0,0,0.05)" : "none";
 
 });
 
@@ -38,30 +26,53 @@ window.addEventListener("scroll",()=>{
 // =========================
 
 const marketItems = [
-    {symbol: '^NSEI', valueId: 'nifty-value', changeId: 'nifty-change', tickerId: 'ticker-nifty'},
-    {symbol: '^BSESN', valueId: 'sensex-value', changeId: 'sensex-change', tickerId: 'ticker-sensex'},
-    {symbol: 'INR=X', valueId: 'usd-value', changeId: 'usd-change', tickerId: 'ticker-usd'}
+    {symbol: '^NSEI', valueId: 'nifty-value', changeId: 'nifty-change', tickerId: 'ticker-nifty', timeId: 'nifty-time'},
+    {symbol: '^BSESN', valueId: 'sensex-value', changeId: 'sensex-change', tickerId: 'ticker-sensex', timeId: 'sensex-time'},
+    {symbol: '^NSEBANK', valueId: 'bank-value', changeId: 'bank-change', tickerId: 'ticker-bank', timeId: 'bank-time'},
+    {symbol: 'INR=X', valueId: 'usd-value', changeId: 'usd-change', tickerId: 'ticker-usd', timeId: 'usd-time'}
 ];
 
 const goldValue = document.getElementById('gold-value');
 const goldChange = document.getElementById('gold-change');
+const marketLoader = document.getElementById('marketLoader');
+const marketProxySources = [
+    'https://api.allorigins.win/raw?url=',
+    'https://api.allorigins.cf/raw?url='
+];
 
 function formatChange(amount, percent) {
     const arrow = amount > 0 ? '▲' : amount < 0 ? '▼' : '—';
     return `${arrow} ${Math.abs(amount).toFixed(2)} (${percent.toFixed(2)}%)`;
 }
 
+function formatUpdatedTime(date = new Date()) {
+    return date.toLocaleTimeString('en-IN', {hour: '2-digit', minute: '2-digit'}) + ' IST';
+}
+
+function showMarketLoader() {
+    if(marketLoader) marketLoader.style.display = 'flex';
+}
+
+function hideMarketLoader() {
+    if(marketLoader) marketLoader.style.display = 'none';
+}
+
 function setMarketLoading() {
+    showMarketLoader();
     marketItems.forEach(item => {
         const valueEl = document.getElementById(item.valueId);
         const changeEl = document.getElementById(item.changeId);
+        const timeEl = document.getElementById(item.timeId);
         const tickerEl = document.getElementById(item.tickerId);
         if(valueEl) valueEl.innerText = 'Loading...';
         if(changeEl) changeEl.innerText = 'Fetching...';
+        if(timeEl) timeEl.innerText = 'Updated: --';
         if(tickerEl) tickerEl.innerText = 'Loading...';
     });
     if(goldValue) goldValue.innerText = 'Loading...';
     if(goldChange) goldChange.innerText = 'Fetching...';
+    const goldTime = document.getElementById('gold-time');
+    if(goldTime) goldTime.innerText = 'Updated: --';
     const tickerGold = document.getElementById('ticker-gold');
     if(tickerGold) tickerGold.innerText = 'Loading...';
 }
@@ -70,36 +81,86 @@ function setMarketError() {
     marketItems.forEach(item => {
         const valueEl = document.getElementById(item.valueId);
         const changeEl = document.getElementById(item.changeId);
+        const timeEl = document.getElementById(item.timeId);
         const tickerEl = document.getElementById(item.tickerId);
         if(valueEl) valueEl.innerText = 'Market data unavailable';
         if(changeEl) changeEl.innerText = '';
+        if(timeEl) timeEl.innerText = 'Updated: --';
         if(tickerEl) tickerEl.innerText = 'Market data unavailable';
     });
     if(goldValue) goldValue.innerText = 'Market data unavailable';
     if(goldChange) goldChange.innerText = '';
+    const goldTime = document.getElementById('gold-time');
+    if(goldTime) goldTime.innerText = 'Updated: --';
     const tickerGold = document.getElementById('ticker-gold');
     if(tickerGold) tickerGold.innerText = 'Market data unavailable';
+}
+
+async function fetchJson(url) {
+    const response = await fetch(url);
+    if(!response.ok) throw new Error(`${url} fetch failed (${response.status})`);
+    return response.json();
+}
+
+async function fetchQuoteData(symbols) {
+    const yahooUrl = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbols}`;
+    for (const proxy of marketProxySources) {
+        try {
+            const json = await fetchJson(proxy + encodeURIComponent(yahooUrl));
+            if (json?.quoteResponse?.result?.length) {
+                console.log('Market: using Yahoo proxy', proxy);
+                return json.quoteResponse.result;
+            }
+        } catch (error) {
+            console.warn('Market: Yahoo proxy failed', proxy, error);
+        }
+    }
+
+    const fmpUrl = `https://financialmodelingprep.com/api/v3/quote/%5ENSEI,%5EBSESN,INR=X?apikey=demo`;
+    const backupJson = await fetchJson(fmpUrl);
+    if(Array.isArray(backupJson) && backupJson.length) {
+        console.log('Market: using FinancialModelingPrep fallback');
+        return backupJson.map(item => ({
+            symbol: item.symbol,
+            regularMarketPrice: item.price,
+            regularMarketChange: item.change,
+            regularMarketChangePercent: item.changesPercentage
+        }));
+    }
+
+    throw new Error('No market quote source available');
+}
+
+async function fetchUSDINR() {
+    const rates = await fetchJson('https://api.exchangerate.host/latest?base=USD&symbols=INR');
+    return Number(rates?.rates?.INR);
+}
+
+async function fetchGoldPriceUSD() {
+    const goldData = await fetchJson('https://data-asg.goldprice.org/dbXRates/USD');
+    const goldPrice = Number(goldData?.items?.[0]?.xauPrice);
+    if(!goldPrice || isNaN(goldPrice)) throw new Error('Gold API returned invalid price');
+    return goldPrice;
 }
 
 async function fetchMarketData() {
     setMarketLoading();
     try {
-        const symbols = marketItems.map(item => encodeURIComponent(item.symbol)).join(',');
-        const quoteUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://query1.finance.yahoo.com/v7/finance/quote?symbols=' + symbols);
-        const quoteResp = await fetch(quoteUrl);
-        if(!quoteResp.ok) throw new Error('Quote fetch failed');
-        const quoteJson = await quoteResp.json();
-        const quotes = quoteJson.quoteResponse?.result || [];
+        const symbols = marketItems.map(item => item.symbol).join(',');
+        const quotes = await fetchQuoteData(symbols);
+        const updatedAt = formatUpdatedTime();
 
         marketItems.forEach(item => {
             const quote = quotes.find(q => q.symbol === item.symbol);
             const valueEl = document.getElementById(item.valueId);
             const changeEl = document.getElementById(item.changeId);
+            const timeEl = document.getElementById(item.timeId);
             const tickerEl = document.getElementById(item.tickerId);
 
             if(!quote || typeof quote.regularMarketPrice !== 'number') {
                 if(valueEl) valueEl.innerText = 'Market data unavailable';
                 if(changeEl) changeEl.innerText = '';
+                if(timeEl) timeEl.innerText = 'Updated: --';
                 if(tickerEl) tickerEl.innerText = 'Market data unavailable';
                 return;
             }
@@ -117,39 +178,35 @@ async function fetchMarketData() {
                 changeEl.innerText = formatChange(change, percent);
                 changeEl.className = 'market-detail ' + (change > 0 ? 'positive' : change < 0 ? 'negative' : 'neutral');
             }
+            if(timeEl) timeEl.innerText = `Updated: ${updatedAt}`;
         });
 
         const usdQuote = quotes.find(q => q.symbol === 'INR=X');
-        const usdRate = usdQuote?.regularMarketPrice;
+        let usdRate = usdQuote?.regularMarketPrice;
         if(!usdRate || typeof usdRate !== 'number') {
-            throw new Error('USD/INR unavailable');
+            usdRate = await fetchUSDINR();
         }
 
-        const goldResp = await fetch('https://api.metals.live/v1/spot/gold');
-        if(!goldResp.ok) throw new Error('Gold fetch failed');
-        const goldJson = await goldResp.json();
-        const goldQuote = Array.isArray(goldJson) ? goldJson[0] : goldJson;
-        const goldPriceUSD = typeof goldQuote === 'object' ? goldQuote.price : goldQuote;
-        const goldPreviousUSD = Array.isArray(goldJson) && goldJson[1] ? (typeof goldJson[1] === 'object' ? goldJson[1].price : goldJson[1]) : null;
-
-        if(!goldPriceUSD || typeof goldPriceUSD !== 'number') {
-            throw new Error('Gold price unavailable');
-        }
-
+        const goldPriceUSD = await fetchGoldPriceUSD();
         const goldInrPer10g = goldPriceUSD * usdRate / 31.1035 * 10;
-        const goldChangeAmount = goldPreviousUSD ? (goldPriceUSD - goldPreviousUSD) * usdRate / 31.1035 * 10 : 0;
-        const goldPercent = goldPreviousUSD ? (goldChangeAmount / (goldPreviousUSD * usdRate / 31.1035 * 10)) * 100 : 0;
+        const goldChangeAmount = 0;
 
         if(goldValue) goldValue.innerText = '₹' + goldInrPer10g.toFixed(2);
         if(goldChange) {
-            goldChange.innerText = goldPreviousUSD ? formatChange(goldChangeAmount, goldPercent) : '•';
-            goldChange.className = 'market-detail ' + (goldChangeAmount > 0 ? 'positive' : goldChangeAmount < 0 ? 'negative' : 'neutral');
+            goldChange.innerText = formatChange(goldChangeAmount, 0);
+            goldChange.className = 'market-detail neutral';
         }
         const tickerGold = document.getElementById('ticker-gold');
+        const goldTime = document.getElementById('gold-time');
         if(tickerGold) tickerGold.innerText = '₹' + goldInrPer10g.toFixed(2);
+        if(goldTime) goldTime.innerText = `Updated: ${updatedAt}`;
+
+        console.log('Market update complete', {updatedAt, usdRate, goldPriceUSD});
     } catch (error) {
         console.error('Market fetch error', error);
         setMarketError();
+    } finally {
+        hideMarketLoader();
     }
 }
 
@@ -516,17 +573,41 @@ function calculateLumpsum(){
 }
 
 const screenerFunds = [
+    { name: 'Parag Parikh Flexi Cap Fund', category: 'Flexi Cap', returns: '17.4%', aum: '₹12,100 Cr', description: 'A flexible portfolio combining large, mid, and small cap equities.' },
+    { name: 'SBI Small Cap Fund', category: 'Small Cap', returns: '26.8%', aum: '₹5,300 Cr', description: 'Focused small cap fund for aggressive growth seekers.' },
+    { name: 'ICICI Bluechip Fund', category: 'Large Cap', returns: '19.1%', aum: '₹18,700 Cr', description: 'High-quality bluechip equity allocation for stability.' },
+    { name: 'Motilal Oswal Midcap Fund', category: 'Mid Cap', returns: '22.4%', aum: '₹6,100 Cr', description: 'Mid-cap oriented strategy with growth potential.' },
+    { name: 'HDFC Balanced Advantage Fund', category: 'Hybrid', returns: '14.7%', aum: '₹22,300 Cr', description: 'Dynamic allocation between equity and debt for moderate risk.' },
     { name: 'Alpha Growth Fund', category: 'Large Cap', returns: '18.4%', aum: '₹9,200 Cr', description: 'Stable bluechip performance for long-term growth.' },
-    { name: 'Emerging Leaders', category: 'Mid Cap', returns: '22.1%', aum: '₹5,800 Cr', description: 'High potential mid cap portfolio with momentum.' },
-    { name: 'Future Bluechip', category: 'Small Cap', returns: '24.7%', aum: '₹3,200 Cr', description: 'Aggressive growth fund for future leaders.' },
     { name: 'Secure Income Fund', category: 'Debt Funds', returns: '8.2%', aum: '₹7,400 Cr', description: 'Low volatility debt fund for steady income.' },
     { name: 'Tax Saver ELSS', category: 'ELSS', returns: '15.6%', aum: '₹4,900 Cr', description: 'Tax-efficient equity-linked savings with growth.' },
+    { name: 'Future Bluechip', category: 'Small Cap', returns: '24.7%', aum: '₹3,200 Cr', description: 'Aggressive growth fund for future leaders.' },
     { name: 'Balanced Advantage', category: 'Hybrid', returns: '13.2%', aum: '₹6,800 Cr', description: 'Hybrid strategy for disciplined risk management.' }
 ];
+
+const autocompleteList = document.getElementById('autocompleteList');
+let activeSuggestionIndex = -1;
+
+function debounce(fn, delay = 240) {
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn(...args), delay);
+    };
+}
 
 function renderScreener(funds){
     const grid = document.getElementById('screenerGrid');
     if(!grid) return;
+    if(!funds.length){
+        grid.innerHTML = `
+            <div class="screener-card no-results">
+                <h4>No scheme found</h4>
+                <p>Try another name, category, or fund example.</p>
+            </div>
+        `;
+        return;
+    }
     grid.innerHTML = funds.map(fund => `
         <div class="screener-card">
             <h4>${fund.name}</h4>
@@ -538,18 +619,58 @@ function renderScreener(funds){
     `).join('');
 }
 
+function clearAutocomplete(){
+    if(autocompleteList) {
+        autocompleteList.innerHTML = '';
+        activeSuggestionIndex = -1;
+    }
+}
+
+function updateActiveSuggestion(items){
+    items.forEach((item, index) => item.classList.toggle('active', index === activeSuggestionIndex));
+    if(activeSuggestionIndex >= 0 && items[activeSuggestionIndex]) {
+        items[activeSuggestionIndex].scrollIntoView({ block: 'nearest' });
+    }
+}
+
+function selectSuggestion(value){
+    const search = document.getElementById('screenerSearch');
+    if(search){
+        search.value = value;
+    }
+    updateScreener();
+    clearAutocomplete();
+}
+
+function buildSuggestions(term, funds){
+    if(!autocompleteList) return;
+    clearAutocomplete();
+    if(!term) return;
+    const suggestions = [...new Set(funds.map(fund => fund.name))].slice(0, 6);
+    suggestions.forEach(text => {
+        const item = document.createElement('button');
+        item.type = 'button';
+        item.className = 'autocomplete-item';
+        item.textContent = text;
+        item.addEventListener('click', () => selectSuggestion(text));
+        autocompleteList.appendChild(item);
+    });
+}
+
 function updateScreener(){
     const search = document.getElementById('screenerSearch');
-    const term = search?.value.toLowerCase() || '';
+    const term = search?.value.trim().toLowerCase() || '';
     const activeChip = document.querySelector('.chip.active');
     const filter = activeChip ? activeChip.dataset.filter : 'all';
 
     const filtered = screenerFunds.filter(fund => {
-        const matchesTerm = fund.name.toLowerCase().includes(term) || fund.category.toLowerCase().includes(term) || fund.description.toLowerCase().includes(term);
+        const matchesTerm = !term || fund.name.toLowerCase().includes(term) || fund.category.toLowerCase().includes(term) || fund.description.toLowerCase().includes(term);
         const matchesFilter = filter === 'all' || fund.category === filter;
         return matchesTerm && matchesFilter;
     });
+
     renderScreener(filtered);
+    buildSuggestions(term, filtered);
 }
 
 function initializeScreener(){
@@ -557,7 +678,33 @@ function initializeScreener(){
     const search = document.getElementById('screenerSearch');
     const chips = document.querySelectorAll('.chip');
     if(search){
-        search.addEventListener('input', updateScreener);
+        const debouncedSearch = debounce(updateScreener, 250);
+        search.addEventListener('input', debouncedSearch);
+        search.addEventListener('keydown', event => {
+            const items = autocompleteList?.querySelectorAll('.autocomplete-item');
+            if(!items?.length) return;
+            if(event.key === 'ArrowDown'){
+                activeSuggestionIndex = Math.min(activeSuggestionIndex + 1, items.length - 1);
+                updateActiveSuggestion(items);
+                event.preventDefault();
+            } else if(event.key === 'ArrowUp'){
+                activeSuggestionIndex = Math.max(activeSuggestionIndex - 1, 0);
+                updateActiveSuggestion(items);
+                event.preventDefault();
+            } else if(event.key === 'Enter'){
+                if(activeSuggestionIndex >= 0){
+                    items[activeSuggestionIndex].click();
+                    event.preventDefault();
+                }
+            } else if(event.key === 'Escape'){
+                clearAutocomplete();
+            }
+        });
+        document.addEventListener('click', event => {
+            if(!event.target.closest('.screener-search-wrapper')){
+                clearAutocomplete();
+            }
+        });
     }
     chips.forEach(chip => {
         chip.addEventListener('click', () => {
@@ -613,6 +760,34 @@ function downloadReport(title, body){
 }
 
 window.addEventListener('load', initializeScreener);
+
+const themeToggle = document.getElementById('themeToggle');
+const themeStorageKey = 'omThemeMode';
+
+function setTheme(mode){
+    const isDark = mode !== 'light';
+    document.body.classList.toggle('dark-theme', isDark);
+    if(themeToggle){
+        themeToggle.innerText = isDark ? '🌙' : '☀';
+        themeToggle.setAttribute('aria-label', isDark ? 'Activate light mode' : 'Activate dark mode');
+    }
+    localStorage.setItem(themeStorageKey, isDark ? 'dark' : 'light');
+}
+
+function initTheme(){
+    const stored = localStorage.getItem(themeStorageKey);
+    const mode = stored === 'light' ? 'light' : 'dark';
+    setTheme(mode);
+}
+
+if(themeToggle){
+    themeToggle.addEventListener('click', () => {
+        const nextMode = document.body.classList.contains('dark-theme') ? 'light' : 'dark';
+        setTheme(nextMode);
+    });
+}
+
+initTheme();
 
 function calculateRetirement(){
     const currentAge = parseFloat(document.getElementById('retireCurrentAge').value);

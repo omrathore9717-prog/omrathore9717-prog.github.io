@@ -114,43 +114,85 @@ setInterval(fetchMarketData, 60000);
 // SIP CALCULATOR
 // =========================
 
+const sipFieldIds = ["monthly", "rate", "years"];
 
 function calculateSIP(){
 
-    const amount = parseFloat(document.getElementById("monthly").value);
-    const rate = parseFloat(document.getElementById("rate").value);
-    const years = parseFloat(document.getElementById("years").value);
+    const amountEl = document.getElementById("monthly");
+    const rateEl = document.getElementById("rate");
+    const yearsEl = document.getElementById("years");
 
     const investedEl = document.getElementById("invested");
     const returnsEl = document.getElementById("estimated");
     const resultEl = document.getElementById("result");
+    const warningEl = document.getElementById("sipWarning");
+    const resultBox = resultEl ? resultEl.closest(".result-box") : null;
 
-    if(isNaN(amount) || isNaN(rate) || isNaN(years)){
-        if(resultEl) resultEl.innerText = "Please Enter Valid Values";
+    const fields = [amountEl, rateEl, yearsEl].filter(Boolean);
+    fields.forEach(field => field.classList.remove("input-warning"));
+
+    const hasEmptyField = fields.some(field => field.value.trim() === "");
+    if(hasEmptyField){
+        fields.forEach(field => {
+            if(field.value.trim() === "") field.classList.add("input-warning");
+        });
+        if(warningEl) warningEl.innerText = "Please fill all SIP calculator fields.";
         return;
     }
 
-    const monthlyRate = rate / 12 / 100;
-    const months = years * 12;
+    const amount = parseFloat(amountEl.value);
+    const rate = parseFloat(rateEl.value);
+    const years = parseFloat(yearsEl.value);
+
+    const hasInvalidNumber = [amount, rate, years].some(value => Number.isNaN(value));
+    if(hasInvalidNumber){
+        if(warningEl) warningEl.innerText = "Please enter valid numbers.";
+        return;
+    }
+
+    const hasNegativeValue = [amount, rate, years].some(value => value < 0);
+    if(hasNegativeValue){
+        fields.forEach(field => {
+            if(parseFloat(field.value) < 0) field.classList.add("input-warning");
+        });
+        if(warningEl) warningEl.innerText = "Negative values are not allowed.";
+        return;
+    }
+
+    if(warningEl) warningEl.innerText = "";
+
+    const r = rate / 12 / 100;
+    const n = years * 12;
 
     // build monthly progression for growth chart
     const labels = [];
     const data = [];
 
-    let balance = 0;
-    for(let m=1; m<=months; m++){
-        balance = balance * (1 + monthlyRate) + amount;
+    for(let m=1; m<=n; m++){
+        const value = r === 0
+            ? amount * m
+            : amount * ((Math.pow(1 + r, m) - 1) / r) * (1 + r);
         labels.push(m);
-        data.push(Math.round(balance));
+        data.push(Math.round(value));
     }
 
-    const maturity = Math.round(balance);
-    const invested = Math.round(amount * months);
-    const estimatedReturns = Math.max(0, maturity - invested);
+    const maturity = r === 0
+        ? amount * n
+        : amount * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
+    const invested = amount * n;
+    const estimatedReturns = maturity - invested;
 
-    if(investedEl) investedEl.innerText = "₹" + invested.toLocaleString();
-    if(returnsEl) returnsEl.innerText = "₹" + estimatedReturns.toLocaleString();
-    if(resultEl) resultEl.innerText = "₹" + maturity.toLocaleString();
+    const formatCurrency = value => "₹" + Math.round(value).toLocaleString("en-IN");
+
+    if(investedEl) investedEl.innerText = formatCurrency(invested);
+    if(returnsEl) returnsEl.innerText = formatCurrency(estimatedReturns);
+    if(resultEl) resultEl.innerText = formatCurrency(maturity);
+
+    if(resultBox){
+        resultBox.classList.remove("result-updated");
+        void resultBox.offsetWidth;
+        resultBox.classList.add("result-updated");
+    }
 
     if(typeof updateChart === 'function'){
         updateChart(invested, estimatedReturns);
@@ -158,6 +200,18 @@ function calculateSIP(){
 
     updateGrowthChart(labels, data);
 
+}
+
+function initializeSIPCalculator(){
+    if(initializeSIPCalculator.initialized) return;
+    initializeSIPCalculator.initialized = true;
+
+    sipFieldIds.forEach(id => {
+        const field = document.getElementById(id);
+        if(field) field.addEventListener("input", calculateSIP);
+    });
+
+    calculateSIP();
 }
 
 
@@ -427,6 +481,8 @@ window.onload = ()=>{
     calculateSIP();
 
 };
+
+document.addEventListener("DOMContentLoaded", initializeSIPCalculator);
 
 // Set default values for lumpsum inputs
 window.addEventListener('load', ()=>{

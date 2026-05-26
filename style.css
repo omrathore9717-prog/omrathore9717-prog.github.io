@@ -567,6 +567,18 @@ body.dark-theme .screener-panel{
     font-size:18px;
 }
 
+.calculator input.input-warning{
+    border-color:#d93025;
+}
+
+.calculator-warning{
+    min-height:24px;
+    margin:-10px 0 18px;
+    color:#d93025;
+    font-size:14px;
+    font-weight:600;
+}
+
 .calculator button{
     width:100%;
     padding:18px;
@@ -581,6 +593,15 @@ body.dark-theme .screener-panel{
 .result-box{
     margin-top:30px;
     text-align:center;
+}
+
+.result-box.result-updated{
+    animation:resultPulse 0.35s ease;
+}
+
+@keyframes resultPulse{
+    0%{ transform:translateY(4px); opacity:0.72; }
+    100%{ transform:translateY(0); opacity:1; }
 }
 
 .result-box h2{

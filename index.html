@@ -485,14 +485,16 @@
 
         <div class="calculator">
 
-            <label>Monthly Investment</label>
-            <input type="number" id="monthly" value="5000">
+            <label>Monthly SIP Amount (₹)</label>
+            <input type="number" id="monthly" value="5000" min="0" step="100">
 
-            <label>Expected Return (%)</label>
-            <input type="number" id="rate" value="12">
+            <label>Expected Return (% per year)</label>
+            <input type="number" id="rate" value="12" min="0" step="0.1">
 
-            <label>Investment Period (Years)</label>
-            <input type="number" id="years" value="10">
+            <label>Time Period (Years)</label>
+            <input type="number" id="years" value="10" min="0" step="1">
+
+            <p class="calculator-warning" id="sipWarning" aria-live="polite"></p>
 
             <button onclick="calculateSIP()">
                 Calculate Returns

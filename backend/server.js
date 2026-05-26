@@ -34,7 +34,75 @@ function classifyFund(name = '') {
 }
 
 function normalizeFund(scheme) {
-    const name = scheme.schemeName || 'Mutual Fund Scheme';
+    const name = scheme.Read existing OM Financial Service project.
+
+Backend works:
+https://omrathore9717-prog-github-io.onrender.com
+
+Problem:
+Frontend still calls localhost and live funds/market not rendering.
+
+DO NOT redesign.
+DO NOT rebuild.
+
+Fix script.js only.
+
+1. Remove ALL hardcoded localhost fetch calls:
+http://localhost:5000/api/funds
+http://localhost:5000/api/market
+
+2. Use single API helper:
+
+const API_BASE =
+window.location.hostname.includes("github.io")
+? "https://omrathore9717-prog-github-io.onrender.com"
+: "http://localhost:5000";
+
+const apiUrl = (path) =>
+`${API_BASE.replace(/\/$/, '')}${path}`;
+
+3. Replace ALL fetches:
+
+fetch(apiUrl('/api/funds'))
+fetch(apiUrl('/api/market'))
+
+4. Add debug:
+
+console.log("API BASE",API_BASE);
+
+5. Force render:
+
+async function loadFunds(){
+
+const response =
+await fetch(
+apiUrl('/api/funds')
+);
+
+const result=
+await response.json();
+
+const funds=
+result.data||[];
+
+console.log(
+"FUNDS",
+funds.length
+);
+
+renderFunds(funds);
+
+}
+
+6. Remove old static arrays.
+
+7. Search entire project:
+localhost:5000
+
+Replace every occurrence.
+
+Only fix integration.
+No UI changes.schemeName || 'Mutual Fund Scheme';
     const category = classifyFund(name);
     return {
         code: scheme.schemeCode,

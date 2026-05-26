@@ -23,6 +23,7 @@ const marketCacheKey = 'omMarketCache';
 const API_BASE = window.location.hostname.includes("github.io")
     ? "https://omrathore9717-prog-github-io.onrender.com"
     : "http://localhost:5000";
+console.log("API BASE", API_BASE);
 // allow an explicit override via global variable if set
 const API_BASE_URL = window.OM_BACKEND_DOMAIN || API_BASE;
 const apiUrl = path => `${API_BASE_URL.replace(/\/$/, '')}${path}`;
@@ -82,7 +83,7 @@ function hydrateMarketData(liveMarketData) {
 async function fetchMarketData() {
     showMarketLoader();
     try {
-        const response = await fetch(`${API_BASE}/api/market`);
+        const response = await fetch(apiUrl('/api/market'));
         if(!response.ok) throw new Error('Market request failed');
         const payload = await response.json();
         hydrateMarketData(payload.data || {});
@@ -663,7 +664,7 @@ function updateScreener(){
 async function loadScreenerFunds(){
     renderScreenerLoading();
     try {
-        const response = await fetch(`${API_BASE}/api/funds`);
+        const response = await fetch(apiUrl('/api/funds'));
         if(!response.ok) throw new Error('Funds request failed');
         const result = await response.json();
         const funds = result.data || [];
@@ -722,7 +723,7 @@ function renderFunds(funds){
 async function loadFunds(){
     try {
         console.log('API BASE:', API_BASE);
-        const response = await fetch(`${API_BASE}/api/funds`);
+        const response = await fetch(apiUrl('/api/funds'));
         if(!response.ok) throw new Error('Funds request failed');
 
         const result = await response.json();

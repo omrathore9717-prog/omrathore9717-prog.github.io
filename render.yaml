@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: om-financial-service-backend
+    env: node
+    plan: free
+    branch: main
+    region: oregon
+    buildCommand: "cd backend && npm install"
+    startCommand: "cd backend && npm start"
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: CORS_ORIGIN
+        value: "https://YOUR_GITHUB_PAGES_DOMAIN"

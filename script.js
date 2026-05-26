@@ -5,12 +5,8 @@
 window.addEventListener("scroll", () => {
     const navbar = document.querySelector(".navbar");
     if(!navbar) return;
-    
-    const isDark = document.body.classList.contains('dark-theme');
-    const lightShadow = window.scrollY > 50 ? "0 2px 8px rgba(0,0,0,0.08)" : "none";
-    const darkShadow = window.scrollY > 50 ? "0 2px 8px rgba(0,0,0,0.2)" : "none";
-    
-    navbar.style.boxShadow = isDark ? darkShadow : lightShadow;
+
+    navbar.style.boxShadow = window.scrollY > 50 ? "0 10px 30px rgba(15,23,42,0.08)" : "0 2px 12px rgba(15,23,42,0.04)";
     // Removed blur for performance
 }, {passive: true});
 
@@ -22,28 +18,24 @@ window.addEventListener("scroll", () => {
 // =========================
 
 const marketCacheKey = 'omMarketCache';
-const marketData = {
-    nifty: {value: '24,850', change: '+0.8%', display: 'NIFTY 50'},
-    sensex: {value: '81,500', change: '+0.6%', display: 'SENSEX'},
-    banknifty: {value: '55,100', change: '+1.1%', display: 'BANK NIFTY'},
-    gold: {value: '₹9,900/g', change: '+0.3%', display: 'GOLD'},
-    usd: {value: '₹86.2', change: '+0.1%', display: 'USD/INR'}
-};
+// Choose backend depending on whether the site is served from GitHub Pages
+const API_BASE = window.location.hostname.includes("github.io")
+    ? "https://YOUR_RENDER_BACKEND.onrender.com"
+    : "http://localhost:5000";
+// allow an explicit override via global variable if set
+const API_BASE_URL = window.OM_BACKEND_DOMAIN || API_BASE;
+const apiUrl = path => `${API_BASE_URL.replace(/\/$/, '')}${path}`;
 
 const marketItems = [
-    {id: 'nifty', valueId: 'nifty-value', changeId: 'nifty-change', tickerId: 'ticker-nifty', timeId: 'nifty-time'},
-    {id: 'sensex', valueId: 'sensex-value', changeId: 'sensex-change', tickerId: 'ticker-sensex', timeId: 'sensex-time'},
-    {id: 'banknifty', valueId: 'bank-value', changeId: 'bank-change', tickerId: 'ticker-bank', timeId: 'bank-time'},
-    {id: 'usd', valueId: 'usd-value', changeId: 'usd-change', tickerId: 'ticker-usd', timeId: 'usd-time'}
+    {id: 'NIFTY50', valueId: 'nifty-value', changeId: 'nifty-change', tickerId: 'ticker-nifty', timeId: 'nifty-time'},
+    {id: 'SENSEX', valueId: 'sensex-value', changeId: 'sensex-change', tickerId: 'ticker-sensex', timeId: 'sensex-time'},
+    {id: 'BANKNIFTY', valueId: 'bank-value', changeId: 'bank-change', tickerId: 'ticker-bank', timeId: 'bank-time'},
+    {id: 'USDINR', valueId: 'usd-value', changeId: 'usd-change', tickerId: 'ticker-usd', timeId: 'usd-time'},
+    {id: 'GOLD', valueId: 'gold-value', changeId: 'gold-change', tickerId: 'ticker-gold', timeId: 'gold-time'}
 ];
 
-const goldItem = {id: 'gold', valueId: 'gold-value', changeId: 'gold-change', tickerId: 'ticker-gold', timeId: 'gold-time'};
 const marketLoader = document.getElementById('marketLoader');
 
-function formatChange(amount, percent) {
-    const arrow = amount > 0 ? '▲' : amount < 0 ? '▼' : '—';
-    return `${arrow} ${Math.abs(amount).toFixed(2)} (${percent.toFixed(2)}%)`;
-}
 
 function formatUpdatedTime(date = new Date()) {
     return date.toLocaleTimeString('en-IN', {hour: '2-digit', minute: '2-digit'}) + ' IST';
@@ -57,56 +49,66 @@ function hideMarketLoader() {
     if(marketLoader) marketLoader.style.display = 'none';
 }
 
-function populateMarketData() {
+
+function hydrateMarketData(liveMarketData) {
     const timestamp = formatUpdatedTime();
-    
+
     marketItems.forEach(item => {
-        const data = marketData[item.id];
+        const data = liveMarketData[item.id];
         const valueEl = document.getElementById(item.valueId);
         const changeEl = document.getElementById(item.changeId);
         const timeEl = document.getElementById(item.timeId);
         const tickerEl = document.getElementById(item.tickerId);
-        
+
+        if(!data) return;
         if(valueEl) valueEl.innerText = data.value;
         if(tickerEl) tickerEl.innerText = data.value;
         if(changeEl) {
+            const amount = Number(data.raw?.amount || 0);
             changeEl.innerText = data.change;
-            changeEl.className = 'market-detail ' + (data.change.includes('+') ? 'positive' : 'negative');
+            changeEl.className = 'market-detail ' + (amount > 0 ? 'positive' : amount < 0 ? 'negative' : 'neutral');
         }
         if(timeEl) timeEl.innerText = 'Updated: ' + timestamp;
     });
-    
-    const goldData = marketData.gold;
-    const goldValueEl = document.getElementById(goldItem.valueId);
-    const goldChangeEl = document.getElementById(goldItem.changeId);
-    const goldTimeEl = document.getElementById(goldItem.timeId);
-    const goldTickerEl = document.getElementById(goldItem.tickerId);
-    
-    if(goldValueEl) goldValueEl.innerText = goldData.value;
-    if(goldTickerEl) goldTickerEl.innerText = goldData.value;
-    if(goldChangeEl) {
-        goldChangeEl.innerText = goldData.change;
-        goldChangeEl.className = 'market-detail ' + (goldData.change.includes('+') ? 'positive' : 'negative');
-    }
-    if(goldTimeEl) goldTimeEl.innerText = 'Updated: ' + timestamp;
-    
+
     try {
-        localStorage.setItem(marketCacheKey, JSON.stringify({data: marketData, timestamp: timestamp}));
-    } catch (e) {
+        localStorage.setItem(marketCacheKey, JSON.stringify({data: liveMarketData, timestamp}));
+    } catch (error) {
         console.warn('Cache save failed');
     }
 }
 
-function fetchMarketData() {
+async function fetchMarketData() {
     showMarketLoader();
-    setTimeout(() => {
-        populateMarketData();
+    try {
+        const response = await fetch(`${API_BASE}/api/market`);
+        if(!response.ok) throw new Error('Market request failed');
+        const payload = await response.json();
+        hydrateMarketData(payload.data || {});
+    } catch (error) {
+        console.warn('Market data unavailable', error);
+        try {
+            const cached = JSON.parse(localStorage.getItem(marketCacheKey));
+            if(cached?.data) {
+                hydrateMarketData(cached.data);
+            } else {
+                throw new Error('No cached market data');
+            }
+        } catch (cacheError) {
+            marketItems.forEach(item => {
+                const changeEl = document.getElementById(item.changeId);
+                const timeEl = document.getElementById(item.timeId);
+                if(changeEl) {
+                    changeEl.innerText = 'Unavailable';
+                    changeEl.className = 'market-detail neutral';
+                }
+                if(timeEl) timeEl.innerText = 'Updated: --';
+            });
+        }
+    } finally {
         hideMarketLoader();
-    }, 800);
+    }
 }
-
-fetchMarketData();
-setInterval(fetchMarketData, 60000);
 
 
 
@@ -231,7 +233,7 @@ if(sipChart && typeof window !== 'undefined' && window.Chart){
             labels:["Invested Amount","Estimated Returns"],
             datasets:[{
                 data:[50,50],
-                backgroundColor:["#111111","#d9d9d9"],
+                backgroundColor:["#00b386","#dfe7e4"],
                 borderWidth:0
             }]
         },
@@ -250,7 +252,7 @@ let sipGrowthChart = null;
 if(sipGrowthCanvas && typeof window !== 'undefined' && window.Chart){
     sipGrowthChart = new Chart(sipGrowthCanvas,{
         type: 'line',
-        data: { labels: [], datasets: [{ label: 'SIP Value', data: [], borderColor: '#111111', backgroundColor: 'rgba(0,0,0,0.06)', fill: true, tension: 0.3 }] },
+        data: { labels: [], datasets: [{ label: 'SIP Value', data: [], borderColor: '#00b386', backgroundColor: 'rgba(0,179,134,0.10)', fill: true, tension: 0.3 }] },
         options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } } } }
     });
 }
@@ -314,8 +316,8 @@ if(portfolioChart && typeof window !== 'undefined' && window.Chart){
             datasets:[{
                 label:"Growth",
                 data:[2,5,7,10,14,18],
-                borderColor:"#111111",
-                backgroundColor:"rgba(0,0,0,0.04)",
+                borderColor:"#00b386",
+                backgroundColor:"rgba(0,179,134,0.08)",
                 fill:true,
                 tension:0.4,
                 pointRadius:4
@@ -523,21 +525,15 @@ function calculateLumpsum(){
     if(resultEl) resultEl.innerText = '₹' + Math.round(M).toLocaleString();
 }
 
-const screenerFunds = [
-    { name: 'Parag Parikh Flexi Cap Fund', category: 'Flexi Cap', returns: '17.4%', aum: '₹12,100 Cr', description: 'A flexible portfolio combining large, mid, and small cap equities.' },
-    { name: 'SBI Small Cap Fund', category: 'Small Cap', returns: '26.8%', aum: '₹5,300 Cr', description: 'Focused small cap fund for aggressive growth seekers.' },
-    { name: 'ICICI Bluechip Fund', category: 'Large Cap', returns: '19.1%', aum: '₹18,700 Cr', description: 'High-quality bluechip equity allocation for stability.' },
-    { name: 'Motilal Oswal Midcap Fund', category: 'Mid Cap', returns: '22.4%', aum: '₹6,100 Cr', description: 'Mid-cap oriented strategy with growth potential.' },
-    { name: 'HDFC Balanced Advantage Fund', category: 'Hybrid', returns: '14.7%', aum: '₹22,300 Cr', description: 'Dynamic allocation between equity and debt for moderate risk.' },
-    { name: 'Alpha Growth Fund', category: 'Large Cap', returns: '18.4%', aum: '₹9,200 Cr', description: 'Stable bluechip performance for long-term growth.' },
-    { name: 'Secure Income Fund', category: 'Debt Funds', returns: '8.2%', aum: '₹7,400 Cr', description: 'Low volatility debt fund for steady income.' },
-    { name: 'Tax Saver ELSS', category: 'ELSS', returns: '15.6%', aum: '₹4,900 Cr', description: 'Tax-efficient equity-linked savings with growth.' },
-    { name: 'Future Bluechip', category: 'Small Cap', returns: '24.7%', aum: '₹3,200 Cr', description: 'Aggressive growth fund for future leaders.' },
-    { name: 'Balanced Advantage', category: 'Hybrid', returns: '13.2%', aum: '₹6,800 Cr', description: 'Hybrid strategy for disciplined risk management.' }
-];
+let screenerFunds = [];
+let filteredScreenerFunds = [];
+let visibleScreenerCount = 0;
+const screenerPageSize = 24;
+
 
 const autocompleteList = document.getElementById('autocompleteList');
 let activeSuggestionIndex = -1;
+let fundLazyObserver = null;
 
 function debounce(fn, delay = 240) {
     let timer;
@@ -550,6 +546,7 @@ function debounce(fn, delay = 240) {
 function renderScreener(funds){
     const grid = document.getElementById('screenerGrid');
     if(!grid) return;
+    const pagedFunds = funds.slice(0, visibleScreenerCount);
     if(!funds.length){
         grid.innerHTML = `
             <div class="screener-card no-results">
@@ -559,7 +556,7 @@ function renderScreener(funds){
         `;
         return;
     }
-    grid.innerHTML = funds.map(fund => `
+    grid.innerHTML = pagedFunds.map(fund => `
         <div class="screener-card">
             <h4>${fund.name}</h4>
             <span>${fund.category}</span>
@@ -567,7 +564,40 @@ function renderScreener(funds){
             <div class="fund-stats"><span>Returns ${fund.returns}</span><span>AUM ${fund.aum}</span></div>
             <button class="secondary-btn">View Fund</button>
         </div>
-    `).join('');
+    `).join('') + `
+        <div class="screener-pagination">
+            <p>Showing ${pagedFunds.length} of ${funds.length} schemes</p>
+            ${pagedFunds.length < funds.length ? '<button class="secondary-btn" id="loadMoreFunds">Load More</button>' : ''}
+        </div>
+    `;
+
+    const loadMoreButton = document.getElementById('loadMoreFunds');
+    if(loadMoreButton){
+        loadMoreButton.addEventListener('click', () => {
+            visibleScreenerCount += screenerPageSize;
+            renderScreener(filteredScreenerFunds);
+        });
+        if('IntersectionObserver' in window){
+            if(fundLazyObserver) fundLazyObserver.disconnect();
+            fundLazyObserver = new IntersectionObserver(entries => {
+                if(entries.some(entry => entry.isIntersecting)){
+                    loadMoreButton.click();
+                }
+            }, { rootMargin: '220px' });
+            fundLazyObserver.observe(loadMoreButton);
+        }
+    }
+}
+
+function renderScreenerLoading(){
+    const grid = document.getElementById('screenerGrid');
+    if(!grid) return;
+    grid.innerHTML = `
+        <div class="screener-card no-results">
+            <h4>Loading schemes</h4>
+            <p>Fetching latest mutual fund data...</p>
+        </div>
+    `;
 }
 
 function clearAutocomplete(){
@@ -614,18 +644,41 @@ function updateScreener(){
     const activeChip = document.querySelector('.chip.active');
     const filter = activeChip ? activeChip.dataset.filter : 'all';
 
-    const filtered = screenerFunds.filter(fund => {
+    filteredScreenerFunds = screenerFunds.filter(fund => {
         const matchesTerm = !term || fund.name.toLowerCase().includes(term) || fund.category.toLowerCase().includes(term) || fund.description.toLowerCase().includes(term);
         const matchesFilter = filter === 'all' || fund.category === filter;
         return matchesTerm && matchesFilter;
     });
 
-    renderScreener(filtered);
-    buildSuggestions(term, filtered);
+    visibleScreenerCount = screenerPageSize;
+    renderScreener(filteredScreenerFunds);
+    buildSuggestions(term, filteredScreenerFunds);
+}
+
+async function loadScreenerFunds(){
+    renderScreenerLoading();
+    try {
+        const response = await fetch(`${API_BASE}/api/funds`);
+        if(!response.ok) throw new Error('Funds request failed');
+        const payload = await response.json();
+        screenerFunds = Array.isArray(payload.data) ? payload.data : [];
+        updateScreener();
+    } catch (error) {
+        console.warn('Fund data unavailable', error);
+        const grid = document.getElementById('screenerGrid');
+        if(grid){
+            grid.innerHTML = `
+                <div class="screener-card no-results">
+                    <h4>Unable to load schemes</h4>
+                    <p>Please try again shortly.</p>
+                </div>
+            `;
+        }
+    }
 }
 
 function initializeScreener(){
-    renderScreener(screenerFunds);
+    renderScreenerLoading();
     const search = document.getElementById('screenerSearch');
     const chips = document.querySelectorAll('.chip');
     if(search){
@@ -664,6 +717,7 @@ function initializeScreener(){
             updateScreener();
         });
     });
+    loadScreenerFunds();
 }
 
 function calculateRiskProfile(){
@@ -712,37 +766,9 @@ function downloadReport(title, body){
 
 window.addEventListener('load', initializeScreener);
 
-const themeToggle = document.getElementById('themeToggle');
-const themeStorageKey = 'omThemeMode';
-
-function setTheme(mode){
-    const isDark = mode !== 'light';
-    document.body.classList.toggle('dark-theme', isDark);
-    if(themeToggle){
-        themeToggle.innerText = isDark ? '🌙' : '☀';
-        themeToggle.setAttribute('aria-label', isDark ? 'Activate light mode' : 'Activate dark mode');
-    }
-    localStorage.setItem(themeStorageKey, isDark ? 'dark' : 'light');
-}
-
-function initTheme(){
-    const stored = localStorage.getItem(themeStorageKey);
-    const mode = stored === 'dark' ? 'dark' : 'light';
-    setTheme(mode);
-}
-
-if(themeToggle){
-    themeToggle.addEventListener('click', () => {
-        const nextMode = document.body.classList.contains('dark-theme') ? 'light' : 'dark';
-        setTheme(nextMode);
-    });
-}
-
-initTheme();
-
 // Initialize market data on page load
 fetchMarketData();
-setInterval(fetchMarketData, 60000);
+setInterval(fetchMarketData, 30000);
 
 function calculateRetirement(){
     const currentAge = parseFloat(document.getElementById('retireCurrentAge').value);
@@ -1018,7 +1044,7 @@ allCards.forEach(card=>{
     card.addEventListener("mouseleave",()=>{
 
         card.style.background =
-        "rgba(255,255,255,0.55)";
+        "#ffffff";
 
     });
 

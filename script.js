@@ -528,8 +528,8 @@ function calculateLumpsum(){
 
 let screenerFunds = [];
 let filteredScreenerFunds = [];
-let visibleScreenerCount = 0;
-const screenerPageSize = 24;
+let visibleScreenerCount = 50;
+const screenerPageSize = 50;
 
 
 const autocompleteList = document.getElementById('autocompleteList');
@@ -548,6 +548,8 @@ function renderScreener(funds){
     const grid = document.getElementById('screenerGrid');
     if(!grid) return;
     const pagedFunds = funds.slice(0, visibleScreenerCount);
+    const hasMore = pagedFunds.length < funds.length;
+
     if(!funds.length){
         grid.innerHTML = `
             <div class="screener-card no-results">
@@ -557,35 +559,33 @@ function renderScreener(funds){
         `;
         return;
     }
+
     grid.innerHTML = pagedFunds.map(fund => `
         <div class="screener-card">
             <h4>${fund.name}</h4>
             <span>${fund.category}</span>
-            <p>${fund.description}</p>
+            <p>${fund.description || 'Mutual fund scheme'}</p>
             <div class="fund-stats"><span>Returns ${fund.returns}</span><span>AUM ${fund.aum}</span></div>
             <button class="secondary-btn">View Fund</button>
         </div>
     `).join('') + `
         <div class="screener-pagination">
             <p>Showing ${pagedFunds.length} of ${funds.length} schemes</p>
-            ${pagedFunds.length < funds.length ? '<button class="secondary-btn" id="loadMoreFunds">Load More</button>' : ''}
         </div>
+        ${hasMore ? '<div id="screenerLoadMoreSentinel" class="screener-load-more-sentinel"></div>' : ''}
     `;
 
-    const loadMoreButton = document.getElementById('loadMoreFunds');
-    if(loadMoreButton){
-        loadMoreButton.addEventListener('click', () => {
-            visibleScreenerCount += screenerPageSize;
-            renderScreener(filteredScreenerFunds);
-        });
-        if('IntersectionObserver' in window){
+    if(hasMore && 'IntersectionObserver' in window){
+        const sentinel = document.getElementById('screenerLoadMoreSentinel');
+        if(sentinel){
             if(fundLazyObserver) fundLazyObserver.disconnect();
             fundLazyObserver = new IntersectionObserver(entries => {
                 if(entries.some(entry => entry.isIntersecting)){
-                    loadMoreButton.click();
+                    visibleScreenerCount += screenerPageSize;
+                    renderScreener(filteredScreenerFunds);
                 }
-            }, { rootMargin: '220px' });
-            fundLazyObserver.observe(loadMoreButton);
+            }, { rootMargin: '200px' });
+            fundLazyObserver.observe(sentinel);
         }
     }
 }
@@ -661,8 +661,9 @@ async function loadScreenerFunds(){
     try {
         const response = await fetch(`${API_BASE}/api/funds`);
         if(!response.ok) throw new Error('Funds request failed');
-        const payload = await response.json();
-        screenerFunds = Array.isArray(payload.data) ? payload.data : [];
+        const result = await response.json();
+        const funds = result.data || [];
+        screenerFunds = Array.isArray(funds) ? funds : [];
         updateScreener();
     } catch (error) {
         console.warn('Fund data unavailable', error);

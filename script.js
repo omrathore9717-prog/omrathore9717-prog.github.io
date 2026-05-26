@@ -18,9 +18,10 @@ window.addEventListener("scroll", () => {
 // =========================
 
 const marketCacheKey = 'omMarketCache';
+
 // Choose backend depending on whether the site is served from GitHub Pages
 const API_BASE = window.location.hostname.includes("github.io")
-    ? "https://YOUR_RENDER_BACKEND.onrender.com"
+    ? "https://omrathore9717-prog-github-io.onrender.com"
     : "http://localhost:5000";
 // allow an explicit override via global variable if set
 const API_BASE_URL = window.OM_BACKEND_DOMAIN || API_BASE;

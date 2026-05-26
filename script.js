@@ -684,58 +684,52 @@ async function loadScreenerFunds(){
 }
 
 function renderFunds(funds){
-    const container = document.querySelector('.fund-grid, .fund-container, #fundContainer');
+    const container = document.querySelector('#fundContainer, .fund-grid, .fund-container, .schemes-grid, .mutual-fund-grid');
+    console.log('CONTAINER:', container);
     if(!container) return;
 
     container.innerHTML = '';
     const pagedFunds = funds.slice(0, visibleFundCount);
 
-    if(!pagedFunds.length){
-        container.innerHTML = `
-            <div class="fund-card no-results">
-                <h4>No funds available</h4>
-                <p>Please try again later.</p>
-            </div>
-        `;
-        return;
-    }
-
     pagedFunds.forEach(fund => {
-        container.innerHTML += `
-            <div class="fund-card">
-                <h4>${fund.name}</h4>
-                <p class="fund-category">${fund.category || 'Fund'}</p>
-                <div class="fund-stats"><span>Returns ${fund.returns || '--'}</span><span>AUM ${fund.aum || '--'}</span></div>
-                <button class="secondary-btn">Explore Fund</button>
-            </div>
+        const card = document.createElement('div');
+        card.className = 'fund-card';
+        card.innerHTML = `
+            <h3>${fund.name || ''}</h3>
+            <p>${fund.category || ''}</p>
+            <p>${fund.aum || ''}</p>
         `;
+        container.appendChild(card);
     });
 
-    if(funds.length > visibleFundCount){
-        container.insertAdjacentHTML('beforeend', '<div id="fundLoadMoreSentinel" style="height:1px;"></div>');
-        const sentinel = document.getElementById('fundLoadMoreSentinel');
-        if(sentinel && 'IntersectionObserver' in window){
-            if(fundObserver) fundObserver.disconnect();
-            fundObserver = new IntersectionObserver(entries => {
-                if(entries.some(entry => entry.isIntersecting)){
-                    visibleFundCount += fundPageSize;
-                    renderFunds(fundList);
-                }
-            }, { rootMargin: '200px' });
-            fundObserver.observe(sentinel);
-        }
+    if(funds.length > visibleFundCount && 'IntersectionObserver' in window){
+        const sentinel = document.createElement('div');
+        sentinel.id = 'fundLoadMoreSentinel';
+        sentinel.style.height = '1px';
+        container.appendChild(sentinel);
+
+        if(fundObserver) fundObserver.disconnect();
+        fundObserver = new IntersectionObserver(entries => {
+            if(entries.some(entry => entry.isIntersecting)){
+                visibleFundCount += fundPageSize;
+                renderFunds(fundList);
+            }
+        }, { rootMargin: '200px' });
+        fundObserver.observe(sentinel);
     }
 }
 
 async function loadFunds(){
     try {
+        console.log('API BASE:', API_BASE);
         const response = await fetch(`${API_BASE}/api/funds`);
         if(!response.ok) throw new Error('Funds request failed');
 
         const result = await response.json();
+        console.log(result);
         const funds = result.data || [];
 
-        console.log('LIVE FUNDS:', funds.length);
+        console.log('FUNDS COUNT', funds.length);
 
         fundList = Array.isArray(funds) ? funds : [];
         visibleFundCount = 50;

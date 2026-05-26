@@ -531,6 +531,10 @@ let filteredScreenerFunds = [];
 let visibleScreenerCount = 50;
 const screenerPageSize = 50;
 
+let fundList = [];
+let visibleFundCount = 50;
+const fundPageSize = 50;
+let fundObserver = null;
 
 const autocompleteList = document.getElementById('autocompleteList');
 let activeSuggestionIndex = -1;
@@ -679,6 +683,68 @@ async function loadScreenerFunds(){
     }
 }
 
+function renderFunds(funds){
+    const container = document.querySelector('.fund-grid, .fund-container, #fundContainer');
+    if(!container) return;
+
+    container.innerHTML = '';
+    const pagedFunds = funds.slice(0, visibleFundCount);
+
+    if(!pagedFunds.length){
+        container.innerHTML = `
+            <div class="fund-card no-results">
+                <h4>No funds available</h4>
+                <p>Please try again later.</p>
+            </div>
+        `;
+        return;
+    }
+
+    pagedFunds.forEach(fund => {
+        container.innerHTML += `
+            <div class="fund-card">
+                <h4>${fund.name}</h4>
+                <p class="fund-category">${fund.category || 'Fund'}</p>
+                <div class="fund-stats"><span>Returns ${fund.returns || '--'}</span><span>AUM ${fund.aum || '--'}</span></div>
+                <button class="secondary-btn">Explore Fund</button>
+            </div>
+        `;
+    });
+
+    if(funds.length > visibleFundCount){
+        container.insertAdjacentHTML('beforeend', '<div id="fundLoadMoreSentinel" style="height:1px;"></div>');
+        const sentinel = document.getElementById('fundLoadMoreSentinel');
+        if(sentinel && 'IntersectionObserver' in window){
+            if(fundObserver) fundObserver.disconnect();
+            fundObserver = new IntersectionObserver(entries => {
+                if(entries.some(entry => entry.isIntersecting)){
+                    visibleFundCount += fundPageSize;
+                    renderFunds(fundList);
+                }
+            }, { rootMargin: '200px' });
+            fundObserver.observe(sentinel);
+        }
+    }
+}
+
+async function loadFunds(){
+    try {
+        const response = await fetch(`${API_BASE}/api/funds`);
+        if(!response.ok) throw new Error('Funds request failed');
+
+        const result = await response.json();
+        const funds = result.data || [];
+
+        console.log('LIVE FUNDS:', funds.length);
+
+        fundList = Array.isArray(funds) ? funds : [];
+        visibleFundCount = 50;
+        renderFunds(fundList);
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 function initializeScreener(){
     renderScreenerLoading();
     const search = document.getElementById('screenerSearch');
@@ -767,6 +833,7 @@ function downloadReport(title, body){
 }
 
 window.addEventListener('load', initializeScreener);
+window.addEventListener('load', loadFunds);
 
 // Initialize market data on page load
 fetchMarketData();

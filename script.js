@@ -740,6 +740,27 @@ async function loadFunds(){
     }
 }
 
+async function emergencyRender(){
+    try {
+        const response = await fetch(apiUrl('/api/funds'));
+        const result = await response.json();
+        const funds = result.data || [];
+
+        const container = document.querySelector('#fundContainer, .fund-grid, .fund-container');
+        if(!container) return;
+
+        container.innerHTML = funds.slice(0, 100)
+            .map(f => `
+                <div class="fund-card">
+                    <h3>${f.name}</h3>
+                    <p>${f.category}</p>
+                </div>
+            `).join('');
+    } catch (err) {
+        console.error('Emergency render failed:', err);
+    }
+}
+
 function initializeScreener(){
     renderScreenerLoading();
     const search = document.getElementById('screenerSearch');
@@ -829,6 +850,7 @@ function downloadReport(title, body){
 
 window.addEventListener('load', initializeScreener);
 window.addEventListener('load', loadFunds);
+window.addEventListener('load', emergencyRender);
 
 // Initialize market data on page load
 fetchMarketData();

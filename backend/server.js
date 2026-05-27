@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
+const yahooFinance = require("yahoo-finance2").default;
 
 const app = express();
 
@@ -35,43 +36,27 @@ app.get("/api/funds", async (req, res) => {
     }
 });
 
-app.get("/api/market", (req, res) => {
-    const { execFile } = require('child_process');
-    const py = process.env.PYTHON || 'python';
-    const script = __dirname + '/market_service.py';
+app.get("/api/market", async (req, res) => {
+    try {
+        const nifty = await yahooFinance.quote("^NSEI");
+        const sensex = await yahooFinance.quote("^BSESN");
+        const bank = await yahooFinance.quote("^NSEBANK");
+        const usd = await yahooFinance.quote("INR=X");
+        const gold = await yahooFinance.quote("GC=F");
 
-    execFile(py, [script], { timeout: 10000 }, (err, stdout, stderr) => {
-        if (err) {
-            console.error('Market service error', err, stderr);
-            // fallback to placeholder
-            return res.json({
-                nifty: "LIVE",
-                sensex: "LIVE",
-                banknifty: "LIVE",
-                usd: "LIVE",
-                gold: "LIVE"
-            });
-        }
-
-        try {
-            const parsed = JSON.parse(stdout);
-            // if parsed contains success/data shape (when run as FastAPI client it won't), handle both
-            if (parsed && parsed.success && parsed.data) {
-                return res.json(parsed.data);
-            }
-            // CLI mode returns the raw dict
-            return res.json(parsed);
-        } catch (parseErr) {
-            console.error('Failed to parse market output', parseErr);
-            return res.json({
-                nifty: "LIVE",
-                sensex: "LIVE",
-                banknifty: "LIVE",
-                usd: "LIVE",
-                gold: "LIVE"
-            });
-        }
-    });
+        res.json({
+            nifty: nifty.regularMarketPrice,
+            sensex: sensex.regularMarketPrice,
+            banknifty: bank.regularMarketPrice,
+            usd: usd.regularMarketPrice,
+            gold: gold.regularMarketPrice
+        });
+    } catch (err) {
+        console.error("Market fetch failed", err);
+        res.status(500).json({
+            error: "market fetch failed"
+        });
+    }
 });
 
 const PORT = process.env.PORT || 5000;

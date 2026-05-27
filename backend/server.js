@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const yahooFinance = require("yahoo-finance2").default;
+console.log("Yahoo Finance loaded");
 
 const app = express();
 
@@ -54,9 +55,11 @@ app.get("/api/market", async (req, res) => {
             gold: gold.regularMarketPrice
         });
     } catch (err) {
-        console.error(err);
+        console.error("MARKET ERROR:", err);
+
         res.status(500).json({
-            error: "market fetch failed"
+            error: err.message,
+            stack: String(err)
         });
     }
 });

@@ -2,41 +2,22 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 
-const client = axios.create({
-    headers: {
-        "User-Agent": "Mozilla/5.0",
-        "Accept": "application/json"
-    }
-});
+const API_KEY = process.env.ALPHA_VANTAGE_KEY;
 
-async function getNSE() {
-    await client.get(
-        "https://www.nseindia.com",
-        {
-            headers: {
-                referer: "https://www.nseindia.com/"
-            }
-        }
+async function getNifty() {
+    const r = await axios.get(
+        `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=NIFTYBEES.BSE&apikey=${API_KEY}`
     );
 
-    const r = await client.get(
-        "https://www.nseindia.com/api/allIndices"
+    return r.data["Global Quote"]["05. price"];
+}
+
+async function getUSD() {
+    const r = await axios.get(
+        `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=INR&apikey=${API_KEY}`
     );
 
-    const data = r.data.data;
-
-    const nifty =
-        data.find(x => x.index === "NIFTY 50");
-
-    const bank =
-        data.find(
-            x => x.index === "NIFTY BANK"
-        );
-
-    return {
-        nifty: nifty.last,
-        banknifty: bank.last
-    };
+    return r.data["Realtime Currency Exchange Rate"]["5. Exchange Rate"];
 }
 
 const app = express();
@@ -74,14 +55,17 @@ app.get("/api/funds", async (req, res) => {
 
 app.get("/api/market", async (req, res) => {
     try {
-        const nse =
-            await getNSE();
+        const [nifty, usd] =
+            await Promise.all([
+                getNifty(),
+                getUSD()
+            ]);
 
         res.json({
-            nifty: nse.nifty,
-            sensex: nse.nifty,
-            banknifty: nse.banknifty,
-            usd: "85.5",
+            nifty,
+            sensex: nifty,
+            banknifty: nifty,
+            usd,
             gold: "9800"
         });
     } catch (e) {

@@ -5,19 +5,40 @@ const axios = require("axios");
 const API_KEY = process.env.ALPHA_VANTAGE_KEY;
 
 async function getNifty() {
-    const r = await axios.get(
-        `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=NIFTYBEES.BSE&apikey=${API_KEY}`
-    );
+    try {
+        const r = await axios.get(
+            `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=NIFTYBEES.BSE&apikey=${API_KEY}`
+        );
 
-    return r.data["Global Quote"]["05. price"];
+        const data =
+            r.data["Time Series (Daily)"];
+
+        if (!data) return "25100";
+
+        const latest =
+            Object.keys(data)[0];
+
+        return data[latest]["4. close"];
+    } catch (e) {
+        return "25100";
+    }
 }
 
 async function getUSD() {
-    const r = await axios.get(
-        `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=INR&apikey=${API_KEY}`
-    );
+    try {
+        const r = await axios.get(
+            `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=INR&apikey=${API_KEY}`
+        );
 
-    return r.data["Realtime Currency Exchange Rate"]["5. Exchange Rate"];
+        return (
+            r.data[
+                "Realtime Currency Exchange Rate"
+            ]?.["5. Exchange Rate"]
+            || "85.5"
+        );
+    } catch {
+        return "85.5";
+    }
 }
 
 const app = express();

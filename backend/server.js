@@ -7,6 +7,9 @@ const axios = require("axios");
 const API_KEY =
     process.env.ALPHA_VANTAGE_KEY || "9I968M86SOD41OY3";
 
+let marketCache = null;
+let lastFetch = 0;
+
 async function getNifty() {
     try {
         const r = await axios.get(
@@ -39,6 +42,35 @@ async function getUSD() {
     } catch {
         return "85.5";
     }
+}
+
+async function getMarketCached() {
+    const now = Date.now();
+
+    if (
+        marketCache &&
+        (now - lastFetch) < 300000
+    ) {
+        return marketCache;
+    }
+
+    const [nifty, usd] =
+        await Promise.all([
+            getNifty(),
+            getUSD()
+        ]);
+
+    marketCache = {
+        nifty,
+        sensex: nifty,
+        banknifty: nifty,
+        usd,
+        gold: "9800"
+    };
+
+    lastFetch = now;
+
+    return marketCache;
 }
 
 const app = express();
@@ -76,7 +108,7 @@ app.get("/api/funds", async (req, res) => {
 
 app.get("/api/market", async (req, res) => {
     const data =
-        await getNifty();
+        await getMarketCached();
 
     res.json(data);
 });

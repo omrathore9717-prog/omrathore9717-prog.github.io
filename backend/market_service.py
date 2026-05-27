@@ -6,27 +6,31 @@ from fastapi.responses import JSONResponse
 
 app = FastAPI()
 
-def get_market():
+def get_price(symbol):
     try:
-        return {
-            "nifty": round(yf.Ticker("^NSEI").history(period="1d")["Close"].iloc[-1], 2),
-            "sensex": round(yf.Ticker("^BSESN").history(period="1d")["Close"].iloc[-1], 2),
-            "banknifty": round(yf.Ticker("^NSEBANK").history(period="1d")["Close"].iloc[-1], 2),
-            "usd": round(yf.Ticker("INR=X").history(period="1d")["Close"].iloc[-1], 2),
-            "gold": round(yf.Ticker("GC=F").history(period="1d")["Close"].iloc[-1], 2)
-        }
-    except Exception as e:
-        return {"error": str(e)}
+        data = yf.Ticker(symbol).history(period="1d")
+
+        if data.empty:
+            return "--"
+
+        return round(float(data["Close"].iloc[-1]),2)
+
+    except:
+        return "--"
+
+def get_market():
+    return {
+        "nifty": get_price("^NSEI"),
+        "sensex": get_price("^BSESN"),
+        "banknifty": get_price("^NSEBANK"),
+        "usd": get_price("INR=X"),
+        "gold": get_price("GC=F")
+    }
 
 
 @app.get("/api/market")
 def market_route():
-    data = get_market()
-    if data is None:
-        return JSONResponse({"success": False, "error": "No market data"}, status_code=500)
-    if "error" in data:
-        return JSONResponse({"success": False, "error": data["error"]}, status_code=500)
-    return JSONResponse({"success": True, "data": data})
+    return JSONResponse(get_market())
 
 
 if __name__ == '__main__':

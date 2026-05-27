@@ -6,9 +6,8 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "axios": "latest",
+    "axios": "^1.16.1",
     "cors": "latest",
-    "express": "latest",
-    "yahoo-finance2": "^3.14.1"
+    "express": "latest"
   }
 }

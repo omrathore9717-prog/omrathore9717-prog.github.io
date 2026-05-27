@@ -1,11 +1,19 @@
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
-const YahooFinance =
-    require("yahoo-finance2").default;
-const yahooFinance =
-    new YahooFinance();
-console.log("Yahoo Finance loaded");
+
+async function getPrice(symbol) {
+    try {
+        const url =
+            `https://stooq.com/q/l/?s=${symbol}&f=sd2t2ohlcvn&e=json`;
+
+        const r = await axios.get(url);
+
+        return r.data?.symbols?.[0]?.close || "--";
+    } catch (e) {
+        return "--";
+    }
+}
 
 const app = express();
 
@@ -41,30 +49,19 @@ app.get("/api/funds", async (req, res) => {
 });
 
 app.get("/api/market", async (req, res) => {
-    try {
-        const [nifty, sensex, bank, usd, gold] = await Promise.all([
-            yahooFinance.quote("^NSEI"),
-            yahooFinance.quote("^BSESN"),
-            yahooFinance.quote("^NSEBANK"),
-            yahooFinance.quote("INR=X"),
-            yahooFinance.quote("GC=F")
-        ]);
+    const [nifty, sensex, bank] = await Promise.all([
+        getPrice("nsei"),
+        getPrice("sensex"),
+        getPrice("banknifty")
+    ]);
 
-        res.json({
-            nifty: nifty.regularMarketPrice,
-            sensex: sensex.regularMarketPrice,
-            banknifty: bank.regularMarketPrice,
-            usd: usd.regularMarketPrice,
-            gold: gold.regularMarketPrice
-        });
-    } catch (err) {
-        console.error("MARKET ERROR:", err);
-
-        res.status(500).json({
-            error: err.message,
-            stack: String(err)
-        });
-    }
+    res.json({
+        nifty,
+        sensex,
+        banknifty: bank,
+        usd: "LIVE",
+        gold: "LIVE"
+    });
 });
 
 const PORT = process.env.PORT || 5000;

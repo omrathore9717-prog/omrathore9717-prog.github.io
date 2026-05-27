@@ -10,17 +10,14 @@ async function getNifty() {
             `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=NIFTYBEES.BSE&apikey=${API_KEY}`
         );
 
-        const data =
-            r.data["Time Series (Daily)"];
+        console.log(
+            JSON.stringify(r.data, null, 2)
+        );
 
-        if (!data) return "25100";
-
-        const latest =
-            Object.keys(data)[0];
-
-        return data[latest]["4. close"];
+        return r.data;
     } catch (e) {
-        return "25100";
+        console.error(e);
+        return e;
     }
 }
 
@@ -75,25 +72,10 @@ app.get("/api/funds", async (req, res) => {
 });
 
 app.get("/api/market", async (req, res) => {
-    try {
-        const [nifty, usd] =
-            await Promise.all([
-                getNifty(),
-                getUSD()
-            ]);
+    const data =
+        await getNifty();
 
-        res.json({
-            nifty,
-            sensex: nifty,
-            banknifty: nifty,
-            usd,
-            gold: "9800"
-        });
-    } catch (e) {
-        res.status(500).json({
-            error: e.message
-        });
-    }
+    res.json(data);
 });
 
 const PORT = process.env.PORT || 5000;

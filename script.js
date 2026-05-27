@@ -19,21 +19,24 @@ window.addEventListener("scroll", () => {
 
 const marketCacheKey = 'omMarketCache';
 
-// Choose backend depending on whether the site is served from GitHub Pages
-const API_BASE = window.location.hostname.includes("github.io")
-    ? "https://omrathore9717-prog-github-io.onrender.com"
-    : "http://localhost:5000";
-console.log("API BASE", API_BASE);
-// allow an explicit override via global variable if set
-const API_BASE_URL = window.OM_BACKEND_DOMAIN || API_BASE;
-const apiUrl = path => `${API_BASE_URL.replace(/\/$/, '')}${path}`;
+const isLocal =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+
+const API_BASE = isLocal
+    ? "http://localhost:5000"
+    : "https://omrathore9717-prog-github-io.onrender.com";
+
+function apiUrl(path){
+    return `${API_BASE}${path}`;
+}
 
 const marketItems = [
-    {id: 'NIFTY50', valueId: 'nifty-value', changeId: 'nifty-change', tickerId: 'ticker-nifty', timeId: 'nifty-time'},
-    {id: 'SENSEX', valueId: 'sensex-value', changeId: 'sensex-change', tickerId: 'ticker-sensex', timeId: 'sensex-time'},
-    {id: 'BANKNIFTY', valueId: 'bank-value', changeId: 'bank-change', tickerId: 'ticker-bank', timeId: 'bank-time'},
-    {id: 'USDINR', valueId: 'usd-value', changeId: 'usd-change', tickerId: 'ticker-usd', timeId: 'usd-time'},
-    {id: 'GOLD', valueId: 'gold-value', changeId: 'gold-change', tickerId: 'ticker-gold', timeId: 'gold-time'}
+    {id: 'nifty', valueId: 'nifty-value', changeId: 'nifty-change', tickerId: 'ticker-nifty', timeId: 'nifty-time'},
+    {id: 'sensex', valueId: 'sensex-value', changeId: 'sensex-change', tickerId: 'ticker-sensex', timeId: 'sensex-time'},
+    {id: 'banknifty', valueId: 'bank-value', changeId: 'bank-change', tickerId: 'ticker-bank', timeId: 'bank-time'},
+    {id: 'usd', valueId: 'usd-value', changeId: 'usd-change', tickerId: 'ticker-usd', timeId: 'usd-time'},
+    {id: 'gold', valueId: 'gold-value', changeId: 'gold-change', tickerId: 'ticker-gold', timeId: 'gold-time'}
 ];
 
 const marketLoader = document.getElementById('marketLoader');
@@ -56,21 +59,25 @@ function hydrateMarketData(liveMarketData) {
     const timestamp = formatUpdatedTime();
 
     marketItems.forEach(item => {
-        const data = liveMarketData[item.id];
+        const data = liveMarketData ? liveMarketData[item.id] : undefined;
         const valueEl = document.getElementById(item.valueId);
         const changeEl = document.getElementById(item.changeId);
         const timeEl = document.getElementById(item.timeId);
         const tickerEl = document.getElementById(item.tickerId);
 
-        if(!data) return;
-        if(valueEl) valueEl.innerText = data.value;
-        if(tickerEl) tickerEl.innerText = data.value;
+        const value = (data && (typeof data === 'object' ? (data.value ?? data.v ?? null) : data)) ?? null;
+        const change = data && typeof data === 'object' ? (data.change ?? data.c ?? null) : null;
+
+        if(valueEl) valueEl.textContent = value ?? "--";
+        if(tickerEl) tickerEl.textContent = value ?? "--";
+
         if(changeEl) {
-            const amount = Number(data.raw?.amount || 0);
-            changeEl.innerText = data.change;
+            const amount = Number(data && data.raw?.amount ? data.raw.amount : 0);
+            changeEl.textContent = change ?? "--";
             changeEl.className = 'market-detail ' + (amount > 0 ? 'positive' : amount < 0 ? 'negative' : 'neutral');
         }
-        if(timeEl) timeEl.innerText = 'Updated: ' + timestamp;
+
+        if(timeEl) timeEl.textContent = 'Updated: ' + (timestamp || '--');
     });
 
     try {
@@ -84,9 +91,11 @@ async function fetchMarketData() {
     showMarketLoader();
     try {
         const response = await fetch(apiUrl('/api/market'));
-        if(!response.ok) throw new Error('Market request failed');
+        if(!response.ok) throw new Error('Market request failed: ' + response.status);
         const payload = await response.json();
-        hydrateMarketData(payload.data || {});
+        const data = payload?.data ?? payload;
+        console.log("Market API:", data);
+        hydrateMarketData(data || {});
     } catch (error) {
         console.warn('Market data unavailable', error);
         try {
@@ -101,10 +110,10 @@ async function fetchMarketData() {
                 const changeEl = document.getElementById(item.changeId);
                 const timeEl = document.getElementById(item.timeId);
                 if(changeEl) {
-                    changeEl.innerText = 'Unavailable';
+                    changeEl.textContent = 'Unavailable';
                     changeEl.className = 'market-detail neutral';
                 }
-                if(timeEl) timeEl.innerText = 'Updated: --';
+                if(timeEl) timeEl.textContent = 'Updated: --';
             });
         }
     } finally {

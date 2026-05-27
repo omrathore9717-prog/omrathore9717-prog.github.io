@@ -38,11 +38,13 @@ app.get("/api/funds", async (req, res) => {
 
 app.get("/api/market", async (req, res) => {
     try {
-        const nifty = await yahooFinance.quote("^NSEI");
-        const sensex = await yahooFinance.quote("^BSESN");
-        const bank = await yahooFinance.quote("^NSEBANK");
-        const usd = await yahooFinance.quote("INR=X");
-        const gold = await yahooFinance.quote("GC=F");
+        const [nifty, sensex, bank, usd, gold] = await Promise.all([
+            yahooFinance.quote("^NSEI"),
+            yahooFinance.quote("^BSESN"),
+            yahooFinance.quote("^NSEBANK"),
+            yahooFinance.quote("INR=X"),
+            yahooFinance.quote("GC=F")
+        ]);
 
         res.json({
             nifty: nifty.regularMarketPrice,
@@ -52,7 +54,7 @@ app.get("/api/market", async (req, res) => {
             gold: gold.regularMarketPrice
         });
     } catch (err) {
-        console.error("Market fetch failed", err);
+        console.error(err);
         res.status(500).json({
             error: "market fetch failed"
         });

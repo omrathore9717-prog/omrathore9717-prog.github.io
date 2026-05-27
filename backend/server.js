@@ -1,8 +1,22 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 
-const API_KEY = process.env.ALPHA_VANTAGE_KEY;
+console.log(
+    "API KEY:",
+    process.env.ALPHA_VANTAGE_KEY
+);
+
+const API_KEY =
+    process.env.ALPHA_VANTAGE_KEY;
+
+if (!API_KEY) {
+    throw new Error(
+        "ALPHA_VANTAGE_KEY missing"
+    );
+}
 
 async function getNifty() {
     try {

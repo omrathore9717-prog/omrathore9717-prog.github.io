@@ -4,19 +4,8 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 
-console.log(
-    "API KEY:",
-    process.env.ALPHA_VANTAGE_KEY
-);
-
 const API_KEY =
-    process.env.ALPHA_VANTAGE_KEY;
-
-if (!API_KEY) {
-    throw new Error(
-        "ALPHA_VANTAGE_KEY missing"
-    );
-}
+    process.env.ALPHA_VANTAGE_KEY || "9I968M86SOD41OY3";
 
 async function getNifty() {
     try {

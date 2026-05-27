@@ -2,17 +2,41 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 
-async function getPrice(symbol) {
-    try {
-        const url =
-            `https://stooq.com/q/l/?s=${symbol}&f=sd2t2ohlcvn&e=json`;
-
-        const r = await axios.get(url);
-
-        return r.data?.symbols?.[0]?.close || "--";
-    } catch (e) {
-        return "--";
+const client = axios.create({
+    headers: {
+        "User-Agent": "Mozilla/5.0",
+        "Accept": "application/json"
     }
+});
+
+async function getNSE() {
+    await client.get(
+        "https://www.nseindia.com",
+        {
+            headers: {
+                referer: "https://www.nseindia.com/"
+            }
+        }
+    );
+
+    const r = await client.get(
+        "https://www.nseindia.com/api/allIndices"
+    );
+
+    const data = r.data.data;
+
+    const nifty =
+        data.find(x => x.index === "NIFTY 50");
+
+    const bank =
+        data.find(
+            x => x.index === "NIFTY BANK"
+        );
+
+    return {
+        nifty: nifty.last,
+        banknifty: bank.last
+    };
 }
 
 const app = express();
@@ -49,19 +73,22 @@ app.get("/api/funds", async (req, res) => {
 });
 
 app.get("/api/market", async (req, res) => {
-    const [nifty, sensex, bank] = await Promise.all([
-        getPrice("nsei"),
-        getPrice("sensex"),
-        getPrice("banknifty")
-    ]);
+    try {
+        const nse =
+            await getNSE();
 
-    res.json({
-        nifty,
-        sensex,
-        banknifty: bank,
-        usd: "LIVE",
-        gold: "LIVE"
-    });
+        res.json({
+            nifty: nse.nifty,
+            sensex: nse.nifty,
+            banknifty: nse.banknifty,
+            usd: "85.5",
+            gold: "9800"
+        });
+    } catch (e) {
+        res.status(500).json({
+            error: e.message
+        });
+    }
 });
 
 const PORT = process.env.PORT || 5000;

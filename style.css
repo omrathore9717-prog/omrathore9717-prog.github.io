@@ -101,16 +101,20 @@ body{
     text-decoration:none;
     font-weight:600;
 
-    /* Ensure text never clips inside flex navbar */
+    /* Ensure button is always fully visible */
     display:inline-flex;
     align-items:center;
     justify-content:center;
     flex:0 0 auto;
+    width:auto;
     white-space:nowrap;
     overflow:visible;
     box-sizing:border-box;
     max-width:100%;
     min-width:max-content;
+
+    /* Prevent it from being visually cut by container */
+    position:relative;
 }
 
 /* HERO */

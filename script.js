@@ -14,22 +14,8 @@ window.addEventListener("scroll", () => {
 
 
 // =========================
-// LIVE MARKET DATA
+// STATIC MARKET DATA
 // =========================
-
-const marketCacheKey = 'omMarketCache';
-
-const isLocal =
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1";
-
-const API_BASE = isLocal
-    ? "http://localhost:5000"
-    : "https://omrathore9717-prog-github-io.onrender.com";
-
-function apiUrl(path){
-    return `${API_BASE}${path}`;
-}
 
 const marketItems = [
     {id: 'nifty', valueId: 'nifty-value', changeId: 'nifty-change', tickerId: 'ticker-nifty', timeId: 'nifty-time'},
@@ -40,6 +26,14 @@ const marketItems = [
 ];
 
 const marketLoader = document.getElementById('marketLoader');
+
+const staticMarketData = {
+    nifty: { value: '22,500', change: 'Reference value', raw: { amount: 0 } },
+    sensex: { value: '74,000', change: 'Reference value', raw: { amount: 0 } },
+    banknifty: { value: '48,200', change: 'Reference value', raw: { amount: 0 } },
+    usd: { value: '83.30', change: 'Reference value', raw: { amount: 0 } },
+    gold: { value: '2,350', change: 'Reference value', raw: { amount: 0 } }
+};
 
 
 function formatUpdatedTime(date = new Date()) {
@@ -80,45 +74,14 @@ function hydrateMarketData(liveMarketData) {
         if(timeEl) timeEl.textContent = 'Updated: ' + (timestamp || '--');
     });
 
-    try {
-        localStorage.setItem(marketCacheKey, JSON.stringify({data: liveMarketData, timestamp}));
-    } catch (error) {
-        console.warn('Cache save failed');
-    }
 }
 
-async function fetchMarketData() {
+function loadMarketData() {
     showMarketLoader();
-    try {
-        const response = await fetch(apiUrl('/api/market'));
-        if(!response.ok) throw new Error('Market request failed: ' + response.status);
-        const payload = await response.json();
-        const data = payload?.data ?? payload;
-        console.log("Market API:", data);
-        hydrateMarketData(data || {});
-    } catch (error) {
-        console.warn('Market data unavailable', error);
-        try {
-            const cached = JSON.parse(localStorage.getItem(marketCacheKey));
-            if(cached?.data) {
-                hydrateMarketData(cached.data);
-            } else {
-                throw new Error('No cached market data');
-            }
-        } catch (cacheError) {
-            marketItems.forEach(item => {
-                const changeEl = document.getElementById(item.changeId);
-                const timeEl = document.getElementById(item.timeId);
-                if(changeEl) {
-                    changeEl.textContent = 'Unavailable';
-                    changeEl.className = 'market-detail neutral';
-                }
-                if(timeEl) timeEl.textContent = 'Updated: --';
-            });
-        }
-    } finally {
+    window.setTimeout(() => {
+        hydrateMarketData(staticMarketData);
         hideMarketLoader();
-    }
+    }, 120);
 }
 
 
@@ -550,6 +513,51 @@ const autocompleteList = document.getElementById('autocompleteList');
 let activeSuggestionIndex = -1;
 let fundLazyObserver = null;
 
+const staticFunds = [
+    {
+        name: 'OM Bluechip Growth',
+        category: 'Large Cap',
+        description: 'Large-cap focused fund example for long-term equity allocation.',
+        returns: '14.8%',
+        aum: 'Rs 8,500 Cr'
+    },
+    {
+        name: 'OM Emerging Leaders',
+        category: 'Mid Cap',
+        description: 'Mid-cap fund example for investors seeking higher growth potential.',
+        returns: '17.2%',
+        aum: 'Rs 4,200 Cr'
+    },
+    {
+        name: 'OM Small Cap Opportunities',
+        category: 'Small Cap',
+        description: 'Small-cap fund example for aggressive long-term investors.',
+        returns: '19.1%',
+        aum: 'Rs 2,100 Cr'
+    },
+    {
+        name: 'OM Tax Saver Equity',
+        category: 'ELSS',
+        description: 'ELSS example for tax-saving oriented equity investing.',
+        returns: '13.5%',
+        aum: 'Rs 3,800 Cr'
+    },
+    {
+        name: 'OM Balanced Advantage',
+        category: 'Hybrid',
+        description: 'Hybrid fund example balancing equity growth and debt stability.',
+        returns: '11.4%',
+        aum: 'Rs 6,700 Cr'
+    },
+    {
+        name: 'OM Short Duration Fund',
+        category: 'Debt Funds',
+        description: 'Debt fund example for conservative short-to-medium term goals.',
+        returns: '7.1%',
+        aum: 'Rs 5,600 Cr'
+    }
+];
+
 function debounce(fn, delay = 240) {
     let timer;
     return (...args) => {
@@ -610,7 +618,7 @@ function renderScreenerLoading(){
     grid.innerHTML = `
         <div class="screener-card no-results">
             <h4>Loading schemes</h4>
-            <p>Fetching latest mutual fund data...</p>
+            <p>Preparing fund examples...</p>
         </div>
     `;
 }
@@ -670,32 +678,16 @@ function updateScreener(){
     buildSuggestions(term, filteredScreenerFunds);
 }
 
-async function loadScreenerFunds(){
+function loadScreenerFunds(){
     renderScreenerLoading();
-    try {
-        const response = await fetch(apiUrl('/api/funds'));
-        if(!response.ok) throw new Error('Funds request failed');
-        const result = await response.json();
-        const funds = result.data || [];
-        screenerFunds = Array.isArray(funds) ? funds : [];
+    window.setTimeout(() => {
+        screenerFunds = staticFunds.slice();
         updateScreener();
-    } catch (error) {
-        console.warn('Fund data unavailable', error);
-        const grid = document.getElementById('screenerGrid');
-        if(grid){
-            grid.innerHTML = `
-                <div class="screener-card no-results">
-                    <h4>Unable to load schemes</h4>
-                    <p>Please try again shortly.</p>
-                </div>
-            `;
-        }
-    }
+    }, 120);
 }
 
 function renderFunds(funds){
-    const container = document.querySelector('#fundContainer, .fund-grid, .fund-container, .schemes-grid, .mutual-fund-grid');
-    console.log('CONTAINER:', container);
+    const container = document.querySelector('#fundContainer, .fund-container, .schemes-grid, .mutual-fund-grid');
     if(!container) return;
 
     container.innerHTML = '';
@@ -729,45 +721,10 @@ function renderFunds(funds){
     }
 }
 
-async function loadFunds(){
-    try {
-        console.log('API BASE:', API_BASE);
-        const response = await fetch(apiUrl('/api/funds'));
-        if(!response.ok) throw new Error('Funds request failed');
-
-        const result = await response.json();
-        console.log(result);
-        const funds = result.data || [];
-
-        console.log('FUNDS COUNT', funds.length);
-
-        fundList = Array.isArray(funds) ? funds : [];
-        visibleFundCount = 50;
-        renderFunds(fundList);
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-async function emergencyRender(){
-    try {
-        const response = await fetch(apiUrl('/api/funds'));
-        const result = await response.json();
-        const funds = result.data || [];
-
-        const container = document.querySelector('#fundContainer, .fund-grid, .fund-container');
-        if(!container) return;
-
-        container.innerHTML = funds.slice(0, 100)
-            .map(f => `
-                <div class="fund-card">
-                    <h3>${f.name}</h3>
-                    <p>${f.category}</p>
-                </div>
-            `).join('');
-    } catch (err) {
-        console.error('Emergency render failed:', err);
-    }
+function loadFunds(){
+    fundList = staticFunds.slice();
+    visibleFundCount = 50;
+    renderFunds(fundList);
 }
 
 function initializeScreener(){
@@ -859,11 +816,9 @@ function downloadReport(title, body){
 
 window.addEventListener('load', initializeScreener);
 window.addEventListener('load', loadFunds);
-window.addEventListener('load', emergencyRender);
 
-// Initialize market data on page load
-fetchMarketData();
-setInterval(fetchMarketData, 30000);
+// Initialize static market data on page load
+loadMarketData();
 
 function calculateRetirement(){
     const currentAge = parseFloat(document.getElementById('retireCurrentAge').value);

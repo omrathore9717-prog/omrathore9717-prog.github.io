@@ -122,9 +122,9 @@
 
         <div class="nav-links">
             <a href="#home">Home</a>
-            <a href="#market">Market</a>
             <a href="#services">Services</a>
             <a href="#funds">Funds</a>
+            <a href="#investment-solutions">Solutions</a>
             <a href="#calculator">Calculator</a>
             <a href="#contact">Contact</a>
         </div>
@@ -170,9 +170,9 @@
 
                 <div class="quick-links">
                     <a href="#dashboard" class="secondary-btn">Dashboard</a>
-                    <a href="#market" class="secondary-btn">Market</a>
                     <a href="#services" class="secondary-btn">Services</a>
                     <a href="#funds" class="secondary-btn">Funds</a>
+                    <a href="#investment-solutions" class="secondary-btn">Solutions</a>
                     <a href="#calculator" class="secondary-btn">Calculator</a>
                     <a href="#faq" class="secondary-btn">FAQ</a>
                     <a href="#contact" class="secondary-btn">Contact</a>
@@ -305,64 +305,50 @@
 
     </section>
 
-    <!-- MARKET TICKER -->
-    <section class="ticker-section">
-        <div class="ticker-wrap">
-            <div class="ticker-item"><span>NIFTY</span> <strong id="ticker-nifty">Loading...</strong></div>
-            <div class="ticker-item"><span>SENSEX</span> <strong id="ticker-sensex">Loading...</strong></div>
-            <div class="ticker-item"><span>BANK NIFTY</span> <strong id="ticker-bank">Loading...</strong></div>
-            <div class="ticker-item"><span>USD/INR</span> <strong id="ticker-usd">Loading...</strong></div>
-            <div class="ticker-item"><span>GOLD</span> <strong id="ticker-gold">Loading...</strong></div>
-        </div>
-    </section>
-
-    <!-- MARKET -->
-
-    <section class="section" id="market">
+    <!-- MUTUAL FUND INVESTMENT SOLUTIONS -->
+    <section class="section investment-solutions" id="investment-solutions">
 
         <div class="section-title">
-            <h2>Live Market Overview</h2>
-            <p>Track important market indices</p>
+            <h2>Top Mutual Fund Investment Solutions</h2>
+            <p>Professional planning ideas for disciplined long-term wealth creation.</p>
         </div>
 
-        <div class="market-box" id="marketBox">
+        <div class="solutions-grid">
+            <article class="solution-card">
+                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80" alt="Family financial planning for mutual funds" loading="lazy">
+                <div class="solution-content">
+                    <span>Family financial planning</span>
+                    <h3>SIP Planning</h3>
+                    <p>Build a monthly investment habit aligned with your income, goals, and investment horizon.</p>
+                </div>
+            </article>
 
-            <div class="market-card">
-                <h3>NIFTY 50</h3>
-                <div class="market-current" id="nifty-value">Loading...</div>
-                <div class="market-detail" id="nifty-change">Fetching...</div>
-                <div class="market-time" id="nifty-time">Updated: --</div>
-            </div>
+            <article class="solution-card">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80" alt="SIP investment growth chart" loading="lazy">
+                <div class="solution-content">
+                    <span>SIP investment growth</span>
+                    <h3>Wealth Management</h3>
+                    <p>Review asset allocation, rebalance portfolios, and keep wealth plans focused on outcomes.</p>
+                </div>
+            </article>
 
-            <div class="market-card">
-                <h3>SENSEX</h3>
-                <div class="market-current" id="sensex-value">Loading...</div>
-                <div class="market-detail" id="sensex-change">Fetching...</div>
-                <div class="market-time" id="sensex-time">Updated: --</div>
-            </div>
+            <article class="solution-card">
+                <img src="https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=900&q=80" alt="Tax saving investment documents" loading="lazy">
+                <div class="solution-content">
+                    <span>Wealth creation concept</span>
+                    <h3>Tax Saving Investments</h3>
+                    <p>Use ELSS and goal-based tax planning to balance savings, growth, and liquidity needs.</p>
+                </div>
+            </article>
 
-            <div class="market-card">
-                <h3>BANK NIFTY</h3>
-                <div class="market-current" id="bank-value">Loading...</div>
-                <div class="market-detail" id="bank-change">Fetching...</div>
-                <div class="market-time" id="bank-time">Updated: --</div>
-            </div>
-
-            <div class="market-card">
-                <h3>GOLD</h3>
-                <div class="market-current" id="gold-value">Loading...</div>
-                <div class="market-detail" id="gold-change">Fetching...</div>
-                <div class="market-time" id="gold-time">Updated: --</div>
-            </div>
-
-            <div class="market-card">
-                <h3>USD / INR</h3>
-                <div class="market-current" id="usd-value">Loading...</div>
-                <div class="market-detail" id="usd-change">Fetching...</div>
-                <div class="market-time" id="usd-time">Updated: --</div>
-            </div>
-            <div class="market-loader" id="marketLoader" aria-hidden="true"></div>
-
+            <article class="solution-card">
+                <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=900&q=80" alt="Retirement planning with savings and investments" loading="lazy">
+                <div class="solution-content">
+                    <span>Retirement planning</span>
+                    <h3>Retirement Planning</h3>
+                    <p>Create a future income strategy with SIPs, risk control, and a clear retirement corpus target.</p>
+                </div>
+            </article>
         </div>
 
     </section>
@@ -440,34 +426,6 @@
             <div class="amc-card"><img class="amc-img" src="images/mirae.svg" loading="lazy" alt="Mirae Asset"><div>Mirae Asset</div></div>
 
         </div>
-
-    </section>
-
-    <!-- MUTUAL FUND SCREENER -->
-    <section class="section" id="screener">
-
-        <div class="section-title">
-            <h2>Mutual Fund Screener</h2>
-            <p>Find funds by category, performance and style.</p>
-        </div>
-
-        <div class="screener-panel">
-            <div class="screener-search-wrapper">
-                <input type="search" id="screenerSearch" placeholder="Search funds by name or category" autocomplete="off">
-                <div class="autocomplete-list" id="autocompleteList" aria-live="polite"></div>
-            </div>
-            <div class="filter-chips">
-                <button class="chip active" data-filter="all">All</button>
-                <button class="chip" data-filter="Large Cap">Large Cap</button>
-                <button class="chip" data-filter="Mid Cap">Mid Cap</button>
-                <button class="chip" data-filter="Small Cap">Small Cap</button>
-                <button class="chip" data-filter="ELSS">ELSS</button>
-                <button class="chip" data-filter="Hybrid">Hybrid</button>
-                <button class="chip" data-filter="Debt Funds">Debt Funds</button>
-            </div>
-        </div>
-
-        <div class="screener-grid" id="screenerGrid"></div>
 
     </section>
 

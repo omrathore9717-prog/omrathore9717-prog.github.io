@@ -44,6 +44,10 @@ body{
     border-bottom:1px solid var(--border);
     box-shadow:0 2px 12px rgba(15,23,42,0.04);
     transition:background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+
+    /* ADDED: prevents WhatsApp button clipping at smaller widths */
+    flex-wrap:wrap;
+    gap:16px;
 }
 
 .logo{
@@ -96,6 +100,17 @@ body{
     border-radius:50px;
     text-decoration:none;
     font-weight:600;
+
+    /* Ensure text never clips inside flex navbar */
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    flex:0 0 auto;
+    white-space:nowrap;
+    overflow:visible;
+    box-sizing:border-box;
+    max-width:100%;
+    min-width:max-content;
 }
 
 /* HERO */

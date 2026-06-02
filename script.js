@@ -697,6 +697,68 @@ if(counters && counters.length){
     counters.forEach(c=> obs.observe(c));
 }
 
+// =========================
+// IMPACT COUNTER ANIMATION
+// =========================
+
+function animateImpactCounter(element){
+    if(!element || element.dataset.animated === "true") return;
+
+    element.dataset.animated = "true";
+
+    const target = parseInt(element.getAttribute("data-target"), 10) || 0;
+    const prefix = element.getAttribute("data-prefix") || "";
+    const suffix = element.getAttribute("data-suffix") || "";
+    const duration = 1500;
+    const startTime = performance.now();
+
+    const easeOutCubic = progress => 1 - Math.pow(1 - progress, 3);
+    const setValue = value => {
+        element.textContent = `${prefix}${Math.floor(value)}${suffix}`;
+    };
+
+    function updateCounter(now){
+        const progress = Math.min((now - startTime) / duration, 1);
+        const easedValue = target * easeOutCubic(progress);
+
+        setValue(easedValue);
+
+        if(progress < 1){
+            requestAnimationFrame(updateCounter);
+        } else {
+            setValue(target);
+        }
+    }
+
+    requestAnimationFrame(updateCounter);
+}
+
+const impactCards = document.querySelectorAll(".impact-card");
+const impactCounters = document.querySelectorAll(".impact-counter");
+
+if(impactCards.length && impactCounters.length){
+    const revealImpactCard = card => {
+        card.classList.add("visible");
+        const counter = card.querySelector(".impact-counter");
+        animateImpactCounter(counter);
+    };
+
+    if("IntersectionObserver" in window){
+        const impactObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting){
+                    revealImpactCard(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.35 });
+
+        impactCards.forEach(card => impactObserver.observe(card));
+    } else {
+        impactCards.forEach(revealImpactCard);
+    }
+}
+
 
 
 

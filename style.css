@@ -16,12 +16,18 @@
 
 html{
     scroll-behavior:smooth;
+    overflow-x:hidden;
+}
+
+*,
+*::before,
+*::after{
+    box-sizing:border-box;
 }
 
 body{
     margin:0;
     padding:0;
-    box-sizing:border-box;
     font-family:'Poppins',sans-serif;
     background:#ffffff;
     color:var(--text);
@@ -33,6 +39,7 @@ body{
 
 .navbar{
     width:100%;
+    max-width:100%;
     padding:18px 7%;
     display:flex;
     justify-content:space-between;
@@ -54,6 +61,8 @@ body{
     display:flex;
     align-items:center;
     gap:14px;
+    min-width:0;
+    flex:0 1 auto;
 }
 
 .logo-circle{
@@ -71,15 +80,22 @@ body{
 
 .logo-text h2{
     font-size:30px;
+    line-height:1.2;
+    margin:0;
 }
 
 .logo-text p{
     color:var(--muted);
+    margin:0;
 }
 
 .nav-links{
     display:flex;
     gap:35px;
+    align-items:center;
+    justify-content:center;
+    flex:1 1 auto;
+    min-width:0;
 }
 
 .nav-links a{
@@ -87,6 +103,7 @@ body{
     color:var(--text);
     font-weight:500;
     transition:0.3s ease;
+    white-space:nowrap;
 }
 
 .nav-links a:hover{
@@ -117,19 +134,54 @@ body{
     position:relative;
 }
 
+@media(max-width:1200px){
+    .navbar{
+        padding:16px 4%;
+        gap:14px;
+    }
+
+    .logo-circle{
+        width:52px;
+        height:52px;
+        font-size:21px;
+        flex:0 0 auto;
+    }
+
+    .logo-text h2{
+        font-size:24px;
+    }
+
+    .logo-text p{
+        font-size:13px;
+    }
+
+    .nav-links{
+        gap:clamp(12px,1.8vw,24px);
+    }
+
+    .nav-links a{
+        font-size:14px;
+    }
+
+    .whatsapp-btn{
+        padding:13px 22px;
+    }
+}
+
 /* HERO */
 
 .hero{
-    min-height:100vh;
+    min-height:auto;
     display:flex;
-    align-items:center;
+    align-items:flex-start;
     justify-content:center;
     text-align:center;
-    padding:100px 8%;
+    padding:48px 8% 80px;
 }
 
 .hero-content{
     max-width:1000px;
+    min-width:0;
 }
 
 .hero-content h1{
@@ -429,7 +481,7 @@ body{
 }
 
 /* Image & visual styles */
-.hero-grid{ display:grid; grid-template-columns:1fr 480px; gap:32px; align-items:center; }
+.hero-grid{ width:100%; max-width:1180px; display:grid; grid-template-columns:minmax(0,1fr) minmax(300px,480px); gap:32px; align-items:center; }
 .hero-media img{ width:100%; height:100%; object-fit:cover; border-radius:18px; box-shadow:0 20px 60px rgba(0,0,0,0.12); }
 
 .section-illustration img{ width:100%; border-radius:12px; }
@@ -586,13 +638,15 @@ footer{
 
     .navbar{
         flex-direction:column;
-        gap:25px;
+        gap:14px;
+        padding:14px 5%;
     }
 
     .nav-links{
         flex-wrap:wrap;
         justify-content:center;
         gap:20px;
+        width:100%;
     }
 
     .hero-content h1{
@@ -612,7 +666,7 @@ footer{
 @media(max-width:600px){
 
     .hero{
-        padding-top:120px;
+        padding-top:48px;
     }
 
     .hero-content h1{
@@ -1044,15 +1098,15 @@ footer{
 .faq-item.active .faq-answer{ max-height:240px; padding:0 28px 24px; }
 
 /* WhatsApp Popup */
-.whatsapp-popup{ position:fixed; right:24px; bottom:24px; z-index:999; width:320px; max-width:calc(100% - 48px); background:#0f9d58; color:#fff; border-radius:26px; box-shadow:0 24px 60px rgba(0,0,0,0.18); display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 18px 18px 20px; }
-.whatsapp-popup .popup-text{ display:flex; flex-direction:column; gap:6px; }
+.whatsapp-popup{ position:fixed; right:24px; bottom:24px; z-index:999; width:320px; max-width:calc(100vw - 48px); box-sizing:border-box; background:#0f9d58; color:#fff; border-radius:26px; box-shadow:0 24px 60px rgba(0,0,0,0.18); display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 18px 18px 20px; overflow:hidden; }
+.whatsapp-popup .popup-text{ display:flex; flex-direction:column; gap:6px; min-width:0; }
 .whatsapp-popup .popup-text strong{ font-size:16px; }
 .whatsapp-popup .popup-text span{ font-size:14px; color:rgba(255,255,255,0.88); }
-.whatsapp-popup .popup-link{ background:var(--bg); color:#0f9d58; border-radius:999px; padding:12px 18px; font-weight:700; text-decoration:none; box-shadow:0 10px 30px rgba(0,0,0,0.15); }
-.whatsapp-popup button{ background:transparent; border:none; color:#fff; font-size:24px; cursor:pointer; line-height:1; }
+.whatsapp-popup .popup-link{ background:var(--bg); color:#0f9d58; border-radius:999px; padding:12px 18px; font-weight:700; text-decoration:none; box-shadow:0 10px 30px rgba(0,0,0,0.15); flex:0 0 auto; white-space:nowrap; }
+.whatsapp-popup button{ background:transparent; border:none; color:#fff; font-size:24px; cursor:pointer; line-height:1; flex:0 0 auto; padding:0; }
 
 @media(max-width:600px){
-    .whatsapp-popup{ width:auto; right:14px; bottom:14px; padding:16px; }
+    .whatsapp-popup{ width:auto; max-width:calc(100vw - 28px); right:14px; left:14px; bottom:14px; padding:16px; }
     .faq-question{ font-size:18px; }
 }
 
@@ -1062,14 +1116,14 @@ footer{
     .section{ padding:60px 5%; }
     .section-title h2{ font-size:36px; }
     .section-title p{ font-size:16px; }
-    .hero{ padding:60px 5%; }
+    .hero{ min-height:auto; padding:42px 5% 60px; }
     .hero-grid{ grid-template-columns:1fr; gap:24px; }
     .hero-content h1{ font-size:42px; line-height:1.2; }
     .hero-content p{ font-size:16px; }
     .solutions-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
     .navbar{ padding:14px 5%; gap:15px; }
     .nav-links{ gap:20px; font-size:14px; }
-    .primary-btn, .secondary-btn{ padding:14px 28px; font-size:14px; }
+    .primary-btn, .secondary-btn{ padding:14px 28px; font-size:14px; max-width:100%; }
     .grid{ grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; }
     .card{ padding:24px; }
     .card h3{ font-size:22px; }
@@ -1086,7 +1140,7 @@ footer{
     .calculator{ padding:24px; }
     .calculator input, .calculator button{ padding:12px; font-size:14px; }
     .chart-grid{ grid-template-columns:1fr; }
-    .hero-buttons{ flex-direction:column; }
+    .hero-buttons{ flex-direction:column; align-items:stretch; }
     .quick-links a.secondary-btn{ padding:10px 16px; font-size:12px; }
 }
 

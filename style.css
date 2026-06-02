@@ -413,22 +413,6 @@ body{
 .amc-card{ display:flex; gap:14px; align-items:center; justify-content:flex-start; padding:22px; border-radius:24px; border:1px solid var(--border); background:var(--card); box-shadow:var(--shadow); transition:transform .3s ease; }
 .amc-card:hover{ transform:translateY(-4px); }
 
-.fund-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:22px; margin-top:32px; }
-.fund-card{ background:var(--card); border-radius:28px; padding:28px; box-shadow:var(--shadow); transition:transform .35s ease; }
-.fund-card:hover{ transform:translateY(-6px); }
-.fund-card h4{ margin-bottom:10px; }
-.fund-category{ color:#7c7d8a; margin-bottom:18px; }
-.fund-stats{ display:flex; flex-wrap:wrap; gap:12px; margin-bottom:18px; color:#000; font-weight:700; }
-.fund-card button{ width:100%; border:none; background:var(--primary); color:#fff; padding:14px 0; border-radius:24px; cursor:pointer; font-weight:700; transition:transform .25s ease, background .25s ease; }
-.fund-card button:hover{ transform:translateY(-2px); }
-
-.report-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:24px; margin-top:32px; }
-.report-card{ background:var(--card); border-radius:28px; padding:28px; box-shadow:var(--shadow); transition:transform .35s ease; }
-.report-card:hover{ transform:translateY(-6px); }
-.report-card p{ color:#5d5d6c; margin:16px 0 22px; }
-.report-card button{ border:none; background:var(--primary); color:#fff; padding:14px 22px; border-radius:24px; cursor:pointer; transition:transform .25s ease, background .25s ease; }
-.report-card button:hover{ transform:translateY(-2px); }
-
 .testimonial-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:24px; margin-top:32px; }
 .testimonial-card{ background:var(--card); border-radius:30px; padding:30px; box-shadow:var(--shadow); transition:transform .35s ease; }
 .testimonial-card:hover{ transform:translateY(-6px); }
@@ -436,17 +420,7 @@ body{
 .testimonial-card h4{ margin-bottom:12px; }
 .rating{ color:#f2af29; font-size:16px; }
 
-.quiz-card{ background:var(--card); border-radius:30px; padding:32px; box-shadow:var(--shadow); max-width:1000px; margin:auto; }
-.quiz-question{ margin-bottom:24px; }
-.quiz-question h4{ font-size:18px; margin-bottom:14px; }
-.quiz-question label{ display:block; padding:14px 18px; border-radius:18px; background:var(--surface-soft); margin-bottom:10px; cursor:pointer; transition:background .25s ease; }
-.quiz-question label:hover{ background:#e9ecff; }
-.quiz-question input{ margin-right:12px; accent-color:var(--primary); }
-.quiz-card button{ display:inline-flex; align-items:center; justify-content:center; padding:16px 26px; border-radius:28px; border:none; background:var(--primary); color:#fff; cursor:pointer; font-weight:700; transition:transform .25s ease, background .25s ease; }
-.quiz-card button:hover{ transform:translateY(-2px); }
-.quiz-result{ margin-top:24px; padding:20px 24px; border-radius:24px; background:var(--surface-soft); color:var(--text); font-weight:700; }
-
-.report-card, .fund-card, .testimonial-card, .quiz-card, .solution-card, .blog-card{ opacity:0; transform:translateY(50px); }
+.testimonial-card, .solution-card, .blog-card{ opacity:0; transform:translateY(50px); }
 
 @media(max-width:1000px){ .chart-grid{ grid-template-columns:1fr; } }
 
@@ -1148,7 +1122,6 @@ footer{
     .glass-card .card-inner h3{ font-size:18px; }
     .calculator{ padding:16px; border-radius:16px; }
     .calculator input, .calculator button{ padding:10px; font-size:12px; }
-    .fund-stats{ flex-direction:column; }
     .testimonial-grid{ grid-template-columns:1fr; }
     .amc-grid{ grid-template-columns:repeat(2,1fr); }
     .contact-box{ padding:40px 5%; }
@@ -1159,7 +1132,6 @@ footer{
     .lumpsum-calculator input, .lumpsum-calculator button{ padding:10px 12px; }
     .planner-grid{ grid-template-columns:1fr; gap:16px; }
     .planner-card{ padding:20px; }
-    .report-grid{ grid-template-columns:1fr; }
     .result-box h2{ font-size:32px; }
     .hero-media img{ max-width:100%; border-radius:12px; }
 }

@@ -34,7 +34,6 @@
         <!-- Chart.js (defer for performance) -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer integrity="sha512-W6lwjP2nSu/JnJs3x1wrFJrtUJdodLtwN45DkOc0kda3igrbFMp9DIPAdxDzC/0NnXK+0iqfz9gF5uItrYI6Xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer integrity="sha512-TKCrn6D0h7ENJADlfrf6NCNtkZHyKJRZWS+Q6ZA2mqgH4JZuqERe4YjJf7GPjN/FnBCO+uX7k0PatzG9I2z53Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <!-- Structured Data: FinancialService + LocalBusiness -->
         <script type="application/ld+json">
@@ -734,103 +733,6 @@
                 </div>
             </article>
 
-        </div>
-
-    </section>
-
-    <!-- RISK PROFILE QUIZ -->
-    <section class="section" id="risk-quiz">
-
-        <div class="section-title">
-            <h2>Risk Profile Quiz</h2>
-            <p>Find the investing style that suits you.</p>
-        </div>
-
-        <div class="quiz-card">
-            <div class="quiz-question">
-                <h4>1. What is your investment horizon?</h4>
-                <label><input type="radio" name="horizon" value="conservative"> Less than 3 years</label>
-                <label><input type="radio" name="horizon" value="moderate"> 3-7 years</label>
-                <label><input type="radio" name="horizon" value="aggressive"> More than 7 years</label>
-            </div>
-            <div class="quiz-question">
-                <h4>2. How do you react to market volatility?</h4>
-                <label><input type="radio" name="riskTolerance" value="conservative"> I prefer stable returns</label>
-                <label><input type="radio" name="riskTolerance" value="moderate"> I can tolerate moderate swings</label>
-                <label><input type="radio" name="riskTolerance" value="aggressive"> I welcome higher growth potential</label>
-            </div>
-            <div class="quiz-question">
-                <h4>3. What is your main goal?</h4>
-                <label><input type="radio" name="goalType" value="conservative"> Capital preservation</label>
-                <label><input type="radio" name="goalType" value="moderate"> Balanced growth</label>
-                <label><input type="radio" name="goalType" value="aggressive"> Wealth acceleration</label>
-            </div>
-            <button onclick="calculateRiskProfile()">See Your Risk Profile</button>
-            <div class="quiz-result" id="riskResult">Choose your answers to view your profile.</div>
-        </div>
-
-    </section>
-
-    <!-- TOP PERFORMING FUNDS -->
-    <section class="section" id="top-funds">
-
-        <div class="section-title">
-            <h2>Top Performing Funds</h2>
-            <p>High-performing funds selected for premium investors.</p>
-        </div>
-
-        <div class="fund-grid">
-            <div class="fund-card">
-                <h4>Alpha Growth Fund</h4>
-                <p class="fund-category">Large Cap</p>
-                <div class="fund-stats"><span>Returns 18.4%</span><span>AUM ₹9,200 Cr</span></div>
-                <button class="secondary-btn">Explore Fund</button>
-            </div>
-            <div class="fund-card">
-                <h4>Emerging Leaders</h4>
-                <p class="fund-category">Mid Cap</p>
-                <div class="fund-stats"><span>Returns 22.1%</span><span>AUM ₹5,800 Cr</span></div>
-                <button class="secondary-btn">Explore Fund</button>
-            </div>
-            <div class="fund-card">
-                <h4>Future Bluechip</h4>
-                <p class="fund-category">Small Cap</p>
-                <div class="fund-stats"><span>Returns 24.7%</span><span>AUM ₹3,200 Cr</span></div>
-                <button class="secondary-btn">Explore Fund</button>
-            </div>
-        </div>
-
-    </section>
-
-    <!-- REPORT DOWNLOADS -->
-    <section class="section" id="reports">
-
-        <div class="section-title">
-            <h2>Download Premium Reports</h2>
-            <p>Get instant PDF guides for your investment journey.</p>
-        </div>
-
-        <div class="report-grid">
-            <div class="report-card">
-                <h4>SIP Projection</h4>
-                <p>Download a personalized SIP growth report.</p>
-                <button class="secondary-btn" onclick="downloadReport('SIP Projection', 'Your SIP projection report from OM Financial Service.')">Download</button>
-            </div>
-            <div class="report-card">
-                <h4>Retirement Report</h4>
-                <p>Receive a retirement planning summary PDF.</p>
-                <button class="secondary-btn" onclick="downloadReport('Retirement Report', 'Your retirement plan report from OM Financial Service.')">Download</button>
-            </div>
-            <div class="report-card">
-                <h4>Tax Saving Guide</h4>
-                <p>Download a tax saving strategy guide.</p>
-                <button class="secondary-btn" onclick="downloadReport('Tax Saving Guide', 'Your tax saving guide from OM Financial Service.')">Download</button>
-            </div>
-            <div class="report-card">
-                <h4>Insurance Planning</h4>
-                <p>Get a PDF planning checklist for insurance.</p>
-                <button class="secondary-btn" onclick="downloadReport('Insurance Planning', 'Your insurance planning guide from OM Financial Service.')">Download</button>
-            </div>
         </div>
 
     </section>

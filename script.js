@@ -426,50 +426,6 @@ function calculateLumpsum(){
     if(resultEl) resultEl.innerText = '₹' + Math.round(M).toLocaleString();
 }
 
-function calculateRiskProfile(){
-    const riskResult = document.getElementById('riskResult');
-    const horizon = document.querySelector('input[name="horizon"]:checked');
-    const tolerance = document.querySelector('input[name="riskTolerance"]:checked');
-    const goalType = document.querySelector('input[name="goalType"]:checked');
-
-    if(!horizon || !tolerance || !goalType){
-        if(riskResult) riskResult.innerText = 'Please answer all questions to get your profile.';
-        return;
-    }
-
-    let score = 0;
-    [horizon.value, tolerance.value, goalType.value].forEach(value => {
-        if(value === 'conservative') score += 1;
-        if(value === 'moderate') score += 2;
-        if(value === 'aggressive') score += 3;
-    });
-
-    let profile = 'Balanced Investor';
-    let detail = 'A balanced strategy combining growth and stability.';
-    if(score <= 4){
-        profile = 'Conservative Investor';
-        detail = 'Your preference is for steady savings and lower risk exposure.';
-    } else if(score >= 7){
-        profile = 'Aggressive Investor';
-        detail = 'You are comfortable with higher volatility for stronger long-term returns.';
-    }
-
-    if(riskResult) riskResult.innerText = `${profile} — ${detail}`;
-}
-
-function downloadReport(title, body){
-    if(window.jsPDF){
-        const doc = new window.jsPDF();
-        doc.setFontSize(22);
-        doc.text(title, 20, 30);
-        doc.setFontSize(14);
-        doc.text(body, 20, 50);
-        doc.save(`${title.replace(/\s+/g, '_')}.pdf`);
-    } else {
-        alert(`Download ready: ${title}`);
-    }
-}
-
 function calculateRetirement(){
     const currentAge = parseFloat(document.getElementById('retireCurrentAge').value);
     const retireAge = parseFloat(document.getElementById('retireAge').value);

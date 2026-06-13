@@ -1,15 +1,15 @@
 services:
   - type: web
     name: om-financial-service-backend
-    env: node
+    env: python
     plan: free
     branch: main
     region: oregon
-    buildCommand: "cd backend && npm install"
-    startCommand: "cd backend && npm start"
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
     autoDeploy: true
     envVars:
-      - key: NODE_ENV
+      - key: FLASK_ENV
         value: production
-      - key: CORS_ORIGIN
-        value: "https://YOUR_GITHUB_PAGES_DOMAIN"
+      - key: PYTHONUNBUFFERED
+        value: "1"

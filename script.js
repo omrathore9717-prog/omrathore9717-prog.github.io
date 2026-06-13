@@ -446,7 +446,8 @@ function calculateEducation(){
     const annualRate = 0.09;
     const monthlyRate = annualRate / 12;
     const months = years * 12;
-    const monthlySip = target * monthlyRate / (Math.pow(1 + monthlyRate, months) - 1);
+    // Correct PMT formula: PMT = [PV * r * (1+r)^n] / [(1+r)^n - 1]
+    const monthlySip = target * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
     const invested = monthlySip * months;
     const growth = target - invested;
 

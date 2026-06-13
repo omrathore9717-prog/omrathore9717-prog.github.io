@@ -15,16 +15,10 @@ app = Flask(__name__, template_folder='templates', static_folder='static', stati
 swagger = Flasgger(app)
 
 # Enable CORS for all routes
+allowed_origins = os.getenv('CORS_ORIGINS', 'https://omfinancialservice.com,https://www.omfinancialservice.com').split(',')
 CORS(app, resources={
     r"/api/*": {
-        "origins": [
-            "https://omfinancialservice.com",
-            "https://www.omfinancialservice.com",
-            "http://localhost:5500",
-            "http://127.0.0.1:5500",
-            "http://localhost:5000",
-            "http://127.0.0.1:5000"
-        ]
+        "origins": allowed_origins
     }
 })
 

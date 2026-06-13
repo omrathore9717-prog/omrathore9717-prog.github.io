@@ -5,10 +5,14 @@ Python-based web server for financial planning and investment tools
 
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
+from flasgger import Flasgger
 import os
 
 # Initialize Flask app
 app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/static')
+
+# Initialize Flasgger for API documentation
+swagger = Flasgger(app)
 
 # Enable CORS for all routes
 CORS(app, resources={
@@ -26,6 +30,23 @@ CORS(app, resources={
 
 # Configuration
 app.config['DEBUG'] = os.getenv('FLASK_ENV', 'production') == 'development'
+
+# ============================
+# VALIDATION HELPERS
+# ============================
+
+def validate_positive_numbers(*args):
+    """Validate that all arguments are positive numbers"""
+    for val in args:
+        if val is None or val < 0:
+            return False
+    return True
+
+def validate_age_difference(current_age, retirement_age):
+    """Validate age logic"""
+    if current_age < 0 or retirement_age <= current_age:
+        return False
+    return True
 
 # ============================
 # ROUTES
@@ -48,24 +69,60 @@ def health_check():
 @app.route('/api/calculators/sip', methods=['POST'])
 def sip_calculator():
     """SIP Calculator API
-    
-    Request JSON:
-    {
-        "monthly_amount": float,
-        "annual_rate": float,
-        "years": int
-    }
-    
-    Returns: Investment breakdown and projections
+    ---
+    tags:
+      - Calculators
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            monthly_amount:
+              type: number
+              description: Monthly investment amount (₹)
+              example: 5000
+            annual_rate:
+              type: number
+              description: Annual interest rate (%)
+              example: 12
+            years:
+              type: integer
+              description: Investment period (years)
+              example: 5
+          required:
+            - monthly_amount
+            - annual_rate
+            - years
+    responses:
+      200:
+        description: Successful calculation
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+            invested_amount:
+              type: number
+            estimated_returns:
+              type: number
+            maturity_amount:
+              type: number
+      400:
+        description: Invalid input parameters
     """
     try:
         data = request.get_json()
+        if not data:
+            return jsonify({'error': 'Request body cannot be empty'}), 400
+        
         monthly = float(data.get('monthly_amount', 0))
         rate = float(data.get('annual_rate', 0))
         years = int(data.get('years', 0))
         
-        if monthly < 0 or rate < 0 or years < 0:
-            return jsonify({'error': 'Negative values not allowed'}), 400
+        if not validate_positive_numbers(monthly, rate, years) or years == 0:
+            return jsonify({'error': 'All values must be positive numbers and years must be greater than 0'}), 400
         
         # Calculate SIP
         months = years * 12
@@ -95,22 +152,49 @@ def sip_calculator():
 @app.route('/api/calculators/emi', methods=['POST'])
 def emi_calculator():
     """EMI Calculator API
-    
-    Request JSON:
-    {
-        "loan_amount": float,
-        "annual_rate": float,
-        "years": int
-    }
+    ---
+    tags:
+      - Calculators
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            principal:
+              type: number
+              description: Loan amount (₹)
+              example: 1000000
+            annual_rate:
+              type: number
+              description: Annual interest rate (%)
+              example: 8.5
+            years:
+              type: integer
+              description: Loan tenure (years)
+              example: 20
+          required:
+            - principal
+            - annual_rate
+            - years
+    responses:
+      200:
+        description: Successful calculation
+      400:
+        description: Invalid input parameters
     """
     try:
         data = request.get_json()
-        principal = float(data.get('loan_amount', 0))
+        if not data:
+            return jsonify({'error': 'Request body cannot be empty'}), 400
+        
+        principal = float(data.get('principal', 0))
         annual_rate = float(data.get('annual_rate', 0))
         years = int(data.get('years', 0))
         
-        if principal < 0 or annual_rate < 0 or years < 0:
-            return jsonify({'error': 'Negative values not allowed'}), 400
+        if not validate_positive_numbers(principal, annual_rate, years) or years == 0:
+            return jsonify({'error': 'All values must be positive numbers and years must be greater than 0'}), 400
         
         # Calculate EMI
         months = years * 12
@@ -140,22 +224,49 @@ def emi_calculator():
 @app.route('/api/calculators/lumpsum', methods=['POST'])
 def lumpsum_calculator():
     """Lumpsum Investment Calculator API
-    
-    Request JSON:
-    {
-        "investment_amount": float,
-        "annual_rate": float,
-        "years": int
-    }
+    ---
+    tags:
+      - Calculators
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            principal:
+              type: number
+              description: Investment amount (₹)
+              example: 500000
+            annual_rate:
+              type: number
+              description: Annual return rate (%)
+              example: 10
+            years:
+              type: integer
+              description: Investment period (years)
+              example: 10
+          required:
+            - principal
+            - annual_rate
+            - years
+    responses:
+      200:
+        description: Successful calculation
+      400:
+        description: Invalid input parameters
     """
     try:
         data = request.get_json()
-        principal = float(data.get('investment_amount', 0))
+        if not data:
+            return jsonify({'error': 'Request body cannot be empty'}), 400
+        
+        principal = float(data.get('principal', 0))
         rate = float(data.get('annual_rate', 0))
         years = int(data.get('years', 0))
         
-        if principal < 0 or rate < 0 or years < 0:
-            return jsonify({'error': 'Negative values not allowed'}), 400
+        if not validate_positive_numbers(principal, rate, years) or years == 0:
+            return jsonify({'error': 'All values must be positive numbers and years must be greater than 0'}), 400
         
         # Calculate compound interest
         r = rate / 100
@@ -177,24 +288,58 @@ def lumpsum_calculator():
 @app.route('/api/calculators/retirement', methods=['POST'])
 def retirement_calculator():
     """Retirement Planning Calculator API
-    
-    Request JSON:
-    {
-        "current_age": int,
-        "retirement_age": int,
-        "monthly_investment": float,
-        "annual_rate": float
-    }
+    ---
+    tags:
+      - Calculators
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            current_age:
+              type: integer
+              description: Current age (years)
+              example: 30
+            retirement_age:
+              type: integer
+              description: Target retirement age (years)
+              example: 60
+            monthly_amount:
+              type: number
+              description: Monthly investment amount (₹)
+              example: 10000
+            annual_rate:
+              type: number
+              description: Annual return rate (%)
+              example: 12
+          required:
+            - current_age
+            - retirement_age
+            - monthly_amount
+            - annual_rate
+    responses:
+      200:
+        description: Successful calculation
+      400:
+        description: Invalid input parameters
     """
     try:
         data = request.get_json()
+        if not data:
+            return jsonify({'error': 'Request body cannot be empty'}), 400
+        
         current_age = int(data.get('current_age', 0))
         retirement_age = int(data.get('retirement_age', 0))
-        monthly = float(data.get('monthly_investment', 0))
+        monthly = float(data.get('monthly_amount', 0))
         rate = float(data.get('annual_rate', 0))
         
-        if current_age < 0 or retirement_age <= current_age or monthly < 0 or rate < 0:
-            return jsonify({'error': 'Invalid age or investment values'}), 400
+        if not validate_age_difference(current_age, retirement_age):
+            return jsonify({'error': 'Current age must be positive and less than retirement age'}), 400
+        
+        if not validate_positive_numbers(monthly, rate):
+            return jsonify({'error': 'Monthly amount and rate must be positive numbers'}), 400
         
         # Calculate retirement corpus
         years = retirement_age - current_age

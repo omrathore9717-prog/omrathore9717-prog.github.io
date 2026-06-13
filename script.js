@@ -243,13 +243,10 @@ const cards =
 
 document.querySelectorAll(
 
-".service-card,\
- .solution-card,\
+".solution-card,\
  .testimonial-card,\
  .planner-card,\
- .faq-box,\
- .contact-card,\
- .top-amc-card"
+ .faq-box"
 
 );
 
@@ -301,31 +298,6 @@ revealCards();
 
 
 // =========================
-// FLOATING CARD ANIMATION
-// =========================
-
-const floatingCards =
-document.querySelectorAll(".floating-card");
-
-
-floatingCards.forEach((card,index)=>{
-
-    setInterval(()=>{
-
-        card.style.transform =
-
-        `translateY(${
-            Math.sin(Date.now()/700 + index) * 10
-        }px)`;
-
-    },30);
-
-});
-
-
-
-
-// =========================
 // BUTTON HOVER EFFECT
 // =========================
 
@@ -334,9 +306,7 @@ const buttons =
 document.querySelectorAll(
 
 ".primary-btn,\
- .secondary-btn,\
- .calculate-btn,\
- .nav-btn"
+ .secondary-btn"
 
 );
 

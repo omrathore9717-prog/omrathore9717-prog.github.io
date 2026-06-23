@@ -2,6 +2,8 @@
 // NAVBAR SCROLL EFFECT - OPTIMIZED
 // =========================
 
+document.body.classList.add("site-redesign");
+
 window.addEventListener("scroll", () => {
     const navbar = document.querySelector(".navbar");
     if(!navbar) return;
@@ -9,6 +11,254 @@ window.addEventListener("scroll", () => {
     navbar.style.boxShadow = window.scrollY > 50 ? "0 10px 30px rgba(15,23,42,0.08)" : "0 2px 12px rgba(15,23,42,0.04)";
     // Removed blur for performance
 }, {passive: true});
+
+// =========================
+// SCROLL SHOWCASE
+// =========================
+
+const scrollShowcase = document.querySelector(".scroll-showcase");
+const scrollDevice = document.querySelector("[data-scroll-device]");
+const scrollShowcaseCopy = document.querySelector(".scroll-showcase-copy");
+const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+let showcaseTicking = false;
+
+function clampProgress(value){
+    return Math.min(Math.max(value, 0), 1);
+}
+
+function updateScrollShowcase(){
+    showcaseTicking = false;
+
+    if(!scrollShowcase || !scrollDevice || reduceMotionQuery.matches) return;
+
+    const rect = scrollShowcase.getBoundingClientRect();
+    const travel = window.innerHeight + rect.height;
+    const progress = clampProgress((window.innerHeight - rect.top) / travel);
+    const isMobile = window.innerWidth <= 768;
+    const rotate = 20 - (20 * progress);
+    const scaleStart = isMobile ? 0.92 : 1.05;
+    const scaleEnd = 1;
+    const scale = scaleStart + ((scaleEnd - scaleStart) * progress);
+    const cardY = isMobile ? 0 : -100 * progress;
+    const titleY = -80 * progress;
+
+    scrollDevice.style.setProperty("--showcase-rotate", `${rotate}deg`);
+    scrollDevice.style.setProperty("--showcase-scale", scale.toFixed(3));
+    scrollDevice.style.setProperty("--showcase-card-y", `${cardY.toFixed(1)}px`);
+
+    if(scrollShowcaseCopy){
+        scrollShowcaseCopy.style.setProperty("--showcase-title-y", `${titleY.toFixed(1)}px`);
+    }
+}
+
+function requestScrollShowcaseUpdate(){
+    if(showcaseTicking) return;
+    showcaseTicking = true;
+    requestAnimationFrame(updateScrollShowcase);
+}
+
+if(scrollShowcase && scrollDevice){
+    window.addEventListener("scroll", requestScrollShowcaseUpdate, {passive: true});
+    window.addEventListener("resize", requestScrollShowcaseUpdate);
+    requestScrollShowcaseUpdate();
+}
+
+// =========================
+// HERO SHADER ANIMATION
+// =========================
+
+const shaderCanvas = document.querySelector("[data-shader-animation]");
+
+function createShader(gl, type, source){
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+
+    if(!gl.getShaderParameter(shader, gl.COMPILE_STATUS)){
+        gl.deleteShader(shader);
+        return null;
+    }
+
+    return shader;
+}
+
+function initializeHeroShader(){
+    if(!shaderCanvas || reduceMotionQuery.matches) return;
+
+    const gl = shaderCanvas.getContext("webgl", {
+        antialias: true,
+        alpha: false,
+        powerPreference: "low-power"
+    });
+
+    if(!gl) return;
+
+    const vertexShaderSource = `
+        attribute vec2 position;
+
+        void main(){
+            gl_Position = vec4(position, 0.0, 1.0);
+        }
+    `;
+
+    const fragmentShaderSource = `
+        precision highp float;
+
+        uniform vec2 resolution;
+        uniform float time;
+
+        float channel(float offset, vec2 uv, float t){
+            float lineWidth = 0.002;
+            float value = 0.0;
+
+            for(int i = 0; i < 5; i++){
+                value += lineWidth * float(i * i) / abs(fract(t - offset + float(i) * 0.01) * 5.0 - length(uv) + mod(uv.x + uv.y, 0.2));
+            }
+
+            return value;
+        }
+
+        void main(){
+            vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+            float t = time * 0.05;
+            vec3 color = vec3(channel(0.0, uv, t), channel(0.01, uv, t), channel(0.02, uv, t));
+            vec3 financeTint = vec3(color.g * 0.28, color.g * 0.78 + color.b * 0.18, color.b * 0.48);
+            gl_FragColor = vec4(financeTint, 1.0);
+        }
+    `;
+
+    const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+    const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+
+    if(!vertexShader || !fragmentShader) return;
+
+    const program = gl.createProgram();
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
+
+    if(!gl.getProgramParameter(program, gl.LINK_STATUS)){
+        gl.deleteProgram(program);
+        return;
+    }
+
+    const positionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
+        gl.STATIC_DRAW
+    );
+
+    const positionLocation = gl.getAttribLocation(program, "position");
+    const resolutionLocation = gl.getUniformLocation(program, "resolution");
+    const timeLocation = gl.getUniformLocation(program, "time");
+    let animationFrame = 0;
+    let time = 1;
+
+    function resizeShader(){
+        const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.6);
+        const width = Math.max(1, Math.floor(shaderCanvas.clientWidth * pixelRatio));
+        const height = Math.max(1, Math.floor(shaderCanvas.clientHeight * pixelRatio));
+
+        if(shaderCanvas.width !== width || shaderCanvas.height !== height){
+            shaderCanvas.width = width;
+            shaderCanvas.height = height;
+            gl.viewport(0, 0, width, height);
+        }
+    }
+
+    function renderShader(){
+        resizeShader();
+        time += 0.05;
+
+        gl.useProgram(program);
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        gl.enableVertexAttribArray(positionLocation);
+        gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+        gl.uniform2f(resolutionLocation, shaderCanvas.width, shaderCanvas.height);
+        gl.uniform1f(timeLocation, time);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+        animationFrame = requestAnimationFrame(renderShader);
+    }
+
+    window.addEventListener("resize", resizeShader);
+    renderShader();
+
+    window.addEventListener("beforeunload", () => {
+        cancelAnimationFrame(animationFrame);
+        window.removeEventListener("resize", resizeShader);
+        gl.deleteBuffer(positionBuffer);
+        gl.deleteProgram(program);
+        gl.deleteShader(vertexShader);
+        gl.deleteShader(fragmentShader);
+    }, {once: true});
+}
+
+initializeHeroShader();
+
+// =========================
+// SITE-WIDE SCROLL REDESIGN
+// =========================
+
+const scrollProgress = document.createElement("div");
+scrollProgress.className = "scroll-progress";
+scrollProgress.setAttribute("aria-hidden", "true");
+document.body.prepend(scrollProgress);
+
+const revealSelectors = [
+    ".section-title",
+    ".hero-content",
+    ".hero-media",
+    ".scroll-showcase-copy",
+    ".scroll-device",
+    ".card",
+    ".blog-card",
+    ".solution-card",
+    ".impact-card",
+    ".glass-card",
+    ".amc-card",
+    ".calculator",
+    ".lumpsum-calculator",
+    ".planner-card",
+    ".testimonial-card",
+    ".faq-item",
+    ".contact-box",
+    ".cta-card",
+    ".site-footer"
+].join(",");
+
+const revealElements = Array.from(document.querySelectorAll(revealSelectors));
+
+function updatePageScrollProgress(){
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+    scrollProgress.style.transform = `scaleX(${Math.min(Math.max(progress, 0), 1)})`;
+}
+
+if(!reduceMotionQuery.matches && "IntersectionObserver" in window){
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {threshold: 0.14, rootMargin: "0px 0px -8% 0px"});
+
+    revealElements.forEach((element, index) => {
+        element.classList.add("scroll-reveal");
+        element.style.transitionDelay = `${Math.min(index % 6, 5) * 55}ms`;
+        revealObserver.observe(element);
+    });
+} else {
+    revealElements.forEach(element => element.classList.add("is-visible"));
+}
+
+window.addEventListener("scroll", updatePageScrollProgress, {passive: true});
+window.addEventListener("resize", updatePageScrollProgress);
+updatePageScrollProgress();
 
 
 
@@ -707,6 +957,8 @@ document.querySelectorAll(
 
 
 allCards.forEach(card=>{
+
+    if(document.body.classList.contains("site-redesign")) return;
 
     card.addEventListener("mousemove",(e)=>{
 

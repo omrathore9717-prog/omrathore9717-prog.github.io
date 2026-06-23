@@ -2,5 +2,7 @@
   "name": "omfs-frontend",
   "version": "1.0.0",
   "description": "OM Financial Service - Frontend static assets",
-  "dependencies": {}
+  "dependencies": {
+    "framer-motion": "^12.41.0"
+  }
 }

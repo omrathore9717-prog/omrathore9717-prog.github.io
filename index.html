@@ -101,6 +101,7 @@
 </head>
 
 <body>
+    <div class="global-background" aria-hidden="true"></div>
 
     <!-- NAVBAR -->
 
@@ -180,11 +181,77 @@
             </div>
 
             <div class="hero-media">
+                <canvas class="shader-canvas" data-shader-animation aria-hidden="true"></canvas>
                 <img src="./assets/images/hero-finance.svg" alt="Wealth management overview" loading="lazy">
             </div>
 
         </div>
 
+    </section>
+
+    <!-- SCROLL SHOWCASE -->
+    <section class="scroll-showcase" id="scroll-showcase">
+        <div class="scroll-showcase-inner">
+            <div class="scroll-showcase-copy">
+                <span class="section-eyebrow">Portfolio Experience</span>
+                <h2>Your wealth plan, seen in motion</h2>
+                <p>Review goals, SIP growth, protection needs, and advisory touchpoints in one calm planning view.</p>
+            </div>
+
+            <div class="scroll-device" data-scroll-device>
+                <div class="scroll-device-screen">
+                    <div class="portfolio-preview">
+                        <div class="preview-header">
+                            <div>
+                                <span>OM Wealth Dashboard</span>
+                                <h3>Smart investment overview</h3>
+                            </div>
+                            <strong>+18.4%</strong>
+                        </div>
+
+                        <div class="preview-metrics">
+                            <div>
+                                <span>Monthly SIP</span>
+                                <strong>₹25,000</strong>
+                            </div>
+                            <div>
+                                <span>Goal Progress</span>
+                                <strong>72%</strong>
+                            </div>
+                            <div>
+                                <span>Risk Profile</span>
+                                <strong>Balanced</strong>
+                            </div>
+                        </div>
+
+                        <div class="preview-chart" aria-hidden="true">
+                            <span style="height:42%"></span>
+                            <span style="height:56%"></span>
+                            <span style="height:48%"></span>
+                            <span style="height:74%"></span>
+                            <span style="height:66%"></span>
+                            <span style="height:88%"></span>
+                            <span style="height:82%"></span>
+                        </div>
+
+                        <div class="preview-plan">
+                            <div>
+                                <span></span>
+                                <p>SIP review scheduled</p>
+                            </div>
+                            <div>
+                                <span></span>
+                                <p>Insurance coverage optimized</p>
+                            </div>
+                            <div>
+                                <span></span>
+                                <p>Retirement goal tracking active</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     
     <!-- BLOG -->

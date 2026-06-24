@@ -1,123 +1,35 @@
 /* =========================================================
-   OM FINANCIAL — PROFESSIONAL FINANCE BACKGROUND
-   Two refined layers: flowing chart lines + soft accent glow
-   Calm, cinematic, Bloomberg-style
+   OM FINANCIAL — CSS finance backdrop overlay
+   (the real 3D scene runs in finance-3d-bg.js)
+   This file only adds a soft top/bottom vignette so
+   sections sit cleanly over the 3D background.
 ========================================================= */
 
 .om-finance-bg{
   position: fixed;
   inset: 0;
-  z-index: -2;
+  z-index: -1;
   pointer-events: none;
   overflow: hidden;
 }
 
-/* Layer A — slow-drifting chart lines (the only "content" layer) */
-.om-finance-bg .layer-chart{
-  position: absolute;
-  inset: -10%;
-  opacity: 0.22;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='none'>\
-<defs>\
-<linearGradient id='g1' x1='0' y1='0' x2='1' y2='0'>\
-<stop offset='0%25' stop-color='%236fc7d4' stop-opacity='0'/>\
-<stop offset='35%25' stop-color='%236fc7d4' stop-opacity='0.65'/>\
-<stop offset='65%25' stop-color='%236fc7d4' stop-opacity='0.65'/>\
-<stop offset='100%25' stop-color='%236fc7d4' stop-opacity='0'/>\
-</linearGradient>\
-<linearGradient id='g2' x1='0' y1='0' x2='1' y2='0'>\
-<stop offset='0%25' stop-color='%236fc7d4' stop-opacity='0'/>\
-<stop offset='50%25' stop-color='%236fc7d4' stop-opacity='0.35'/>\
-<stop offset='100%25' stop-color='%236fc7d4' stop-opacity='0'/>\
-</linearGradient>\
-</defs>\
-<path d='M0 620 Q 200 580 320 600 T 640 540 T 960 520 T 1280 440 T 1600 380' stroke='url(%23g1)' stroke-width='1.2' fill='none'/>\
-<path d='M0 720 Q 200 690 380 700 T 740 650 T 1080 640 T 1380 580 T 1600 530' stroke='url(%23g2)' stroke-width='0.8' fill='none'/>\
-<path d='M0 540 Q 180 510 340 530 T 660 480 T 980 470 T 1300 410 T 1600 370' stroke='url(%23g2)' stroke-width='0.6' fill='none'/>\
-<path d='M0 460 Q 200 440 380 450 T 720 410 T 1040 405 T 1340 360 T 1600 320' stroke='url(%23g2)' stroke-width='0.5' fill='none'/>\
-</svg>");
-  background-size: 100% 100%;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  animation: chartFloat 38s ease-in-out infinite alternate;
-  will-change: transform;
-}
-@keyframes chartFloat{
-  0%   { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-3%, -1.5%, 0); }
+/* Soft top + bottom fade so the 3D scene reads as ambient */
+.om-finance-bg .layer-vignette{
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    rgba(6,9,15,0.45) 0%,
+    transparent 18%,
+    transparent 80%,
+    rgba(6,9,15,0.55) 100%);
 }
 
-/* Layer B — subtle grain (paper-like depth) */
-.om-finance-bg .layer-grain{
-  position: absolute;
-  inset: 0;
-  opacity: 0.5;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.43  0 0 0 0 0.78  0 0 0 0 0.83  0 0 0 0.025 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  background-repeat: repeat;
-  background-size: 240px 240px;
-}
-
-/* Layer C — single ambient radial glow */
-.om-finance-bg .layer-glow{
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(1000px 700px at 80% 5%, rgba(111,199,212,0.10), transparent 60%),
-    radial-gradient(800px 550px at 5% 95%, rgba(111,199,212,0.05), transparent 55%);
-}
-
-/* Layer D — minimal animated rising bars at the floor */
-.om-finance-bg .layer-bars{
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 160px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-around;
-  opacity: 0.10;
-  padding: 0 6%;
-}
-.om-finance-bg .layer-bars span{
-  display: block;
-  width: 2px;
-  background: linear-gradient(180deg, var(--accent, #6fc7d4), transparent);
-  border-radius: 2px 2px 0 0;
-  transform-origin: bottom;
-  animation: barRise 8s cubic-bezier(0.4,0,0.2,1) infinite alternate;
-  will-change: transform;
-}
-.om-finance-bg .layer-bars span:nth-child(1) { animation-delay: 0.0s; height: 60%; }
-.om-finance-bg .layer-bars span:nth-child(2) { animation-delay: 0.5s; height: 45%; }
-.om-finance-bg .layer-bars span:nth-child(3) { animation-delay: 1.0s; height: 80%; }
-.om-finance-bg .layer-bars span:nth-child(4) { animation-delay: 1.5s; height: 55%; }
-.om-finance-bg .layer-bars span:nth-child(5) { animation-delay: 2.0s; height: 90%; }
-.om-finance-bg .layer-bars span:nth-child(6) { animation-delay: 2.5s; height: 40%; }
-.om-finance-bg .layer-bars span:nth-child(7) { animation-delay: 3.0s; height: 75%; }
-.om-finance-bg .layer-bars span:nth-child(8) { animation-delay: 3.5s; height: 62%; }
-.om-finance-bg .layer-bars span:nth-child(9) { animation-delay: 4.0s; height: 85%; }
-.om-finance-bg .layer-bars span:nth-child(10){ animation-delay: 4.5s; height: 50%; }
-.om-finance-bg .layer-bars span:nth-child(11){ animation-delay: 5.0s; height: 70%; }
-.om-finance-bg .layer-bars span:nth-child(12){ animation-delay: 5.5s; height: 92%; }
-@keyframes barRise{
-  0%   { transform: scaleY(0.35); opacity: 0.4; }
-  100% { transform: scaleY(1);    opacity: 1; }
-}
-
-/* Hide busy layers we removed */
+/* Hide everything else */
+.om-finance-bg .layer-grain,
+.om-finance-bg .layer-chart,
 .om-finance-bg .layer-candles,
-.om-finance-bg .layer-glyphs{ display: none !important; }
+.om-finance-bg .layer-glyphs,
+.om-finance-bg .layer-bars,
+.om-finance-bg .layer-glow{ display: none !important; }
 
-/* Mobile */
-@media (max-width: 700px){
-  .om-finance-bg .layer-chart{ opacity: 0.14; }
-  .om-finance-bg .layer-bars{ display: none; }
-}
-@media (prefers-reduced-motion: reduce){
-  .om-finance-bg .layer-chart,
-  .om-finance-bg .layer-bars span{ animation: none !important; }
-}
-
-/* Impact / sections sit above */
 .impact-section{ position: relative; z-index: 2; }
 .impact-card{ text-align: left; }

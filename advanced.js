@@ -588,21 +588,13 @@
   }
 
   /* ============ BOOT ============ */
-  /* ============ 11. FINANCE-THEMED BACKGROUND ============ */
+  /* ============ 11. SOFT FINANCE VIGNETTE (over the 3D bg canvas) ============ */
   function initFinanceBg(){
     if(document.querySelector('.om-finance-bg')) return;
     const bg = document.createElement('div');
     bg.className = 'om-finance-bg';
     bg.setAttribute('aria-hidden', 'true');
-    bg.innerHTML = `
-      <div class="layer-glow"></div>
-      <div class="layer-candles"></div>
-      <div class="layer-glyphs"></div>
-      <div class="layer-chart"></div>
-      <div class="layer-bars">
-        ${Array(12).fill('<span></span>').join('')}
-      </div>
-    `;
+    bg.innerHTML = `<div class="layer-vignette"></div>`;
     document.body.insertBefore(bg, document.body.firstChild);
   }
 

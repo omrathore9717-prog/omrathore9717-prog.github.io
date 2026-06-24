@@ -46,17 +46,7 @@ body.site-redesign, body{
   overflow-x: hidden;
   letter-spacing: -0.005em;
 }
-
-/* Ambient professional gradient — single fixed layer */
-body::before{
-  content: "";
-  position: fixed; inset: 0; z-index: -1;
-  background:
-    radial-gradient(1100px 700px at 78% -5%, rgba(111,199,212,0.07), transparent 65%),
-    radial-gradient(900px 600px at 5% 95%, rgba(111,199,212,0.04), transparent 60%),
-    linear-gradient(180deg, #050810 0%, #080c15 50%, #050810 100%);
-  pointer-events: none;
-}
+html{ background: var(--bg-0); }
 
 /* ============ TYPOGRAPHY — institutional serif + clean sans ============ */
 h1, h2, h3, h4{

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OM Finance — Background Options Gallery</title>
+<style>
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    background: #06090f;
+    color: #ecf0f7;
+    font-family: 'Manrope', system-ui, sans-serif;
+    padding: 24px;
+    min-height: 100vh;
+  }
+  h1{
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 400;
+    font-size: 2rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .sub{ color: #a8b1c2; margin-bottom: 28px; font-size: 0.95rem; }
+  .grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    max-width: 1700px;
+    margin: 0 auto;
+  }
+  .demo{
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: #0a0f1a;
+  }
+  .demo canvas{ width: 100% !important; height: 100% !important; display: block; }
+  .label{
+    position: absolute;
+    left: 18px; top: 16px;
+    z-index: 2;
+    background: rgba(6,9,15,0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 8px 14px 8px 12px;
+    border-radius: 10px;
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  .label .num{
+    font-family: 'JetBrains Mono', monospace;
+    color: #6fc7d4;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .label .name{
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+  }
+  .desc{
+    position: absolute;
+    left: 18px; bottom: 18px;
+    z-index: 2;
+    background: rgba(6,9,15,0.78);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    color: #c1c8d6;
+    max-width: 75%;
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+<h1>Pick Your Finance Background</h1>
+<p class="sub">4 live 3D demos — each a real Three.js scene. Tell me a number and I'll plug it into your site.</p>
+
+<div class="grid">
+
+  <div class="demo">
+    <div class="label"><span class="num">01</span><span class="name">Candlestick Chart Wall</span></div>
+    <div class="desc">Rows of 3D green/red candles + depth grid + floating ₹ symbols. Bloomberg-terminal feel.</div>
+    <canvas id="c1"></canvas>
+  </div>
+
+  <div class="demo">
+    <div class="label"><span class="num">02</span><span class="name">Stock Line Chart</span></div>
+    <div class="desc">Animated multi-line graph drawing itself with glowing nodes. Stripe / fintech aesthetic.</div>
+    <canvas id="c2"></canvas>
+  </div>
+
+  <div class="demo">
+    <div class="label"><span class="num">03</span><span class="name">Coin Rain</span></div>
+    <div class="desc">3D metallic rupee coins falling slowly through the scene. Wealth-creation narrative.</div>
+    <canvas id="c3"></canvas>
+  </div>
+
+  <div class="demo">
+    <div class="label"><span class="num">04</span><span class="name">Holographic Globe + Trade Routes</span></div>
+    <div class="desc">Rotating wireframe globe with glowing arcs between financial hubs. Global investing.</div>
+    <canvas id="c4"></canvas>
+  </div>
+
+  <div class="demo">
+    <div class="label"><span class="num">05</span><span class="name">Financial City Skyline</span></div>
+    <div class="desc">3D buildings forming a Wall-Street style skyline. Lights in windows pulse gently.</div>
+    <canvas id="c5"></canvas>
+  </div>
+
+  <div class="demo">
+    <div class="label"><span class="num">06</span><span class="name">Data Network Nodes</span></div>
+    <div class="desc">Glowing nodes connected by light packets. AI-driven fintech advisory feel.</div>
+    <canvas id="c6"></canvas>
+  </div>
+
+</div>
+
+<script>
+const ACCENT = 0x6fc7d4;
+const POS = 0x4dcfa7, NEG = 0xe57391;
+
+function setupRenderer(canvas){
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  renderer.setSize(w, h, false);
+  renderer.setClearColor(0x0a0f1a, 1);
+  return renderer;
+}
+
+/* ============ 01 CANDLESTICK WALL ============ */
+(function(){
+  const canvas = document.getElementById('c1');
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x0a0f1a, 10, 30);
+  const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth/canvas.clientHeight, 0.1, 100);
+  camera.position.set(0, 2.5, 10);
+  const renderer = setupRenderer(canvas);
+  scene.add(new THREE.AmbientLight(0x2a3548, 0.8));
+  const l = new THREE.PointLight(ACCENT, 2.5, 25); l.position.set(6, 8, 5); scene.add(l);
+  const grid = new THREE.GridHelper(40, 30, ACCENT, 0x1b2438);
+  grid.material.opacity = 0.32; grid.material.transparent = true;
+  grid.position.y = -2; scene.add(grid);
+  const greenMat = new THREE.MeshStandardMaterial({ color: POS, metalness: 0.5, roughness: 0.3, emissive: POS, emissiveIntensity: 0.5 });
+  const redMat   = new THREE.MeshStandardMaterial({ color: NEG, metalness: 0.5, roughness: 0.3, emissive: NEG, emissiveIntensity: 0.45 });
+  const wickMat  = new THREE.MeshBasicMaterial({ color: 0x4a5468, transparent: true, opacity: 0.6 });
+  const group = new THREE.Group(); scene.add(group);
+  let seed = 99; const rnd = ()=>{ seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+  for(let row = 0; row < 4; row++){
+    let prev = 1.8 + rnd();
+    for(let i = 0; i < 26; i++){
+      const open = prev, close = Math.max(0.4, Math.min(4.5, prev + (rnd()-0.45)*0.9));
+      const high = Math.max(open,close)+rnd()*0.3, low = Math.min(open,close)-rnd()*0.3;
+      const body = new THREE.Mesh(new THREE.BoxGeometry(0.28, Math.abs(close-open)+0.2, 0.28), close>=open?greenMat:redMat);
+      body.position.set(-9 + i*0.72, (open+close)/2, -3 - row*3.2);
+      group.add(body);
+      const wick = new THREE.Mesh(new THREE.BoxGeometry(0.04, high-low, 0.04), wickMat);
+      wick.position.set(body.position.x, (high+low)/2, body.position.z);
+      group.add(wick);
+      prev = close;
+    }
+  }
+  const clock = new THREE.Clock();
+  (function tick(){ requestAnimationFrame(tick);
+    const t = clock.getElapsedTime();
+    group.position.x = -((t*0.4) % 0.72);
+    camera.position.x = Math.sin(t*0.1)*0.8;
+    camera.lookAt(0, 1.5, -6);
+    renderer.render(scene, camera);
+  })();
+})();
+
+/* ============ 02 STOCK LINE CHART ============ */
+(function(){
+  const canvas = document.getElementById('c2');
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth/canvas.clientHeight, 0.1, 100);
+  camera.position.set(0, 0, 10);
+  const renderer = setupRenderer(canvas);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+  const l = new THREE.PointLight(ACCENT, 2, 20); l.position.set(0, 4, 6); scene.add(l);
+
+  // grid
+  const grid = new THREE.GridHelper(30, 20, ACCENT, 0x141a26);
+  grid.material.opacity = 0.18; grid.material.transparent = true;
+  grid.rotation.x = Math.PI/2; grid.position.z = -1; scene.add(grid);
+
+  // multi line charts
+  const lines = [];
+  for(let l = 0; l < 3; l++){
+    const points = [];
+    let y = (Math.random()-0.5)*1.2;
+    for(let i = 0; i <= 60; i++){
+      y += (Math.random()-0.45)*0.4;
+      y = Math.max(-2.2, Math.min(2.2, y));
+      points.push(new THREE.Vector3(-7 + i*0.24, y, 0));
+    }
+    const geo = new THREE.BufferGeometry().setFromPoints(points);
+    const mat = new THREE.LineBasicMaterial({
+      color: l===0 ? ACCENT : (l===1 ? POS : 0xffffff),
+      transparent: true,
+      opacity: l===0 ? 0.95 : (l===1 ? 0.5 : 0.3),
+      linewidth: 2
+    });
+    const line = new THREE.Line(geo, mat);
+    line.userData = { phase: l*1.2, base: points.map(p=>p.y), points };
+    scene.add(line); lines.push(line);
+  }
+
+  // dots at peaks of first line
+  const dotMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  const dots = [];
+  for(let i = 0; i < 5; i++){
+    const dot = new THREE.Mesh(new THREE.SphereGeometry(0.06, 12, 12), dotMat);
+    scene.add(dot); dots.push(dot);
+  }
+
+  const clock = new THREE.Clock();
+  (function tick(){ requestAnimationFrame(tick);
+    const t = clock.getElapsedTime();
+    lines.forEach((line, idx) => {
+      const positions = line.geometry.attributes.position.array;
+      for(let i = 0; i < line.userData.points.length; i++){
+        positions[i*3+1] = line.userData.base[i] + Math.sin(t*0.6 + i*0.3 + idx) * 0.15;
+      }
+      line.geometry.attributes.position.needsUpdate = true;
+    });
+    const mainPos = lines[0].geometry.attributes.position.array;
+    dots.forEach((d, i)=>{
+      const idx = (Math.floor(t*4) + i*12) % 60;
+      d.position.set(mainPos[idx*3], mainPos[idx*3+1], mainPos[idx*3+2]+0.05);
+    });
+    renderer.render(scene, camera);
+  })();
+})();
+
+/* ============ 03 COIN RAIN ============ */
+(function(){
+  const canvas = document.getElementById('c3');
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth/canvas.clientHeight, 0.1, 100);
+  camera.position.set(0, 0, 10);
+  const renderer = setupRenderer(canvas);
+  scene.add(new THREE.AmbientLight(0x202838, 0.5));
+  const l1 = new THREE.PointLight(0xfff0c2, 1.6, 20); l1.position.set(4, 4, 6); scene.add(l1);
+  const l2 = new THREE.PointLight(ACCENT, 1.2, 18); l2.position.set(-4, 0, 4); scene.add(l2);
+
+  const goldMat = new THREE.MeshStandardMaterial({
+    color: 0xe6c87a, metalness: 1.0, roughness: 0.22,
+    emissive: 0x3a2608, emissiveIntensity: 0.4
+  });
+  const coins = [];
+  for(let i = 0; i < 28; i++){
+    const c = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.04, 24), goldMat);
+    c.position.set((Math.random()-0.5)*14, 4 + Math.random()*8, (Math.random()-0.5)*5 - 2);
+    c.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
+    c.userData = {
+      fall: 0.6 + Math.random()*0.8,
+      spinX: (Math.random()-0.5)*0.04,
+      spinY: (Math.random()-0.5)*0.05,
+      driftX: (Math.random()-0.5)*0.02
+    };
+    scene.add(c); coins.push(c);
+  }
+  (function tick(){ requestAnimationFrame(tick);
+    coins.forEach(c => {
+      c.position.y -= c.userData.fall * 0.04;
+      c.position.x += c.userData.driftX;
+      c.rotation.x += c.userData.spinX;
+      c.rotation.y += c.userData.spinY;
+      if(c.position.y < -5){ c.position.y = 5 + Math.random()*3; c.position.x = (Math.random()-0.5)*14; }
+    });
+    renderer.render(scene, camera);
+  })();
+})();
+
+/* ============ 04 HOLO GLOBE ============ */
+(function(){
+  const canvas = document.getElementById('c4');
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth/canvas.clientHeight, 0.1, 100);
+  camera.position.set(0, 0, 6);
+  const renderer = setupRenderer(canvas);
+  scene.add(new THREE.AmbientLight(0x1a2030, 0.6));
+  const l = new THREE.PointLight(ACCENT, 2, 18); l.position.set(3, 3, 4); scene.add(l);
+  const globe = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(1.6, 2),
+    new THREE.MeshBasicMaterial({ color: ACCENT, wireframe: true, transparent: true, opacity: 0.45 })
+  );
+  scene.add(globe);
+  const innerCore = new THREE.Mesh(
+    new THREE.SphereGeometry(1.55, 32, 32),
+    new THREE.MeshBasicMaterial({ color: 0x0a1828, transparent: true, opacity: 0.85 })
+  );
+  scene.add(innerCore);
+  // trade route arcs — random great-circle-like arcs
+  const arcs = [];
+  for(let i = 0; i < 7; i++){
+    const a = Math.random() * Math.PI * 2;
+    const b = Math.random() * Math.PI * 2;
+    const phi1 = Math.acos(2*Math.random()-1), phi2 = Math.acos(2*Math.random()-1);
+    const p1 = new THREE.Vector3(Math.sin(phi1)*Math.cos(a), Math.cos(phi1), Math.sin(phi1)*Math.sin(a)).multiplyScalar(1.6);
+    const p2 = new THREE.Vector3(Math.sin(phi2)*Math.cos(b), Math.cos(phi2), Math.sin(phi2)*Math.sin(b)).multiplyScalar(1.6);
+    const mid = p1.clone().add(p2).multiplyScalar(0.5).normalize().multiplyScalar(2.4);
+    const curve = new THREE.QuadraticBezierCurve3(p1, mid, p2);
+    const geo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(40));
+    const mat = new THREE.LineBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.8 });
+    const line = new THREE.Line(geo, mat);
+    scene.add(line); arcs.push(line);
+    // endpoints as glowing dots
+    const dotMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    [p1, p2].forEach(p => {
+      const dot = new THREE.Mesh(new THREE.SphereGeometry(0.04, 8, 8), dotMat);
+      dot.position.copy(p);
+      scene.add(dot);
+    });
+  }
+  const clock = new THREE.Clock();
+  (function tick(){ requestAnimationFrame(tick);
+    const t = clock.getElapsedTime();
+    globe.rotation.y = t*0.12;
+    innerCore.rotation.y = t*0.12;
+    arcs.forEach((a, i)=>{ a.material.opacity = 0.4 + Math.sin(t*1.4 + i)*0.4; });
+    renderer.render(scene, camera);
+  })();
+})();
+
+/* ============ 05 CITY SKYLINE ============ */
+(function(){
+  const canvas = document.getElementById('c5');
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x0a0f1a, 7, 22);
+  const camera = new THREE.PerspectiveCamera(55, canvas.clientWidth/canvas.clientHeight, 0.1, 100);
+  camera.position.set(0, 1.6, 9);
+  const renderer = setupRenderer(canvas);
+  scene.add(new THREE.AmbientLight(0x1a2030, 0.5));
+  const l1 = new THREE.PointLight(ACCENT, 1.8, 22); l1.position.set(3, 6, 5); scene.add(l1);
+  const l2 = new THREE.PointLight(0xfff0c2, 0.6, 16); l2.position.set(-5, 4, 3); scene.add(l2);
+
+  const buildings = [];
+  const bMatA = new THREE.MeshStandardMaterial({ color: 0x131b2e, metalness: 0.8, roughness: 0.4 });
+  const bMatB = new THREE.MeshStandardMaterial({ color: 0x1a2236, metalness: 0.8, roughness: 0.4, emissive: ACCENT, emissiveIntensity: 0.05 });
+  for(let i = -8; i <= 8; i++){
+    for(let row = 0; row < 3; row++){
+      const w = 0.5 + Math.random()*0.3;
+      const h = 1 + Math.random()*4.5;
+      const d = 0.5 + Math.random()*0.3;
+      const m = Math.random() > 0.7 ? bMatB : bMatA;
+      const b = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m);
+      b.position.set(i*0.8 + (Math.random()-0.5)*0.2, h/2 - 1, -row*1.5 - 1);
+      scene.add(b); buildings.push(b);
+      // window glow on some
+      if(Math.random() > 0.5){
+        const wg = new THREE.Mesh(
+          new THREE.PlaneGeometry(w*0.7, h*0.85),
+          new THREE.MeshBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.12 })
+        );
+        wg.position.copy(b.position); wg.position.z += d/2 + 0.001;
+        scene.add(wg);
+      }
+    }
+  }
+  // ground
+  const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(40, 40),
+    new THREE.MeshStandardMaterial({ color: 0x07090f, metalness: 0.7, roughness: 0.9 })
+  );
+  floor.rotation.x = -Math.PI/2; floor.position.y = -1; scene.add(floor);
+  const clock = new THREE.Clock();
+  (function tick(){ requestAnimationFrame(tick);
+    const t = clock.getElapsedTime();
+    camera.position.x = Math.sin(t*0.1)*2;
+    camera.position.y = 1.6 + Math.sin(t*0.07)*0.3;
+    camera.lookAt(0, 1, -2);
+    renderer.render(scene, camera);
+  })();
+})();
+
+/* ============ 06 DATA NETWORK ============ */
+(function(){
+  const canvas = document.getElementById('c6');
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(55, canvas.clientWidth/canvas.clientHeight, 0.1, 100);
+  camera.position.set(0, 0, 8);
+  const renderer = setupRenderer(canvas);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.3));
+  const nodes = [];
+  const nodeGeo = new THREE.SphereGeometry(0.08, 12, 12);
+  const nodeMat = new THREE.MeshBasicMaterial({ color: ACCENT });
+  for(let i = 0; i < 22; i++){
+    const n = new THREE.Mesh(nodeGeo, nodeMat);
+    n.position.set((Math.random()-0.5)*10, (Math.random()-0.5)*6, (Math.random()-0.5)*5);
+    n.userData = { phase: Math.random()*Math.PI*2, pulse: 0.5 + Math.random() };
+    scene.add(n); nodes.push(n);
+  }
+  // connect close pairs
+  const lineMat = new THREE.LineBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.18 });
+  const lines = [];
+  for(let i = 0; i < nodes.length; i++){
+    for(let j = i+1; j < nodes.length; j++){
+      const d = nodes[i].position.distanceTo(nodes[j].position);
+      if(d < 3){
+        const geo = new THREE.BufferGeometry().setFromPoints([nodes[i].position, nodes[j].position]);
+        const ln = new THREE.Line(geo, lineMat.clone());
+        scene.add(ln); lines.push(ln);
+      }
+    }
+  }
+  const clock = new THREE.Clock();
+  (function tick(){ requestAnimationFrame(tick);
+    const t = clock.getElapsedTime();
+    nodes.forEach((n, i)=>{
+      n.scale.setScalar(0.7 + Math.sin(t*n.userData.pulse + n.userData.phase)*0.4 + 0.4);
+    });
+    scene.rotation.y = Math.sin(t*0.06)*0.3;
+    scene.rotation.x = Math.cos(t*0.05)*0.2;
+    renderer.render(scene, camera);
+  })();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+{
+  "theme_and_archetype": {
+    "theme": "Dark",
+    "archetype": "Archetype 5 (Luxury) & Archetype 4 (Swiss/High-Contrast)",
+    "description": "A cinematic, dark-mode-default financial marketing experience. Blends 'Old Money' trust with cutting-edge tech. Heavy use of deep space blacks, raw metallic accents (gold/bronze), and high-fidelity 3D WebGL interactions. No flat purple or teal gradients."
+  },
+  "colors": {
+    "background": "#050505",
+    "surface": "#0A0A0C",
+    "surface_elevated": "rgba(255, 255, 255, 0.03)",
+    "border": "rgba(255, 255, 255, 0.08)",
+    "primary": "#D4AF37",
+    "primary_hover": "#E5C07B",
+    "text_primary": "#F5F5F5",
+    "text_secondary": "#A1A1AA",
+    "accent_tech": "#2563EB"
+  },
+  "typography": {
+    "heading_font": "Cormorant Garamond, serif",
+    "body_font": "Outfit, sans-serif",
+    "mono_font": "JetBrains Mono, monospace",
+    "scales": {
+      "h1": "text-5xl sm:text-6xl md:text-7xl font-light tracking-tight leading-none",
+      "h2": "text-3xl sm:text-4xl md:text-5xl font-light tracking-tight leading-tight",
+      "h3": "text-xl sm:text-2xl font-medium leading-snug",
+      "body": "text-base md:text-lg leading-relaxed text-gray-400",
+      "overline": "text-xs tracking-[0.2em] uppercase font-mono text-[#D4AF37]"
+    }
+  },
+  "spacing_and_layout": {
+    "philosophy": "Generous Spacing, Architectural Grids, Optical Alignment",
+    "section_padding": "py-24 md:py-32",
+    "container": "max-w-7xl mx-auto px-6 md:px-12",
+    "grid_bento": "grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8",
+    "surfaces": "Crystal Glass variant for sticky headers (backdrop-blur-xl bg-black/50 border-b border-white/10). Solid flat dark backgrounds for cards with 1px subtle border."
+  },
+  "motion_and_3d": {
+    "library": "React Three Fiber (R3F) + Drei, Framer Motion",
+    "hero_3d": "Interactive 3D abstract metallic geometric shapes (coins/cubes/torus) floating and slowly rotating in the hero section. Must react to mouse movement.",
+    "scroll_effects": "Scroll-triggered reveals using Framer Motion (whileInView). Parallax scrolling for background images.",
+    "micro_interactions": "Hover states on cards lift slightly (-translate-y-1) and reveal a subtle gold 'Tracing Beam' border or inner glow."
+  },
+  "media_and_images": {
+    "hero_bg": {
+      "url": "https://images.pexels.com/photos/921290/pexels-photo-921290.png",
+      "description": "Modern dark architecture to be used behind the 3D canvas as a low-opacity context image."
+    },
+    "abstract_3d_fallback": {
+      "url": "https://images.unsplash.com/photo-1672908116619-1a23a54c0fbe",
+      "description": "Metallic geometry fallback for mobile or when 3D WebGL context is loading."
+    },
+    "team_manager_1": {
+      "url": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7",
+      "description": "Professional wealth manager for About/Testimonial section."
+    },
+    "team_manager_2": {
+      "url": "https://images.unsplash.com/photo-1560250097-0b93528c311a",
+      "description": "Second professional portrait for Testimonials."
+    }
+  },
+  "pages_and_sections": {
+    "Navbar": "Sticky, glassmorphism (`backdrop-blur-xl bg-[#050505]/60`), minimalist logo 'Om Financial', primary CTA 'Consultation'.",
+    "Hero": "Centered text over 3D R3F canvas. Massive H1: 'Master Your Wealth.' Subtitle body text. R3F Canvas showing metallic geometry. Scroll indicator icon at bottom.",
+    "Services": "Bento Grid layout (Tetris mode). Cards for Investment/Wealth Management, Insurance/Loans, General Financial Consulting. Use Framer Motion 3D tilt effects on cards.",
+    "About": "Split layout. Text on left with animated numerical counters (e.g., '$10B+ Managed'). Right side: image of wealth manager or architectural office.",
+    "Pricing": "3-column grid. Dark glassmorphism cards. 'Standard', 'Premium', 'Elite'. Elite card highlighted with Gold Tracing Beam border and slightly scaled up.",
+    "Testimonials": "Framer Motion carousel or grid. Cards with client photos, ratings, and italicized serif quotes to add luxury contrast.",
+    "Contact": "Grid layout. Left: Contact info, Map placeholder, Static Phone strictly displaying '9717857755'. Right: Inquiry Form using custom Shadcn UI (dark mode tailored, gold focus rings)."
+  },
+  "component_strategy": {
+    "buttons": "Primary: Solid Gold bg (`bg-[#D4AF37]`), black text, font-medium, rounded-md. Secondary: Transparent, 1px solid white/20, text white, hover bg white/10.",
+    "cards": "Dark flat background (`bg-[#0A0A0C]`), 1px solid `border-white/10`. No heavy drop shadows; use subtle inner glow instead.",
+    "inputs": "Shadcn UI tailored. Background black/50, border white/10, focus:ring-1 focus:ring-[#D4AF37]."
+  },
+  "instructions_to_main_agent": [
+    "Install required dependencies: @react-three/fiber @react-three/drei three framer-motion @phosphor-icons/react lucide-react",
+    "Import Cormorant Garamond and Outfit fonts via Google Fonts in index.css",
+    "Implement the 3D Hero using R3F. Create a <FinancialGeometry /> component with metallic materials (MeshStandardMaterial with high metalness/roughness) and glowing lighting.",
+    "For scroll animations, wrap sections in Framer Motion <motion.div> with whileInView for elegant fade-up and staggered reveals.",
+    "In the Contact Section, STRICTLY include the phone number '9717857755' in a prominent, static display.",
+    "Ensure all interactive elements (buttons, links, form inputs) have 'data-testid' attributes (e.g., 'data-testid=\"hero-cta-button\"').",
+    "Use standard pure HTML/Tailwind for marketing layouts (Hero, About, Services). Use Shadcn components heavily customized for Forms and Inputs.",
+    "Avoid any purple, teal, or bright neon gradients. Stick to the void black, slate, and gold palette to maintain the 'Om Financial' premium luxury aesthetic."
+  ]
+}

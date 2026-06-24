@@ -188,15 +188,33 @@ body .navbar{
   position: relative;
   min-height: 100vh;
   padding-top: 60px;
+  padding-bottom: 80px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 #hero-3d{
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
 }
 #hero-3d canvas{ width: 100% !important; height: 100% !important; display:block; }
-.hero-grid{ position: relative; z-index: 2; }
-.hero-media{ position: relative; z-index: 2; }
+
+/* HARD-HIDE the legacy 2D illustration container — was producing
+   a translucent rectangle on the right side of the hero */
+.hero-grid{
+  position: relative; z-index: 2;
+  display: block !important;
+  grid-template-columns: 1fr !important;
+  text-align: left;
+}
+.hero-content{
+  max-width: 880px !important;
+  position: relative; z-index: 2;
+}
+.hero-content p{ max-width: 580px; }
+.hero-media{
+  display: none !important;
+}
 .shader-canvas{ display: none !important; }
-.hero-media img{ opacity: 0; pointer-events: none; }
 
 .hero::before{
   content: "";
@@ -276,6 +294,36 @@ body .navbar{
 }
 .scroll-device-screen{
   background: linear-gradient(135deg, var(--bg-2), var(--bg-1)) !important;
+}
+
+/* harmonise the preview chart bars to cyan */
+.preview-chart span{
+  background: linear-gradient(180deg, rgba(92,240,255,0.9), rgba(92,240,255,0.25)) !important;
+  border-radius: 6px 6px 2px 2px !important;
+  box-shadow: 0 0 22px rgba(92,240,255,0.18);
+}
+.preview-header strong,
+.preview-metrics strong{
+  color: var(--ink-0) !important;
+}
+.preview-header strong{
+  background: rgba(92,240,255,0.10);
+  color: var(--accent) !important;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--accent-line);
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.06em;
+}
+.preview-header span,
+.preview-metrics span,
+.preview-plan p{
+  color: var(--ink-1) !important;
+}
+.preview-plan span{
+  background: var(--accent) !important;
+  box-shadow: 0 0 12px rgba(92,240,255,0.5);
 }
 
 /* ============ SERVICES BG ============ */
@@ -466,6 +514,26 @@ body .navbar{
   background:
     radial-gradient(800px 400px at 50% 0%, rgba(92,240,255,0.08), transparent 60%),
     linear-gradient(180deg, rgba(15,19,30,0.82), rgba(10,13,22,0.82)) !important;
+  text-align: center;
+}
+.contact-image,
+.feature-image,
+.feature-media{
+  display: none !important;
+}
+
+/* harmonise existing dashboard chart (was bright green/cyan)
+   so it fits the futuristic palette */
+.chart-card svg path[fill="#22c39e"],
+.chart-card svg rect[fill="#22c39e"],
+.chart-card svg [fill="#22c39e"]{
+  fill: rgba(92,240,255,0.55) !important;
+}
+.chart-card svg [stroke="#22c39e"]{
+  stroke: var(--accent) !important;
+}
+.dashboard-chart, .chart-card svg{
+  filter: hue-rotate(170deg) saturate(0.95) brightness(1.05);
 }
 .contact-phone-display{
   display: inline-flex; align-items: center; gap: 12px;

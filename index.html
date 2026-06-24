@@ -13,9 +13,13 @@
         <meta name="theme-color" content="#ffffff">
 
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="luxe-3d.css">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+        <!-- Three.js for 3D scenes -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website">
@@ -129,7 +133,7 @@
             <a href="#contact">Contact</a>
         </div>
 
-        <a class="whatsapp-btn"
+        <a class="whatsapp-btn" data-testid="navbar-whatsapp-btn"
             href="https://wa.me/919717857755"
             target="_blank">
             WhatsApp
@@ -140,6 +144,9 @@
     <!-- HERO -->
 
     <section class="hero" id="home">
+
+        <div id="hero-3d" aria-hidden="true"></div>
+        <span class="scroll-cue-dot" aria-hidden="true"></span>
 
         <div class="hero-grid">
 
@@ -158,11 +165,11 @@
 
                 <div class="hero-buttons">
 
-                    <a href="#calculator" class="primary-btn">
+                    <a href="#calculator" class="primary-btn" data-testid="hero-start-sip-btn">
                         Start SIP
                     </a>
 
-                    <a href="#services" class="secondary-btn">
+                    <a href="#services" class="secondary-btn" data-testid="hero-explore-services-btn">
                         Explore Services
                     </a>
 
@@ -197,6 +204,8 @@
                 <h2>Your wealth plan, seen in motion</h2>
                 <p>Review goals, SIP growth, protection needs, and advisory touchpoints in one calm planning view.</p>
             </div>
+
+            <div id="scroll-3d" data-testid="scroll-3d-canvas" aria-hidden="true"></div>
 
             <div class="scroll-device" data-scroll-device>
                 <div class="scroll-device-screen">
@@ -940,14 +949,18 @@
             Trusted financial guidance for modern investors.
         </p>
 
+        <a href="tel:+919717857755" class="contact-phone-display" data-testid="contact-phone-display">
+            +91 9717857755
+        </a>
+
         <div class="hero-buttons">
 
-            <a class="primary-btn"
+            <a class="primary-btn" data-testid="contact-call-now"
                 href="tel:+919717857755">
                 Call Now
             </a>
 
-            <a class="secondary-btn"
+            <a class="secondary-btn" data-testid="contact-whatsapp"
                 href="https://wa.me/919717857755"
                 target="_blank">
                 WhatsApp Chat
@@ -995,6 +1008,7 @@
     </footer>
 
     <script src="script.js" defer></script>
+    <script src="three-experience.js" defer></script>
 
 </body>
 

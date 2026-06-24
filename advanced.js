@@ -588,9 +588,27 @@
   }
 
   /* ============ BOOT ============ */
+  /* ============ 11. FINANCE-THEMED BACKGROUND ============ */
+  function initFinanceBg(){
+    if(document.querySelector('.om-finance-bg')) return;
+    const bg = document.createElement('div');
+    bg.className = 'om-finance-bg';
+    bg.setAttribute('aria-hidden', 'true');
+    bg.innerHTML = `
+      <div class="layer-glow"></div>
+      <div class="layer-candles"></div>
+      <div class="layer-glyphs"></div>
+      <div class="layer-chart"></div>
+      <div class="layer-bars">
+        ${Array(12).fill('<span></span>').join('')}
+      </div>
+    `;
+    document.body.insertBefore(bg, document.body.firstChild);
+  }
+
   function boot(){
     try{ initPreloader(); }catch(e){ console.error(e); }
-    try{ initTicker(); }catch(e){ console.error(e); }
+    try{ initFinanceBg(); }catch(e){ console.error(e); }
     try{ initCounters(); }catch(e){ console.error(e); }
     try{ initLead(); }catch(e){ console.error(e); }
     try{ initStickyCTA(); }catch(e){ console.error(e); }

@@ -77,3 +77,11 @@ credentials.json
 *.pem
 *.key
 .credentials
+
+
+# Emergent preview only — not for GitHub Pages
+frontend/
+backend/
+node_modules/
+.emergent/
+

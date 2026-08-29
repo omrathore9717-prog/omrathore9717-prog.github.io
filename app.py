@@ -3,13 +3,14 @@ OM Financial Service - Flask Application
 Python-based web server for financial planning and investment tools
 """
 
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, send_file
 from flask_cors import CORS
 from flasgger import Flasgger
 import os
 
-# Initialize Flask app
-app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/static')
+# Use the premium root homepage as the production source of truth,
+# while preserving the existing Flask API and calculator functionality.
+app = Flask(__name__, template_folder='templates', static_folder='.', static_url_path='')
 
 # Initialize Flasgger for API documentation
 swagger = Flasgger(app)
@@ -48,8 +49,13 @@ def validate_age_difference(current_age, retirement_age):
 
 @app.route('/')
 def index():
-    """Render the main landing page"""
-    return render_template('index.html')
+    """Serve the latest premium homepage from the project root as the production site."""
+    return send_file(os.path.join(app.root_path, 'index.html'))
+
+@app.route('/index.html')
+def index_html():
+    """Allow direct access to the premium homepage file without template drift."""
+    return send_file(os.path.join(app.root_path, 'index.html'))
 
 @app.route('/api/health', methods=['GET'])
 def health_check():

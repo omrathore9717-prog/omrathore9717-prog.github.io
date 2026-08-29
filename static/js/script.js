@@ -4,6 +4,48 @@
 
 document.body.classList.add("site-redesign");
 
+const navToggle = document.querySelector(".nav-toggle");
+const navMenu = document.querySelector(".nav-menu");
+
+function setMobileMenuState(isOpen){
+    if(!navToggle || !navMenu) return;
+
+    navMenu.classList.toggle("is-open", isOpen);
+    navToggle.setAttribute("aria-expanded", String(isOpen));
+    document.body.classList.toggle("mobile-menu-open", isOpen && window.innerWidth <= 860);
+}
+
+if(navToggle && navMenu){
+    navToggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const isOpen = !navMenu.classList.contains("is-open");
+        setMobileMenuState(isOpen);
+    });
+
+    navMenu.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => setMobileMenuState(false));
+    });
+
+    document.addEventListener("click", (event) => {
+        if(!navMenu.classList.contains("is-open")) return;
+        if(!navMenu.contains(event.target) && !navToggle.contains(event.target)){
+            setMobileMenuState(false);
+        }
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if(event.key === "Escape" && navMenu.classList.contains("is-open")){
+            setMobileMenuState(false);
+        }
+    });
+
+    window.addEventListener("resize", () => {
+        if(window.innerWidth > 860 && navMenu.classList.contains("is-open")){
+            setMobileMenuState(false);
+        }
+    });
+}
+
 window.addEventListener("scroll", () => {
     const navbar = document.querySelector(".navbar");
     if(!navbar) return;
@@ -213,6 +255,8 @@ const revealSelectors = [
     ".hero-media",
     ".scroll-showcase-copy",
     ".scroll-device",
+    ".about-feature",
+    ".about-visual-card",
     ".card",
     ".blog-card",
     ".solution-card",

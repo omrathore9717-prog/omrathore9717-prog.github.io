@@ -12,10 +12,10 @@
         <link rel="canonical" href="/">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="luxe-3d.css">
         <link rel="stylesheet" href="advanced.css">
         <link rel="stylesheet" href="finance-bg.css">
+        <link rel="stylesheet" href="style.css">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -39,7 +39,6 @@
 
         <!-- Chart.js (defer for performance) -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer integrity="sha512-W6lwjP2nSu/JnJs3x1wrFJrtUJdodLtwN45DkOc0kda3igrbFMp9DIPAdxDzC/0NnXK+0iqfz9gF5uItrYI6Xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <!-- Structured Data: FinancialService + LocalBusiness -->
         <script type="application/ld+json">
@@ -111,35 +110,29 @@
 
     <!-- NAVBAR -->
 
-    <nav class="navbar">
+    <nav class="navbar" aria-label="Main navigation">
 
-        <div class="logo">
-
-            <div class="logo-circle">
-                OM
-            </div>
-
-            <div class="logo-text">
-                <h2>OM Financial Service</h2>
-                <p>Smart Wealth Solutions</p>
-            </div>
-
-        </div>
-
-        <div class="nav-links">
-            <a href="#home">Home</a>
-            <a href="#services">Services</a>
-            <a href="#funds">Funds</a>
-            <a href="#investment-solutions">Solutions</a>
-            <a href="#calculator">Calculator</a>
-            <a href="#contact">Contact</a>
-        </div>
-
-        <a class="whatsapp-btn" data-testid="navbar-whatsapp-btn"
-            href="https://wa.me/919717857755"
-            target="_blank">
-            WhatsApp
+        <a class="brand-logo" href="#home" aria-label="OM Financial Service home">
+            <img src="static/images/om-financial-service-logo.png" alt="OM Financial Service logo" loading="eager">
         </a>
+
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="nav-menu">
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#dashboard">About Us</a>
+                <a href="#services">Services</a>
+                <a href="#investment-solutions">Why Choose Us</a>
+                <a href="#contact">Contact</a>
+            </div>
+
+            <a class="nav-cta" href="#contact">Get Started</a>
+        </div>
 
     </nav>
 
@@ -301,9 +294,87 @@
 
     </section>
 
+    <!-- ABOUT OM FINANCIAL SERVICE -->
+    <section class="section about-section" id="dashboard">
+        <div class="about-layout">
+            <div class="about-visual" aria-label="Financial planning and advisory overview">
+                <div class="about-visual-card about-visual-top">
+                    <span>Portfolio Focus</span>
+                    <strong>Goal-Based Planning</strong>
+                    <div class="about-bars" aria-hidden="true">
+                        <span style="height: 35%"></span>
+                        <span style="height: 50%"></span>
+                        <span style="height: 62%"></span>
+                        <span style="height: 76%"></span>
+                        <span style="height: 88%"></span>
+                    </div>
+                </div>
+
+                <div class="about-visual-card about-visual-middle">
+                    <div>
+                        <span>Investment</span>
+                        <strong>Mutual Funds</strong>
+                    </div>
+                    <div>
+                        <span>Planning</span>
+                        <strong>SIP</strong>
+                    </div>
+                    <div>
+                        <span>Protection</span>
+                        <strong>Insurance</strong>
+                    </div>
+                </div>
+
+                <div class="about-visual-card about-visual-bottom">
+                    <span>Support Areas</span>
+                    <div class="about-chips" aria-label="Financial solutions offered">
+                        <span>Loans</span>
+                        <span>Tax Saving</span>
+                        <span>Retirement</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-content">
+                <span class="section-eyebrow">About OM Financial Service</span>
+                <h2>Helping people build secure financial futures with clarity and confidence.</h2>
+                <p>OM Financial Service is dedicated to helping individuals and families make informed financial decisions with confidence. Our focus is to simplify complex financial choices through practical planning, dependable guidance, and tailored solutions for long-term security.</p>
+                <p>We support clients across mutual funds, SIP planning, insurance, loans, tax saving, and retirement-focused financial strategies. The goal is simple: provide clear, trustworthy advice that aligns with each customer's goals, risk profile, and life stage.</p>
+
+                <div class="about-highlights" aria-label="Core company strengths">
+                    <div class="about-feature">
+                        <span class="about-feature-icon" aria-hidden="true">01</span>
+                        <div>
+                            <h3>Personalized Guidance</h3>
+                            <p>Advice shaped around your goals, priorities, and financial situation.</p>
+                        </div>
+                    </div>
+
+                    <div class="about-feature">
+                        <span class="about-feature-icon" aria-hidden="true">02</span>
+                        <div>
+                            <h3>Transparent Process</h3>
+                            <p>Clear recommendations and ethical support at every stage of the journey.</p>
+                        </div>
+                    </div>
+
+                    <div class="about-feature">
+                        <span class="about-feature-icon" aria-hidden="true">03</span>
+                        <div>
+                            <h3>Customer-Focused Service</h3>
+                            <p>Practical, responsive assistance designed to help you move forward with confidence.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="primary-btn about-cta" href="#contact">Speak With an Advisor</a>
+            </div>
+        </div>
+    </section>
+
     <!-- OUR IMPACT / STATISTICS -->
 
-    <section class="section impact-section" id="dashboard">
+    <section class="section impact-section">
 
         <div class="section-title impact-title">
             <span class="section-eyebrow">Our Impact</span>
@@ -467,50 +538,81 @@
 
     <!-- SERVICES -->
 
-    <section class="section" id="services">
+    <section class="section services-section" id="services">
 
-        <div class="section-title">
-            <h2>Financial Services</h2>
-            <p>Complete financial solutions under one roof</p>
+        <div class="section-title services-intro">
+            <span class="section-kicker">Our Services</span>
+            <h2>Financial Solutions Designed Around You</h2>
+            <p>Practical, goal-driven financial support that helps you invest wisely, protect what matters, and plan for long-term confidence.</p>
         </div>
 
-        <div class="grid">
+        <div class="services-grid">
 
-            <div class="card">
-                <img class="service-icon" src="./assets/images/mutual-funds.svg" alt="Mutual Funds" loading="lazy">
-                <h3>Mutual Funds</h3>
-                <p>Curated mutual fund recommendations and portfolio construction.</p>
-            </div>
+            <article class="service-card">
+                <div class="service-icon-wrap">
+                    <img class="service-icon" src="./assets/images/mutual-funds.svg" alt="Mutual Funds icon" loading="lazy">
+                </div>
+                <div class="service-copy">
+                    <h3>Mutual Funds</h3>
+                    <p>Curated mutual fund recommendations and portfolio construction aligned with your goals and risk appetite.</p>
+                </div>
+                <a href="#funds" class="service-link" aria-label="Learn more about Mutual Funds">Learn More</a>
+            </article>
 
-            <div class="card">
-                <img class="service-icon" src="./assets/images/sip-planning.svg" alt="SIP Planning" loading="lazy">
-                <h3>SIP Planning</h3>
-                <p>Systematic investment plans tailored for short and long term goals.</p>
-            </div>
+            <article class="service-card">
+                <div class="service-icon-wrap">
+                    <img class="service-icon" src="./assets/images/sip-planning.svg" alt="SIP Planning icon" loading="lazy">
+                </div>
+                <div class="service-copy">
+                    <h3>SIP Planning</h3>
+                    <p>Systematic investment plans tailored for short and long-term wealth creation with disciplined monthly growth.</p>
+                </div>
+                <a href="#calculator" class="service-link" aria-label="Learn more about SIP Planning">Learn More</a>
+            </article>
 
-            <div class="card">
-                <img class="service-icon" src="./assets/images/insurance.svg" alt="Insurance" loading="lazy">
-                <h3>Insurance</h3>
-                <p>Life, health and protection plans to secure you and your family.</p>
-            </div>
+            <article class="service-card">
+                <div class="service-icon-wrap">
+                    <img class="service-icon" src="./assets/images/insurance.svg" alt="Insurance icon" loading="lazy">
+                </div>
+                <div class="service-copy">
+                    <h3>Insurance</h3>
+                    <p>Life, health and protection plans designed to secure your family and help you build stronger financial resilience.</p>
+                </div>
+                <a href="#contact" class="service-link" aria-label="Learn more about Insurance">Learn More</a>
+            </article>
 
-            <div class="card">
-                <img class="service-icon" src="./assets/images/loans.svg" alt="Loans" loading="lazy">
-                <h3>Loans</h3>
-                <p>Loan advisory and competitive offers for home, personal and business needs.</p>
-            </div>
+            <article class="service-card">
+                <div class="service-icon-wrap">
+                    <img class="service-icon" src="./assets/images/loans.svg" alt="Loans icon" loading="lazy">
+                </div>
+                <div class="service-copy">
+                    <h3>Loans</h3>
+                    <p>Loan advisory and support for home, personal and business financing needs with a practical, transparent approach.</p>
+                </div>
+                <a href="#contact" class="service-link" aria-label="Learn more about Loans">Learn More</a>
+            </article>
 
-            <div class="card">
-                <img class="service-icon" src="./assets/images/tax-saving.svg" alt="Tax Saving" loading="lazy">
-                <h3>Tax Saving</h3>
-                <p>Strategies to optimise tax liabilities and increase post-tax returns.</p>
-            </div>
+            <article class="service-card">
+                <div class="service-icon-wrap">
+                    <img class="service-icon" src="./assets/images/tax-saving.svg" alt="Tax Saving icon" loading="lazy">
+                </div>
+                <div class="service-copy">
+                    <h3>Tax Saving</h3>
+                    <p>Smart tax planning strategies that help reduce liabilities while improving your post-tax wealth outcomes.</p>
+                </div>
+                <a href="#calculator" class="service-link" aria-label="Learn more about Tax Saving">Learn More</a>
+            </article>
 
-            <div class="card">
-                <img class="service-icon" src="./assets/images/retirement-planning.svg" alt="Retirement Planning" loading="lazy">
-                <h3>Retirement Planning</h3>
-                <p>Goal-based planning for a comfortable and independent retirement.</p>
-            </div>
+            <article class="service-card">
+                <div class="service-icon-wrap">
+                    <img class="service-icon" src="./assets/images/retirement-planning.svg" alt="Retirement Planning icon" loading="lazy">
+                </div>
+                <div class="service-copy">
+                    <h3>Retirement Planning</h3>
+                    <p>Goal-based retirement strategies that balance income, risk protection and long-term freedom for your future.</p>
+                </div>
+                <a href="#calculator" class="service-link" aria-label="Learn more about Retirement Planning">Learn More</a>
+            </article>
 
         </div>
 
@@ -848,36 +950,99 @@
     </section>
 
     <!-- WHY CHOOSE -->
-    <section class="section">
+    <section class="section why-choose-section" id="why-choose">
 
-        <div class="section-title">
-            <h2>Why Choose OM Financial Service</h2>
-            <p>Professional guidance with client-first approach</p>
+        <div class="section-title why-choose-intro">
+            <span class="section-eyebrow">Why Choose Us</span>
+            <h2>Financial guidance designed around your goals.</h2>
+            <p>OM Financial Service brings together practical planning, dependable advice, and a client-first approach to help you make confident financial decisions.</p>
         </div>
 
-        <div class="grid">
+        <div class="why-choose-layout">
+            <div class="why-choose-grid" aria-label="Key advantages of OM Financial Service">
 
-            <div class="card">
-                <h3>Trusted Guidance</h3>
-                <p>
-                    Personalized investment support for every financial stage.
-                </p>
+                <article class="why-choose-card">
+                    <div class="why-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 21s-7-4.35-7-10A4 4 0 0 1 12 8a4 4 0 0 1 7 3c0 5.65-7 10-7 10Z"></path>
+                            <path d="M12 11v4"></path>
+                            <path d="M12 7h.01"></path>
+                        </svg>
+                    </div>
+                    <h3>Personalized Guidance</h3>
+                    <p>Strategic advice shaped around your income, risks, and long-term financial priorities.</p>
+                </article>
+
+                <article class="why-choose-card">
+                    <div class="why-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M4 18h16"></path>
+                            <path d="M7 15V8"></path>
+                            <path d="M12 15V5"></path>
+                            <path d="M17 15v-7"></path>
+                        </svg>
+                    </div>
+                    <h3>Goal-Based Planning</h3>
+                    <p>Structured support for retirement, wealth creation, protection, and future financial milestones.</p>
+                </article>
+
+                <article class="why-choose-card">
+                    <div class="why-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2v20"></path>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H14.5a3.5 3.5 0 1 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <h3>Transparent Process</h3>
+                    <p>Clear communication and ethical guidance help you stay informed, confident, and in control.</p>
+                </article>
+
+                <article class="why-choose-card">
+                    <div class="why-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="4" y="5" width="16" height="14" rx="2"></rect>
+                            <path d="M8 9h8"></path>
+                            <path d="M8 13h5"></path>
+                        </svg>
+                    </div>
+                    <h3>Complete Financial Support</h3>
+                    <p>From mutual funds and SIPs to insurance, tax planning, loans, and retirement readiness.</p>
+                </article>
+
             </div>
 
-            <div class="card">
-                <h3>Goal Based Investing</h3>
-                <p>
-                    Structured planning for retirement, education and wealth goals.
-                </p>
-            </div>
+            <aside class="trust-panel" aria-label="Why clients trust OM Financial Service">
+                <div class="trust-panel-header">
+                    <span class="trust-tag">Why Clients Trust Us</span>
+                    <h3>Thoughtful advice, clear process, and dependable support.</h3>
+                </div>
 
-            <div class="card">
-                <h3>Transparent Process</h3>
-                <p>
-                    Clear communication and ethical financial practices.
-                </p>
-            </div>
+                <ul class="trust-points">
+                    <li>Client-first financial planning tailored to real-life goals and timelines.</li>
+                    <li>Expert guidance across mutual funds, SIP planning, insurance, and retirement strategy.</li>
+                    <li>Clear, practical recommendations that simplify complex financial decisions.</li>
+                    <li>Support designed to make investing and protection feel structured, calm, and manageable.</li>
+                </ul>
 
+                <div class="trust-mini-stat" aria-label="Business focus areas">
+                    <div class="mini-stat">
+                        <span>Planning</span>
+                        <strong>Goal based</strong>
+                    </div>
+                    <div class="mini-stat">
+                        <span>Protection</span>
+                        <strong>Insurance</strong>
+                    </div>
+                    <div class="mini-stat">
+                        <span>Growth</span>
+                        <strong>SIP & MF</strong>
+                    </div>
+                    <div class="mini-stat">
+                        <span>Future</span>
+                        <strong>Retirement</strong>
+                    </div>
+                </div>
+            </aside>
         </div>
 
     </section>
@@ -936,60 +1101,75 @@
     </section>
 
     <!-- CONTACT -->
-<!-- CONTACT -->
-
-<section class="section" id="contact">
-
-    <div class="contact-box">
-
-        <img src="./assets/images/contact-finance.svg"
-            alt="Financial Advisor" class="contact-image" loading="lazy">
-
-        <h2>
-            Build Wealth With Confidence
-        </h2>
-
-        <p>
-            Smart Mutual Fund Planning • SIP Investments • Insurance • Financial Growth
-            <br>
-            Trusted financial guidance for modern investors.
-        </p>
-
-        <a href="tel:+919717857755" class="contact-phone-display" data-testid="contact-phone-display">
-            +91 9717857755
-        </a>
-
-        <div class="hero-buttons">
-
-            <a class="primary-btn" data-testid="contact-call-now"
-                href="tel:+919717857755">
-                Call Now
-            </a>
-
-            <a class="secondary-btn" data-testid="contact-whatsapp"
-                href="https://wa.me/919717857755"
-                target="_blank">
-                WhatsApp Chat
-            </a>
-
+    <section class="section contact-section" id="contact">
+        <div class="section-title contact-title">
+            <span class="section-eyebrow">Contact</span>
+            <h2>Speak with an advisor today</h2>
+            <p>Whether you're planning your first SIP or reviewing long-term protection, our team is ready to guide your next step.</p>
         </div>
 
-    </div>
+        <div class="contact-layout">
+            <aside class="contact-info-panel" aria-label="OM Financial Service contact information">
+                <span class="panel-badge">Connect with OM</span>
+                <h3>Financial guidance that feels clear and personal.</h3>
+                <p>Get practical support across mutual funds, insurance planning, SIP strategy, retirement planning, and long-term wealth goals.</p>
 
-</section>
+                <ul class="contact-detail-list">
+                    <li>
+                        <span class="contact-icon" aria-hidden="true">☎</span>
+                        <div>
+                            <label>Call us</label>
+                            <a href="tel:+919717857755">+91 9717857755</a>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="contact-icon" aria-hidden="true">⌂</span>
+                        <div>
+                            <label>Location</label>
+                            <span>Mumbai, India</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="contact-icon" aria-hidden="true">⏱</span>
+                        <div>
+                            <label>Support</label>
+                            <span>Monday to Saturday · 9:00 AM to 7:00 PM</span>
+                        </div>
+                    </li>
+                </ul>
+            </aside>
+
+            <div class="contact-action-panel" aria-label="Book a consultation">
+                <div class="consultation-card">
+                    <span class="panel-badge panel-badge-alt">Quick start</span>
+                    <h3>Start your wealth plan</h3>
+                    <p>Choose the channel that works best for you and speak with our advisor about your goals.</p>
+                    <div class="contact-action-buttons">
+                        <a class="primary-btn" data-testid="contact-call-now" href="tel:+919717857755">Call Now</a>
+                        <a class="secondary-btn" data-testid="contact-whatsapp" href="https://wa.me/919717857755" target="_blank" rel="noopener">WhatsApp Chat</a>
+                    </div>
+                </div>
+
+                <div class="contact-points" aria-label="Key financial service areas">
+                    <span>Mutual Funds</span>
+                    <span>SIP Planning</span>
+                    <span>Insurance</span>
+                    <span>Retirement</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <div class="whatsapp-popup" id="whatsappPopup">
         <div class="popup-text">
             <strong>Need help with your SIP?</strong>
             <span>Chat with our advisor on WhatsApp</span>
         </div>
-        <a class="popup-link" href="https://wa.me/919717857755" target="_blank">Chat Now</a>
+        <a class="popup-link" href="https://wa.me/919717857755" target="_blank" rel="noopener">Chat Now</a>
         <button id="closeWhatsapp" aria-label="Close popup">×</button>
     </div>
 
     <!-- FOOTER -->
-
-    <!-- PREMIUM CTA -->
     <section class="section premium-cta" id="premium-cta">
         <div class="cta-card">
             <h2>Upgrade to OM Premium</h2>
@@ -1000,15 +1180,33 @@
 
     <footer class="site-footer">
         <div class="footer-grid">
-            <div>
-                <strong>OM Financial Service</strong>
+            <div class="footer-brand">
+                <a class="footer-logo" href="#home" aria-label="OM Financial Service home">
+                    <img src="static/images/om-financial-service-logo.png" alt="OM Financial Service logo" loading="lazy">
+                </a>
                 <p class="footer-note">Smart Wealth Solutions • © 2026</p>
             </div>
 
-            <div class="footer-links">
-                <a href="#services">Services</a>
-                <a href="#funds">Funds</a>
-                <a href="#contact">Contact</a>
+            <div class="footer-links-group">
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <a href="#home">Home</a>
+                    <a href="#services">Services</a>
+                    <a href="#funds">Funds</a>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Planning</h4>
+                    <a href="#services">SIP &amp; Mutual Funds</a>
+                    <a href="#why-choose">Insurance</a>
+                    <a href="#faq">Retirement</a>
+                </div>
+
+                <div class="footer-column footer-column-contact">
+                    <h4>Contact</h4>
+                    <a href="tel:+919717857755">+91 9717857755</a>
+                    <span>Mumbai, India</span>
+                </div>
             </div>
         </div>
     </footer>
